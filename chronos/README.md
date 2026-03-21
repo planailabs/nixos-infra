@@ -38,3 +38,11 @@ This runs `nixos-rebuild switch` targeting `root@2a01:4f8:242:1ae1:1:a:0:c` on S
 
 - Docker iptables FORWARD policy is set to ACCEPT via a systemd oneshot service (`docker-iptables-fix`) to work around container networking issues in LXC.
 - Kernel sysctl `kernel.keys.maxkeys` and `kernel.keys.maxbytes` are increased for GitLab requirements.
+
+## Updating gitlab
+
+- `cd /srv/gitlab`
+- Change version in docker-compose.yml
+- run `docker compose up -d` to recreate container
+
+Gitlab configuration is managed by docker-compose.yml
