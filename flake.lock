@@ -1,0 +1,452 @@
+{
+  "nodes": {
+    "acme": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "xnix",
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_3"
+      },
+      "locked": {
+        "lastModified": 1773239493,
+        "narHash": "sha256-Cgzpla1gbAfEC9IjXqWd4Dh2KMoUsGZyDsLsecmSf48=",
+        "owner": "mkg20001",
+        "repo": "acme-distributor",
+        "rev": "7efef379950ff858013b17a54fc8a2578963d011",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "repo": "acme-distributor",
+        "type": "github"
+      }
+    },
+    "acme-distributor": {
+      "inputs": {
+        "flake-utils": "flake-utils",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay"
+      },
+      "locked": {
+        "lastModified": 1773419293,
+        "narHash": "sha256-BVptLV8FO+Got6mr0IbMY1gm+j1oliEy3pdD+XtJh84=",
+        "owner": "mkg20001",
+        "repo": "acme-distributor",
+        "rev": "437ee0582782cc429e74d1e1f8863650ab7d690b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "repo": "acme-distributor",
+        "type": "github"
+      }
+    },
+    "flake-utils": {
+      "inputs": {
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_2": {
+      "inputs": {
+        "systems": "systems_2"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_3": {
+      "inputs": {
+        "systems": "systems_3"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "hardware": {
+      "locked": {
+        "lastModified": 1774018263,
+        "narHash": "sha256-HHYEwK1A22aSaxv2ibhMMkKvrDGKGlA/qObG4smrSqc=",
+        "owner": "nixos",
+        "repo": "nixos-hardware",
+        "rev": "2d4b4717b2534fad5c715968c1cece04a172b365",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "mkg": {
+      "locked": {
+        "lastModified": 1614068235,
+        "narHash": "sha256-Dr0PgVPKTzjywh0nLaY8KWk41jJe/vJE4bzf+LF/1zg=",
+        "owner": "mkg20001",
+        "repo": "mkg-nix",
+        "rev": "12824e22b2942f912348c940fc8572120e8a67b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "ref": "master",
+        "repo": "mkg-nix",
+        "type": "github"
+      }
+    },
+    "mkg-mod": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1739548389,
+        "narHash": "sha256-9V9QvyotnmsDK3xW2BoYBLNz4+0YvFQPj84ZdOeX99Q=",
+        "owner": "mkg20001",
+        "repo": "mkg-mod",
+        "rev": "df528e1af820c458e2c93c500593c065b901dac2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "ref": "master",
+        "repo": "mkg-mod",
+        "type": "github"
+      }
+    },
+    "nix-node-package": {
+      "locked": {
+        "lastModified": 1706303050,
+        "narHash": "sha256-LCELgjzunxEsZQNRYJmVJ6FRVVurEsffed9aB8kPheE=",
+        "owner": "mkg20001",
+        "repo": "nix-node-package",
+        "rev": "90f6ad8de81e3b75c2b0e6e3f9711bb094a5072b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "ref": "master",
+        "repo": "nix-node-package",
+        "type": "github"
+      }
+    },
+    "nix-node-package_2": {
+      "locked": {
+        "lastModified": 1631348881,
+        "narHash": "sha256-bG/wwzf14M1aCNVaL/KD1F+3uiY734d6G23g4eLWBI8=",
+        "owner": "mkg20001",
+        "repo": "nix-node-package",
+        "rev": "7e149259a3ff32b68dff3ddcb697a906b03e2bca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "ref": "master",
+        "repo": "nix-node-package",
+        "type": "github"
+      }
+    },
+    "nix-node-package_3": {
+      "locked": {
+        "lastModified": 1645439390,
+        "narHash": "sha256-mYkNbWBzQkv7O0mVZ4llqo9ZNeeo/IWPJk5WMa34SgQ=",
+        "owner": "mkg20001",
+        "repo": "nix-node-package",
+        "rev": "03285e212016db5f28530563b58cfcc5706ff73f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "ref": "master",
+        "repo": "nix-node-package",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1773821835,
+        "narHash": "sha256-TJ3lSQtW0E2JrznGVm8hOQGVpXjJyXY2guAxku2O9A4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "b40629efe5d6ec48dd1efba650c797ddbd39ace0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "acme-distributor": "acme-distributor",
+        "hardware": "hardware",
+        "mkg-mod": "mkg-mod",
+        "nixpkgs": "nixpkgs",
+        "rust-overlay": "rust-overlay_2",
+        "xnix": "xnix",
+        "xzar": "xzar"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "acme-distributor",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772679930,
+        "narHash": "sha256-FxYmdacqrdDVeE9QqZKTIpNLjv2B8GSKssgwlZuTR98=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "9b741db17141331fdb26270a1b66b81be8be9edd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_2": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774062094,
+        "narHash": "sha256-ba3c+hS7KzEiwtZRGHagIAYdcmdY3rCSWVCyn64rx7s=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "c807e83cc2e32adc35f51138b3bdef722c0812ab",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
+          "xnix",
+          "acme",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772679930,
+        "narHash": "sha256-FxYmdacqrdDVeE9QqZKTIpNLjv2B8GSKssgwlZuTR98=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "9b741db17141331fdb26270a1b66b81be8be9edd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_4": {
+      "inputs": {
+        "nixpkgs": [
+          "xzar",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1772420823,
+        "narHash": "sha256-q3oVwz1Rx41D1D+F6vg41kpOkk3Zi3KwnkHEZp7DCGs=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "458eea8d905c609e9d889423e6b8a1c7bc2f792c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_2": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "systems_3": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
+    "xnix": {
+      "inputs": {
+        "acme": "acme",
+        "mkg": "mkg",
+        "nix-node-package": "nix-node-package",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "xup": "xup",
+        "xzar-client": "xzar-client"
+      },
+      "locked": {
+        "lastModified": 1773239629,
+        "narHash": "sha256-YuT9r3GmFQzYICfRye1mDeLROQsKkZfUGomyGWZndA0=",
+        "ref": "refs/heads/master",
+        "rev": "09d978b8349b83f34c12f6e9c5916411a7975cf4",
+        "revCount": 239,
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xnix.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xnix.git"
+      }
+    },
+    "xup": {
+      "inputs": {
+        "nix-node-package": "nix-node-package_2",
+        "nixpkgs": [
+          "xnix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1636544190,
+        "narHash": "sha256-VHMQO6ur98QF+z14aYgPcS5gh5PV+cEQFthwkRaJR+8=",
+        "ref": "refs/heads/master",
+        "rev": "b2b2d7c70810d47d57594c8b171cb9bf2b5aad02",
+        "revCount": 50,
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xup"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xup"
+      }
+    },
+    "xzar": {
+      "inputs": {
+        "flake-utils": "flake-utils_3",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_4"
+      },
+      "locked": {
+        "lastModified": 1773420416,
+        "narHash": "sha256-9YaD8eRmF7gnRD+l4DQHI9uZNk/3iGBM4aWQh3ys1kQ=",
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "rev": "39951dce904f4ad063ffe764972fd3437a6469b6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "type": "github"
+      }
+    },
+    "xzar-client": {
+      "inputs": {
+        "nix-node-package": "nix-node-package_3",
+        "nixpkgs": [
+          "xnix",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1679591128,
+        "narHash": "sha256-RVyQM9yTWin06ZG83ha6hET3AypHn9xbLzzlfP/6FB4=",
+        "ref": "refs/heads/master",
+        "rev": "ad4fc7382d89cc73221b8fd0859be5875e9dd782",
+        "revCount": 37,
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xzar/xzar-client"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.xeredo.it/xeredo/xzar/xzar-client"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

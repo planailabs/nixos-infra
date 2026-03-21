@@ -1,0 +1,7 @@
+update:
+  tags:
+  - nix
+  script:
+    - ./update.sh
+  only:
+    - schedules
