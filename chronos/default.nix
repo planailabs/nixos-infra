@@ -5,6 +5,18 @@
     "${inputs.self.private}/chronos.nix"
   ];
 
+  systemd.network = {
+    networks."40-public0" = {
+      matchConfig = {
+        Name = "public0";
+      };
+      gateway = [ "168.119.72.193" ];
+      addresses = [
+        { addressConfig = { Address = "168.119.72.223/26"; Peer = "168.119.72.193"; }; }
+      ];
+    };
+  };
+
   system.stateVersion = "26.11";
 
   nixpkgs.hostPlatform = "x86_64-linux";
@@ -16,9 +28,6 @@
       peers = [ "tcp://ygg.mkg20001.io:80" "tls://ygg.mkg20001.io:443" ];
     };
   };
-
-  # Gitlab port
-  services.openssh.ports = [ 22222 ];
 
   virtualisation.docker.enable = true;
 
@@ -39,10 +48,12 @@
       done
     '';
   };
+  networking.hostName = "chronos";
 
   security.acme.distributor-server = "https://acme.plan.ai";
 
-  networking.hostName = "chronos";
+  # Gitlab port
+  services.openssh.ports = [ 22222 ];
 
   environment.variables."GITLAB_HOME" = "/srv/gitlab";
 
@@ -50,4 +61,8 @@
     "kernel.keys.maxkeys" = 20000;
     "kernel.keys.maxbytes" = 2000000;
   };
+
+  networking.firewall.allowedTCPPorts = [
+    80 443 22
+  ];
 }
