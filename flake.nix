@@ -57,7 +57,6 @@
           ./chronos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
-            xzar.overlays.default
             acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
@@ -75,6 +74,7 @@
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
+            xzar.overlays.default
             acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }

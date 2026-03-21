@@ -39,5 +39,5 @@
 
   security.acme.distributor-server = "https://acme.plan.ai";
 
-  networking.hostName = "chronos.plan.ai";
+  networking.hostName = "chronos";
 }
