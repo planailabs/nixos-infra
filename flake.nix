@@ -28,7 +28,7 @@
   } @ inputs: let
     inherit (self) outputs;
   in {
-    private = "${/home/maciej/plan-ai-infra/private}";
+    private = import ./private.nix;
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
