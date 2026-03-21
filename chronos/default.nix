@@ -17,6 +17,9 @@
     };
   };
 
+  # Gitlab port
+  services.openssh.ports = [ 22222 ];
+
   virtualisation.docker.enable = true;
 
   systemd.services.docker-iptables-fix = {
@@ -40,4 +43,11 @@
   security.acme.distributor-server = "https://acme.plan.ai";
 
   networking.hostName = "chronos";
+
+  environment.variables."GITLAB_HOME" = "/srv/gitlab";
+
+  boot.kernel.sysctl = {
+    "kernel.keys.maxkeys" = 20000;
+    "kernel.keys.maxbytes" = 2000000;
+  };
 }
