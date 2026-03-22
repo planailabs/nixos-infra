@@ -42,7 +42,11 @@ This runs `nixos-rebuild switch` targeting `root@2a01:4f8:242:1ae1:1:a:0:c` on S
 ## Updating gitlab
 
 - `cd /srv/gitlab`
-- Change version in docker-compose.yml
+- Change version in docker-compose.yml	
 - run `docker compose up -d` to recreate container
 
-Gitlab configuration is managed by docker-compose.yml
+Gitlab configuration is managed by /etc/gitlab/gitlab.rb
+
+- enter gitlab shell `docker compose exec gitlab bash`
+- edit /etc/gitlab/gitlab.rb
+- reconfigure using `gitlab-ctl reconfigure`
