@@ -35,6 +35,8 @@ with lib;
       openssh.authorizedKeys.keys = [
         # mkg
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIBBEhZ7sLQCNZXBunHMxEDS2Niy3wpnHgUPDBCNeKew maciej@mkg-razer"
+        # sebfried
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDZOo2bcD9nCYzO1F8k4irkpfYxBtFkp+XzItrgQ9n6 gitlab"
       ];
     };
   };
