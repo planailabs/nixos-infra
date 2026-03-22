@@ -32,7 +32,7 @@ From the repository root:
 ./chronos.sh
 ```
 
-This runs `nixos-rebuild switch` targeting `root@2a01:4f8:242:1ae1:1:a:0:c` on SSH port 22222.
+This runs `nixos-rebuild switch` targeting `root@chronos.plan.ai` on SSH port 22222.
 
 ## Notes
 

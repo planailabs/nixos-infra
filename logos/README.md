@@ -41,4 +41,4 @@ From the repository root:
 ./logos.sh
 ```
 
-This runs `nixos-rebuild switch` targeting `root@2a01:4f8:242:1ae1:1:a:0:e`.
+This runs `nixos-rebuild switch` targeting `root@logos.plan.ai`.
