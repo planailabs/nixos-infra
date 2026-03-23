@@ -29,5 +29,17 @@
 #  security.acme.distributor-server = "https://acme.plan.ai";
   security.acme.distributor-server = "http://localhost:3444";
 
+  users.users.deploy = {
+    isSystemUser = true;
+    group = "deploy";
+    # so the user can login
+    shell = "/run/current-system/sw/bin/bash";
+
+    openssh.authorizedKeys.keys = [
+      ''command="${pkgs.rrsync}/bin/rrsync /srv/update/",no-agent-forwarding,no-port-forwarding,no-pty,no-user-rc,no-X11-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIButBNqqpRpO+gMixN5J0HsLNEq26YIhXLC8wNHATs5W plan-ai-update''
+    ];
+  };
+  users.groups.deploy = {};
+
   networking.hostName = "logos";
 }

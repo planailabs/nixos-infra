@@ -35,5 +35,9 @@ in
         proxyPass = "http://localhost:3444/";
       };
     };
+
+    "update.plan.ai" = h {
+      root = "/srv/update";
+    };
   };
 }
