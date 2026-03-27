@@ -42,5 +42,15 @@ in
     "update.plan.ai" = h {
       root = "/srv/update";
     };
+
+    "mac.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:7377/";
+        proxyWebsockets = true;
+      };
+      locations."/api/" = {
+        proxyPass = "http://localhost:7378/";
+      };
+    };
   };
 }

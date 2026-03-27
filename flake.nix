@@ -14,6 +14,9 @@
     xzar.inputs.nixpkgs.follows = "nixpkgs";
     rust-overlay.url = "github:oxalica/rust-overlay";
     rust-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    mac-mgmt.url = "git+ssh://git@git.plan.ai/plan-ai/mac-mgmt";
+    mac-mgmt.inputs.nixpkgs.follows = "nixpkgs";
+    mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
  };
 
   outputs = {
@@ -24,6 +27,7 @@
     acme-distributor,
     xzar,
     rust-overlay,
+    mac-mgmt,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -71,11 +75,15 @@
           acme-distributor.nixosModules.acme-shim
           acme-distributor.nixosModules.acme-distributor
           xzar.nixosModules.xzar
+          mac-mgmt.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
             xzar.overlays.default
             acme-distributor.overlays.default
+            (final: prev: {
+              mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
+            })
             (import ./pkgs/overlay.nix)
           ]; }
         ];

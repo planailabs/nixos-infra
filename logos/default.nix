@@ -38,6 +38,10 @@
     enable = true;
   };
 
+  services.mac-mgmt-server = {
+    enable = true;
+  };
+
 #  security.acme.distributor-server = "https://acme.plan.ai";
   security.acme.distributor-server = "http://localhost:3444";
 

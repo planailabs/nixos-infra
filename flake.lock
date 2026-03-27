@@ -2,7 +2,7 @@
   "nodes": {
     "acme": {
       "inputs": {
-        "flake-utils": "flake-utils_2",
+        "flake-utils": "flake-utils_3",
         "nixpkgs": [
           "xnix",
           "nixpkgs"
@@ -99,6 +99,24 @@
         "type": "github"
       }
     },
+    "flake-utils_4": {
+      "inputs": {
+        "systems": "systems_4"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "hardware": {
       "locked": {
         "lastModified": 1774018263,
@@ -112,6 +130,30 @@
         "owner": "nixos",
         "repo": "nixos-hardware",
         "type": "github"
+      }
+    },
+    "mac-mgmt": {
+      "inputs": {
+        "flake-utils": "flake-utils_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1774623981,
+        "narHash": "sha256-JF4al4rElkIQs22W3DE1A87QFzQkzDJZiyPRr0lTqh4=",
+        "ref": "refs/heads/trunk",
+        "rev": "e61d6a596b62d0257c3531fe4755435bf7a1983f",
+        "revCount": 96,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       }
     },
     "mkg": {
@@ -219,6 +261,7 @@
       "inputs": {
         "acme-distributor": "acme-distributor",
         "hardware": "hardware",
+        "mac-mgmt": "mac-mgmt",
         "mkg-mod": "mkg-mod",
         "nixpkgs": "nixpkgs",
         "rust-overlay": "rust-overlay_2",
@@ -355,6 +398,21 @@
         "type": "github"
       }
     },
+    "systems_4": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "xnix": {
       "inputs": {
         "acme": "acme",
@@ -404,7 +462,7 @@
     },
     "xzar": {
       "inputs": {
-        "flake-utils": "flake-utils_3",
+        "flake-utils": "flake-utils_4",
         "nixpkgs": [
           "nixpkgs"
         ],
