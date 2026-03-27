@@ -30,6 +30,7 @@
   };
 
   virtualisation.docker.enable = true;
+  virtualisation.docker.liveRestore = false;
 
   systemd.services.docker-iptables-fix = {
     path = with pkgs; [ iptables-nftables-compat ];
