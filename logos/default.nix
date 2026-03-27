@@ -10,6 +10,18 @@
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  systemd.network = {
+    networks."40-public0" = {
+      matchConfig = {
+        Name = "public0";
+      };
+      gateway = [ "168.119.72.193" ];
+      addresses = [
+        { addressConfig = { Address = "168.119.72.215/26"; Peer = "168.119.72.193"; }; }
+      ];
+    };
+  };
+
   mkg.mod = {
     yggdrasil = {
       enable = true;
