@@ -17,6 +17,8 @@
     mac-mgmt.url = "git+ssh://git@git.plan.ai/plan-ai/mac-mgmt";
     mac-mgmt.inputs.nixpkgs.follows = "nixpkgs";
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
+    plan-ai-website.url = "git+ssh://git@github.com/mkg20001/plan.ai-website?ref=feat/setup-chat";
+    plan-ai-website.inputs.nixpkgs.follows = "nixpkgs";
  };
 
   outputs = {
@@ -28,6 +30,7 @@
     xzar,
     rust-overlay,
     mac-mgmt,
+    plan-ai-website,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -76,6 +79,7 @@
           acme-distributor.nixosModules.acme-distributor
           xzar.nixosModules.xzar
           mac-mgmt.nixosModules.default
+          plan-ai-website.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
@@ -83,6 +87,7 @@
             acme-distributor.overlays.default
             (final: prev: {
               mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
+              plan-ai-website = plan-ai-website.packages.${final.system}.default;
             })
             (import ./pkgs/overlay.nix)
           ]; }

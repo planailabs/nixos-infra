@@ -43,6 +43,13 @@ in
       root = "/srv/update";
     };
 
+    "plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:4321/";
+        proxyWebsockets = true;
+      };
+    };
+
     "mgmt.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:7377/";

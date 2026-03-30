@@ -42,6 +42,12 @@
     enable = true;
   };
 
+  services.plan-ai-website = {
+    enable = true;
+    package = pkgs.plan-ai-website;
+    environmentFile = "/etc/plan-ai-website.env";
+  };
+
 #  security.acme.distributor-server = "https://acme.plan.ai";
   security.acme.distributor-server = "http://localhost:3444";
 
