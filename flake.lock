@@ -161,11 +161,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1774791255,
-        "narHash": "sha256-P5unznyfmmTeFl341yuq7LteGHD0vdtqv5lRIhhf5VY=",
+        "lastModified": 1774860726,
+        "narHash": "sha256-OrVMboJdx4/McWLV/xq7wlQUkDM/s6pRPsQA6N4DEMY=",
         "ref": "refs/heads/trunk",
-        "rev": "dcb23638b40274afec50cde43a16f9ca3dd31f2d",
-        "revCount": 149,
+        "rev": "6f6ea9eecceb499cf17395a15fc350eb01c6de7a",
+        "revCount": 150,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -283,16 +283,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1774850945,
-        "narHash": "sha256-Xju/wLmY/lRFsFeq7CgH9kFJTyZR77EGjcgfdXU0AAk=",
-        "ref": "feat/setup-chat",
-        "rev": "8405624a1d1b13d275faac2c2329c8b2332d3b94",
-        "revCount": 70,
+        "lastModified": 1774884973,
+        "narHash": "sha256-BKPrKicH/f3jSibcw+ZHTxpeYesQjzmfQB1+RuWCM6A=",
+        "ref": "feat/setup-chat-modern",
+        "rev": "47e4a772b618bc3f500574123a956e4bf485257c",
+        "revCount": 93,
         "type": "git",
         "url": "ssh://git@github.com/mkg20001/plan.ai-website"
       },
       "original": {
-        "ref": "feat/setup-chat",
+        "ref": "feat/setup-chat-modern",
         "type": "git",
         "url": "ssh://git@github.com/mkg20001/plan.ai-website"
       }

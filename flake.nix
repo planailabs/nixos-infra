@@ -17,7 +17,7 @@
     mac-mgmt.url = "git+ssh://git@git.plan.ai/plan-ai/mac-mgmt";
     mac-mgmt.inputs.nixpkgs.follows = "nixpkgs";
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
-    plan-ai-website.url = "git+ssh://git@github.com/mkg20001/plan.ai-website?ref=feat/setup-chat";
+    plan-ai-website.url = "git+ssh://git@github.com/mkg20001/plan.ai-website?ref=feat/setup-chat-modern";
     plan-ai-website.inputs.nixpkgs.follows = "nixpkgs";
  };
 
@@ -85,9 +85,9 @@
             rust-overlay.overlays.default
             xzar.overlays.default
             acme-distributor.overlays.default
+            plan-ai-website.overlays.default
             (final: prev: {
               mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
-              plan-ai-website = plan-ai-website.packages.${final.system}.default;
             })
             (import ./pkgs/overlay.nix)
           ]; }

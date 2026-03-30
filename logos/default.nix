@@ -44,7 +44,12 @@
 
   services.plan-ai-website = {
     enable = true;
-    package = pkgs.plan-ai-website;
+    package = pkgs.plan-ai-website.override {
+      envVars = {
+        VITE_SUPABASE_URL = "https://tlssdiqdokctvxcezptr.supabase.co";
+        VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0jDsNegZ46CUSePRIj5-Bw_0_UYc41b";
+      };
+    };
     environmentFile = "/etc/plan-ai-website.env";
   };
 
