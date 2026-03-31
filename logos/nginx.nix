@@ -43,7 +43,7 @@ in
       root = "/srv/update";
     };
 
-    "plan.ai" = h {
+    "chat.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:4321/";
         proxyWebsockets = true;

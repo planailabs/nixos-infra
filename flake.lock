@@ -275,7 +275,7 @@
         "type": "github"
       }
     },
-    "plan-ai-website": {
+    "plan-ai-chat": {
       "inputs": {
         "flake-utils": "flake-utils_3",
         "nixpkgs": [
@@ -283,18 +283,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1774884973,
-        "narHash": "sha256-BKPrKicH/f3jSibcw+ZHTxpeYesQjzmfQB1+RuWCM6A=",
-        "ref": "feat/setup-chat-modern",
-        "rev": "47e4a772b618bc3f500574123a956e4bf485257c",
-        "revCount": 93,
+        "lastModified": 1774969035,
+        "narHash": "sha256-TkdHAFaQIg6H/cmwx4zmk7ib3vssIgUS+sCLN3WD2Rs=",
+        "ref": "refs/heads/trunk",
+        "rev": "46d3665c348464e7763cd032f51087c7d84d363f",
+        "revCount": 2,
         "type": "git",
-        "url": "ssh://git@github.com/mkg20001/plan.ai-website"
+        "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
       "original": {
-        "ref": "feat/setup-chat-modern",
         "type": "git",
-        "url": "ssh://git@github.com/mkg20001/plan.ai-website"
+        "url": "ssh://git@git.plan.ai/plan-ai/chat"
       }
     },
     "root": {
@@ -304,7 +303,7 @@
         "mac-mgmt": "mac-mgmt",
         "mkg-mod": "mkg-mod",
         "nixpkgs": "nixpkgs",
-        "plan-ai-website": "plan-ai-website",
+        "plan-ai-chat": "plan-ai-chat",
         "rust-overlay": "rust-overlay_2",
         "xnix": "xnix",
         "xzar": "xzar"
