@@ -6,6 +6,7 @@
     })
     ./hardware-configuration.nix
     ./network-configuration.nix
+    ../modules/common.nix
   ];
 
   system.stateVersion = "26.11";

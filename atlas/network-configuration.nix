@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   systemd.network = {
     enable = true;
     networks."40-eth0" = {
@@ -31,6 +31,8 @@
 
     firewall.logRefusedPackets = true;
   };
+  networking.useDHCP = false;
+  networking.useNetworkd = lib.mkForce true;
   services.udev.extraRules = ''ATTR{address}=="04:42:1a:23:db:9d", NAME="eth0"'';
 }
 
