@@ -107,6 +107,7 @@ with lib;
     wget
     nethogs
     iptraf-ng
+    claude-code
   ];
 
   programs.screen = {

@@ -1,6 +1,5 @@
 {
   imports = [
-    disko.nixosModules.disko
     ./disko.nix
     ({
       _module.args.disks = [ "/dev/disk/by-id/nvme-SAMSUNG_MZVL2512HCJQ-00B00_S675NF0R800054_1" "/dev/disk/by-id/nvme-SAMSUNG_MZVL2512HCJQ-00B00_S675NF0R800058_1" ];
@@ -12,6 +11,8 @@
   system.stateVersion = "26.11";
 
   nixpkgs.hostPlatform = "x86_64-linux";
+
+  networking.hostId = "c248e870";
 
   mkg.mod = {
     yggdrasil = {

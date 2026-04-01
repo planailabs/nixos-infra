@@ -10,6 +10,8 @@
     xnix.inputs.nixpkgs.follows = "nixpkgs";
     acme-distributor.url = "github:mkg20001/acme-distributor";
     acme-distributor.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
     xzar.url = "github:mkg20001/xzar";
     xzar.inputs.nixpkgs.follows = "nixpkgs";
     rust-overlay.url = "github:oxalica/rust-overlay";
@@ -27,6 +29,7 @@
     mkg-mod,
     xnix,
     acme-distributor,
+    disko,
     xzar,
     rust-overlay,
     mac-mgmt,
@@ -59,6 +62,7 @@
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
         modules = [
+          disko.nixosModules.disko
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
           ./atlas
