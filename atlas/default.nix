@@ -1,3 +1,7 @@
+{ lib, ... }:
+
+with lib;
+
 {
   imports = [
     ./disko.nix
@@ -28,4 +32,12 @@
 
   virtualisation.incus.enable = true;
   virtualisation.incus.softDaemonRestart = true;
+  virtualisation.incus.ui.enable = true;
+
+  networking.hostName = "atlas";
+  networking.firewall.allowedTCPPorts = [ 8443 ];
+  networking.firewall.trustedInterfaces = [ "incusbr0" ];
+
+  boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = mkOverride 1 1;
+  boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = mkOverride 1 1;
 }

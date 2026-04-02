@@ -10,9 +10,9 @@
       matchConfig = {
         Name = "public0";
       };
-      gateway = [ "168.119.72.193" ];
+      gateway = [ "65.108.140.193" ];
       addresses = [
-        { addressConfig = { Address = "168.119.72.223/26"; Peer = "168.119.72.193"; }; }
+        { addressConfig = { Address = "65.108.140.232/26"; Peer = "65.108.140.193"; }; }
       ];
     };
   };
