@@ -85,6 +85,15 @@ with lib;
     experimental-features = "nix-command flakes";
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
+    # Binary caches
+    substituters = [
+      "https://cache.nixos.org/"
+      "https://xzar.plan.ai"
+    ];
+    trusted-public-keys = [
+      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "xzar.plan.ai:KUE66pjr6UX5HHCn9kedN1DJ2J5nSlBrKmE7tUjXewE="
+    ];
   };
 
   nix.channel.enable = false;
