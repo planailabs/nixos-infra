@@ -1,1 +1,1 @@
-"${/home/maciej/plan-ai-infra/private}"
+"${/root/nixos-infra/private}"
