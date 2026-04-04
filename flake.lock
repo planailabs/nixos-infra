@@ -181,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775219562,
-        "narHash": "sha256-D5DmnLWR32aMA5/A7+8NTKKXrJ60HmbBbI3MgAAevY8=",
+        "lastModified": 1775291041,
+        "narHash": "sha256-Vs2Q2joMl8LXvTGAnn4f3m31QSZPnqsLLDsRTckePYo=",
         "ref": "refs/heads/trunk",
-        "rev": "650df5a41f632292519dd6e0b104bd99a16d52e9",
-        "revCount": 174,
+        "rev": "3a2abf5fffbca91e362ccdba41b163443688148f",
+        "revCount": 177,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775225364,
-        "narHash": "sha256-QwhcjqnFeI8eEjr5A0J2QFUIlivbKHF6odUPiD3A2cQ=",
+        "lastModified": 1775293548,
+        "narHash": "sha256-1fPDxgNFtPbZP8pnxrCRpUcjJhM8Pia83U8KcvxfDew=",
         "ref": "refs/heads/trunk",
-        "rev": "2fa98aa3bf69ed9f2941719e51865ae5dec62c5c",
-        "revCount": 56,
+        "rev": "2f75fb0bf85dd9497eeab37b5f628de62ab37e63",
+        "revCount": 63,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
@@ -358,11 +358,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775185947,
-        "narHash": "sha256-8ctPmj6RME4q4ELeg+BuY9lV/34M4AG1CNc0Im9PDDk=",
+        "lastModified": 1775272153,
+        "narHash": "sha256-FwYb64ysv8J2TxaqsYYcDyHAHBUEaQlriPMWPMi1K7M=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "199eeb6748116f7da4fbd3a680bc854e99d9132b",
+        "rev": "740fb0203b2852917b909a72b948d34d0b171ec0",
         "type": "github"
       },
       "original": {

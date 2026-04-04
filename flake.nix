@@ -87,6 +87,18 @@
         ];
       };
 
+      deploy = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          ./deploy
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       logos = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
