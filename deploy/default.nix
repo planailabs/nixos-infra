@@ -4,17 +4,17 @@
     ../modules/container.nix
   ];
 
-  /* systemd.network = {
+  systemd.network = {
     networks."40-public0" = {
       matchConfig = {
         Name = "public0";
       };
       gateway = [ "65.108.140.193" ];
       addresses = [
-        { addressConfig = { Address = "65.108.140.231/26"; Peer = "65.108.140.193"; }; }
+        { addressConfig = { Address = "65.108.140.227/26"; Peer = "65.108.140.193"; }; }
       ];
     };
-  }; */
+  };
 
   system.stateVersion = "26.11";
 
