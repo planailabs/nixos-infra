@@ -32,11 +32,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1774104217,
-        "narHash": "sha256-HDOy9DcUlnHNut20kkmAxCf3IWyUGabtxv64fTjiE4E=",
+        "lastModified": 1775339937,
+        "narHash": "sha256-SD+yxhedqN8sO9RYxGHYuxW5Mo4xCxPJLyCa9KtC4+8=",
         "owner": "mkg20001",
         "repo": "acme-distributor",
-        "rev": "45445718122149253c2047941cc98e82cb7d0641",
+        "rev": "af4f762fa2ac78a69db89954f067504b583ef5ac",
         "type": "github"
       },
       "original": {
@@ -181,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775291041,
-        "narHash": "sha256-Vs2Q2joMl8LXvTGAnn4f3m31QSZPnqsLLDsRTckePYo=",
+        "lastModified": 1775395113,
+        "narHash": "sha256-o9ywQ9kkt42v2Lt73cH1nlQRRlHTI03PqGUDleoEGbs=",
         "ref": "refs/heads/trunk",
-        "rev": "3a2abf5fffbca91e362ccdba41b163443688148f",
-        "revCount": 177,
+        "rev": "9c0e5540da8180941610fbf315ad0d1ce707a07a",
+        "revCount": 195,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775293548,
-        "narHash": "sha256-1fPDxgNFtPbZP8pnxrCRpUcjJhM8Pia83U8KcvxfDew=",
+        "lastModified": 1775342862,
+        "narHash": "sha256-JVicssnfgMWmLCVx0wtvYdHjI2zhk2KiyCHWhI8muGQ=",
         "ref": "refs/heads/trunk",
-        "rev": "2f75fb0bf85dd9497eeab37b5f628de62ab37e63",
-        "revCount": 63,
+        "rev": "46c2121e3b941422f8a121775d67a850198c3645",
+        "revCount": 64,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
@@ -358,11 +358,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775272153,
-        "narHash": "sha256-FwYb64ysv8J2TxaqsYYcDyHAHBUEaQlriPMWPMi1K7M=",
+        "lastModified": 1775358767,
+        "narHash": "sha256-f2eC+WIfhjevCPQILuV08i/kmKZzYZpUvkom/33VxCA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "740fb0203b2852917b909a72b948d34d0b171ec0",
+        "rev": "20fd44bc663daa53a2575e01293e24e681d62244",
         "type": "github"
       },
       "original": {

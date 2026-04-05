@@ -50,4 +50,21 @@
     '';
   };
   networking.hostName = "deploy";
+
+  nix = {
+    gc.automatic = mkForce false;
+
+    settings = {
+      # sandbox = true;
+      trusted-users = [ "root" "@builder" ];
+      # Keep the build dependencies of derivations arround.
+      gc-keep-outputs = true;
+      gc-keep-derivations = true;
+      env-keep-derivations = true;
+      # Automatic gc during build. Keep at least 12 gig free, gc if below 6 gig.
+      min-free = toString (6 * 1024 * 1024 * 1024);
+      max-free = toString (12 * 1024 * 1024 * 1024);
+    };
+  };
 }
+
