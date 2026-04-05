@@ -1,9 +1,9 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p openssh
+#!nix-shell -i bash -p openssh sshfs
 
 set -euo pipefail
 
-# Export all Incus instances (without snapshots) and upload to Hetzner StorageBox
+# Export all Incus instances (without snapshots) directly to Hetzner StorageBox via sshfs
 # Usage: ./export-incus.sh uXXXXX@uXXXXX.your-storagebox.de
 
 if [ -z "${1:-}" ]; then
@@ -13,14 +13,19 @@ fi
 
 STORAGEBOX="$1"
 REMOTE_DIR="incus-backups"
-EXPORT_DIR="$(mktemp -d /tmp/incus-export.XXXXXX)"
+MOUNT_DIR="$(mktemp -d /tmp/incus-export.XXXXXX)"
 DATE="$(date +%Y-%m-%d_%H%M)"
 
 cleanup() {
-  echo "Cleaning up ${EXPORT_DIR}..."
-  rm -rf "${EXPORT_DIR}"
+  echo "Unmounting and cleaning up ${MOUNT_DIR}..."
+  fusermount -u "${MOUNT_DIR}" 2>/dev/null || true
+  rm -rf "${MOUNT_DIR}"
 }
 trap cleanup EXIT
+
+echo "==> Mounting StorageBox via sshfs..."
+sshfs -p 23 "${STORAGEBOX}:${REMOTE_DIR}" "${MOUNT_DIR}"
+mkdir -p "${MOUNT_DIR}/${DATE}"
 
 echo "==> Listing Incus instances..."
 INSTANCES="$(incus list -f csv -c n)"
@@ -30,22 +35,24 @@ if [ -z "${INSTANCES}" ]; then
   exit 0
 fi
 
-echo "==> Creating remote directory ${REMOTE_DIR}/${DATE}..."
-ssh -p 23 "${STORAGEBOX}" "mkdir -p ${REMOTE_DIR}/${DATE}" 2>/dev/null || true
-
 for INSTANCE in ${INSTANCES}; do
   FILENAME="${INSTANCE}_${DATE}.tar.gz"
-  FILEPATH="${EXPORT_DIR}/${FILENAME}"
 
-  echo "==> Exporting ${INSTANCE} (instance-only)..."
-  incus export "${INSTANCE}" "${FILEPATH}" --instance-only
+  echo "==> Exporting ${INSTANCE} (instance-only) directly to StorageBox..."
+  incus export "${INSTANCE}" "${MOUNT_DIR}/${DATE}/${FILENAME}" --instance-only --compression none
 
-  echo "==> Uploading ${FILENAME} to StorageBox..."
-  scp -P 23 "${FILEPATH}" "${STORAGEBOX}:${REMOTE_DIR}/${DATE}/${FILENAME}"
-
-  # Remove local file after successful upload to save disk space
-  rm -f "${FILEPATH}"
   echo "==> Done: ${INSTANCE}"
 done
 
-echo "==> All instances exported and uploaded to ${STORAGEBOX}:${REMOTE_DIR}/${DATE}/"
+echo "==> All instances exported to ${STORAGEBOX}:${REMOTE_DIR}/${DATE}/"
+
+CUTOFF="$(date -d '3 days ago' +%Y-%m-%d_%H%M)"
+echo "==> Removing backups older than 3 days (before ${CUTOFF})..."
+for DIR in "${MOUNT_DIR}"/*/; do
+  DIRNAME="$(basename "${DIR}")"
+  if [[ "${DIRNAME}" < "${CUTOFF}" ]]; then
+    echo "    Removing ${DIRNAME}..."
+    rm -rf "${DIR}"
+  fi
+done
+echo "==> Cleanup complete."
