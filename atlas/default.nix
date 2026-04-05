@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, pkgs, ... }:
 
 with lib;
 
@@ -40,4 +40,16 @@ with lib;
 
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = mkOverride 1 1;
   boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = mkOverride 1 1;
+
+  systemd.services.export-incus = {
+    description = "Export Incus instances to Hetzner StorageBox";
+    startAt = "daily";
+    path = with pkgs; [ openssh sshfs fuse incus bash coreutils ];
+    serviceConfig = {
+      Type = "oneshot";
+    };
+    script = ''
+      bash ${../export-incus.sh} u570346@u570346.your-storagebox.de
+    '';
+  };
 }
