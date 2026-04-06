@@ -2,7 +2,7 @@
   description = "plan ai infra";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/68d8aa3d661f0e6bd5862291b5bb263b2a6595c9";
     hardware.url = "github:nixos/nixos-hardware";
     mkg-mod.url = "github:mkg20001/mkg-mod/master";
     mkg-mod.inputs.nixpkgs.follows = "nixpkgs";
@@ -108,6 +108,7 @@
           acme-distributor.nixosModules.acme-distributor
           xzar.nixosModules.xzar
           mac-mgmt.nixosModules.default
+          mac-mgmt.nixosModules.relay
           plan-ai-chat.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
@@ -117,6 +118,7 @@
             plan-ai-chat.overlays.default
             (final: prev: {
               mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
+              mac-mgmt-relay = mac-mgmt.packages.${final.system}.relay;
             })
             (import ./pkgs/overlay.nix)
           ]; }

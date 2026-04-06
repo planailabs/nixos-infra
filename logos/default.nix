@@ -42,6 +42,15 @@
     enable = true;
   };
 
+  services.mac-mgmt-relay = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      listen_addr = "127.0.0.1:7380";
+      server_api_url = "https://mgmt.plan.ai/daemon/";
+    };
+  };
+
   services.plan-ai-chat = {
     enable = true;
     package = pkgs.plan-ai-chat.override {

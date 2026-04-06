@@ -157,11 +157,11 @@
     },
     "hardware": {
       "locked": {
-        "lastModified": 1775203647,
-        "narHash": "sha256-6MWaMLXK9QMndI94CIxeiPafi3wuO+imCtK9tfhsZdw=",
+        "lastModified": 1775490113,
+        "narHash": "sha256-2ZBhDNZZwYkRmefK5XLOusCJHnoeKkoN95hoSGgMxWM=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "80afbd13eea0b7c4ac188de949e1711b31c2b5f0",
+        "rev": "c775c2772ba56e906cbeb4e0b2db19079ef11ff7",
         "type": "github"
       },
       "original": {
@@ -181,11 +181,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775395113,
-        "narHash": "sha256-o9ywQ9kkt42v2Lt73cH1nlQRRlHTI03PqGUDleoEGbs=",
+        "lastModified": 1775501998,
+        "narHash": "sha256-SRWaoiOcfzvbPJNR2cEGVUsgF2zF6A3iPHjGF8LGgR4=",
         "ref": "refs/heads/trunk",
-        "rev": "9c0e5540da8180941610fbf315ad0d1ce707a07a",
-        "revCount": 195,
+        "rev": "1641d56d2c16f26608ec2e1a5ffe641c67a1a665",
+        "revCount": 287,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -281,17 +281,17 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1775036866,
-        "narHash": "sha256-ZojAnPuCdy657PbTq5V0Y+AHKhZAIwSIT2cb8UgAz/U=",
+        "lastModified": 1775423009,
+        "narHash": "sha256-vPKLpjhIVWdDrfiUM8atW6YkIggCEKdSAlJPzzhkQlw=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "6201e203d09599479a3b3450ed24fa81537ebc4e",
+        "rev": "68d8aa3d661f0e6bd5862291b5bb263b2a6595c9",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-unstable",
         "repo": "nixpkgs",
+        "rev": "68d8aa3d661f0e6bd5862291b5bb263b2a6595c9",
         "type": "github"
       }
     },
@@ -303,11 +303,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775342862,
-        "narHash": "sha256-JVicssnfgMWmLCVx0wtvYdHjI2zhk2KiyCHWhI8muGQ=",
+        "lastModified": 1775481757,
+        "narHash": "sha256-r6xcFNWRT9SjmlUj+Y6ds8LGD56/l4+Kdo/XbI5h61Y=",
         "ref": "refs/heads/trunk",
-        "rev": "46c2121e3b941422f8a121775d67a850198c3645",
-        "revCount": 64,
+        "rev": "3c102af7cfd3addd2ceeb3ac52b2510424497d74",
+        "revCount": 69,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
@@ -358,11 +358,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775358767,
-        "narHash": "sha256-f2eC+WIfhjevCPQILuV08i/kmKZzYZpUvkom/33VxCA=",
+        "lastModified": 1775445266,
+        "narHash": "sha256-3fgIj85WHQbOamrpIw9WY3ZL1PoEvjPOjmzMYNsEQJo=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "20fd44bc663daa53a2575e01293e24e681d62244",
+        "rev": "61747bc3cf2da179b9af356ae9e70f3b895b0c24",
         "type": "github"
       },
       "original": {
