@@ -2,7 +2,7 @@
   description = "plan ai infra";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/68d8aa3d661f0e6bd5862291b5bb263b2a6595c9";
+    nixpkgs.url = "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux";
     hardware.url = "github:nixos/nixos-hardware";
     mkg-mod.url = "github:mkg20001/mkg-mod/master";
     mkg-mod.inputs.nixpkgs.follows = "nixpkgs";

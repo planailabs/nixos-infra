@@ -51,6 +51,20 @@
     };
   };
 
+  services.kanbn = {
+    enable = true;
+    baseUrl = "https://kan.plan.ai";
+    port = 3055;
+    environmentFile = "/etc/kanbn.env";
+    extraEnvironment = {
+      NEXT_PUBLIC_DISABLE_SIGN_UP = "true";
+      NEXT_PUBLIC_DISABLE_EMAIL = "true";
+      LOG_LEVEL = "info";
+      BETTER_AUTH_TRUSTED_ORIGINS = "https://kan.plan.ai";
+      BETTER_AUTH_ALLOWED_DOMAINS = "plan.ai";
+    };
+  };
+
   services.plan-ai-chat = {
     enable = true;
     package = pkgs.plan-ai-chat.override {
