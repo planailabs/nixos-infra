@@ -136,5 +136,16 @@ with lib;
   };
 
   programs.mtr.enable = true;
+
+  services.prometheus.exporters.node = {
+    enable = true;
+    enabledCollectors = [ "systemd" ];
+    openFirewall = false;
+  };
+
+  # Allow logos (over yggdrasil) to scrape metrics on ports 9000-9999
+  networking.firewall.extraInputRules = ''
+    ip6 saddr ${(import ./yggdrasil-ips.nix).logos} tcp dport 9000-9999 accept
+  '';
 }
 

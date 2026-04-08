@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, config, ... }: with lib; {
+{ inputs, lib, pkgs, ... }: with lib; {
   imports = [
     ../modules/common.nix
     ../modules/container.nix
@@ -30,22 +30,42 @@
     };
   };
 
-  services.prometheus.exporters.node = {
-    enable = true;
-    enabledCollectors = [ "systemd" ];
-    openFirewall = false;
-  };
-
   services.prometheus = {
     enable = true;
     port = 9090;
     scrapeConfigs = [
       {
         job_name = "node";
-        static_configs = [
-          { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ]; }
-        ];
+        static_configs = lib.mapAttrsToList
+          (name: ip: {
+            targets = [ "[${ip}]:9100" ];
+            labels.hostname = name;
+          })
+          (import ../modules/yggdrasil-ips.nix);
       }
+    ];
+    rules = [
+      ''
+        groups:
+          - name: disk
+            rules:
+              - alert: NodeFilesystemLowSpace
+                expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*|overlay|squashfs|ramfs"} / node_filesystem_size_bytes) * 100 < 10
+                for: 10m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Low disk space on {{ $labels.instance }} ({{ $labels.mountpoint }})"
+                  description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has less than 10% free space (currently {{ $value | printf \"%.1f\" }}%)."
+              - alert: NodeFilesystemCriticalSpace
+                expr: (node_filesystem_avail_bytes{fstype!~"tmpfs|fuse.*|overlay|squashfs|ramfs"} / node_filesystem_size_bytes) * 100 < 5
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Critically low disk space on {{ $labels.instance }} ({{ $labels.mountpoint }})"
+                  description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has less than 5% free space (currently {{ $value | printf \"%.1f\" }}%)."
+      ''
     ];
   };
 
