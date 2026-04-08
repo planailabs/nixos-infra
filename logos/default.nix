@@ -47,6 +47,16 @@
     rules = [
       ''
         groups:
+          - name: mac-mgmt
+            rules:
+              - alert: MacMgmtServiceUnhealthy
+                expr: mac_mgmt_service_healthy == 0
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "mac-mgmt service unhealthy for {{ $labels.customer_id }} ({{ $labels.hostname }})"
+                  description: "mac_mgmt_service_healthy has been 0 for more than 5 minutes for customer {{ $labels.customer_id }} on host {{ $labels.hostname }}."
           - name: disk
             rules:
               - alert: NodeFilesystemLowSpace
