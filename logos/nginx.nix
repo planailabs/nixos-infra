@@ -64,6 +64,12 @@ in
       };
     };
 
+    "prometheus.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:9090/";
+      };
+    };
+
     "mgmt.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:7377/";

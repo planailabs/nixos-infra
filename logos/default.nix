@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }: with lib; {
+{ inputs, lib, pkgs, config, ... }: with lib; {
   imports = [
     ../modules/common.nix
     ../modules/container.nix
@@ -28,6 +28,25 @@
       port = 14466;
       peers = [ "tcp://ygg.mkg20001.io:80" "tls://ygg.mkg20001.io:443" ];
     };
+  };
+
+  services.prometheus.exporters.node = {
+    enable = true;
+    enabledCollectors = [ "systemd" ];
+    openFirewall = false;
+  };
+
+  services.prometheus = {
+    enable = true;
+    port = 9090;
+    scrapeConfigs = [
+      {
+        job_name = "node";
+        static_configs = [
+          { targets = [ "127.0.0.1:${toString config.services.prometheus.exporters.node.port}" ]; }
+        ];
+      }
+    ];
   };
 
   services.xzar-server = {
