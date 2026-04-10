@@ -3,38 +3,30 @@
 let
   kioskUrl = "https://prometheus.plan.ai";
 
+  chromiumArgs = [
+    "--kiosk"
+    "--no-first-run"
+    "--disable-infobars"
+    "--disable-translate"
+    "--disable-features=TranslateUI"
+    "--disable-session-crashed-bubble"
+    "--disable-restore-session-state"
+    "--disable-pinch"
+    "--overscroll-history-navigation=0"
+    "--autoplay-policy=no-user-gesture-required"
+    "--check-for-update-interval=31536000"
+  ];
+
+  chromiumArgsStr = builtins.concatStringsSep " " chromiumArgs;
+
   browser = pkgs.chromium.override {
-    commandLineArgs = [
-      "--kiosk"
-      "--no-first-run"
-      "--disable-infobars"
-      "--disable-translate"
-      "--disable-features=TranslateUI"
-      "--disable-session-crashed-bubble"
-      "--disable-restore-session-state"
-      "--disable-pinch"
-      "--overscroll-history-navigation=0"
-      "--autoplay-policy=no-user-gesture-required"
-      "--check-for-update-interval=31536000"
-    ];
+    commandLineArgs = chromiumArgs;
   };
 
   # Cage is a minimal Wayland kiosk compositor — runs a single fullscreen app
   kioskScript = pkgs.writeShellScriptBin "kiosk" ''
     exec ${pkgs.cage}/bin/cage -- \
-      ${browser}/bin/chromium \
-        --kiosk \
-        --no-first-run \
-        --disable-infobars \
-        --disable-translate \
-        --disable-features=TranslateUI \
-        --disable-session-crashed-bubble \
-        --disable-restore-session-state \
-        --disable-pinch \
-        --overscroll-history-navigation=0 \
-        --autoplay-policy=no-user-gesture-required \
-        --check-for-update-interval=31536000 \
-        "${kioskUrl}"
+      ${browser}/bin/chromium ${chromiumArgsStr} "${kioskUrl}"
   '';
 
 in
@@ -60,7 +52,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.cage}/bin/cage -- ${browser}/bin/chromium --kiosk \"${kioskUrl}\"";
+        command = "${pkgs.cage}/bin/cage -- ${browser}/bin/chromium ${chromiumArgsStr} \"${kioskUrl}\"";
         user = "kiosk";
       };
     };
