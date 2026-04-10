@@ -118,6 +118,7 @@ with lib;
     nethogs
     iptraf-ng
     claude-code
+    github-cli
   ];
 
   programs.screen = {
