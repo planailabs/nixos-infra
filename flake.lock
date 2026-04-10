@@ -57,11 +57,11 @@
         "patches4nixpkgs": "patches4nixpkgs"
       },
       "locked": {
-        "lastModified": 1763800791,
-        "narHash": "sha256-8Dsf4UKctSATg8XFoeS6OMTLTPhwfBV4UWJa3UIdjTI=",
+        "lastModified": 1775839717,
+        "narHash": "sha256-hRjdnE5iYHYqKTqY/P0YIZmkR0nu5mV/B1Lc35poy54=",
         "owner": "mgit-at",
         "repo": "nixos-common",
-        "rev": "bd9ae8abf34a8ad9a13c834071db606f0d122380",
+        "rev": "3e5fd990692aa306195f3b4eb9c872e9375ea845",
         "type": "github"
       },
       "original": {
@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775817322,
-        "narHash": "sha256-2hQdJy1cwmMqgqsJZOEbEcODVwAWOWD0ICS6NjtkvqA=",
+        "lastModified": 1775838915,
+        "narHash": "sha256-dSLLMV/7ktqc482LCeAqjcVksQpFOVJMUtaVWM23qSg=",
         "ref": "refs/heads/trunk",
-        "rev": "f71895d1d591c27e3ac9bcd244b39ad4d5e7bc0d",
-        "revCount": 359,
+        "rev": "d17b69fe5748295dc8fcb944c36e09e8f035f576",
+        "revCount": 364,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },

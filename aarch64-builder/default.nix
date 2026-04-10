@@ -1,7 +1,7 @@
 { inputs, lib, pkgs, ... }: with lib; {
   imports = [
     ../modules/common.nix
-    inputs.common.nixosModules.hcloud_base
+    ../modules/hcloud-arm/configuration.nix
   ];
 
   mgit.hcloud.auto-network = "2a01:4f9:c014:9aba::1/64";
