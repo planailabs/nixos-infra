@@ -18,9 +18,10 @@ After `nix flake update` succeeds, commit the updated `flake.lock` with the mess
 
 Run each server's deploy script **sequentially**. The deploy scripts are:
 
-2. `sh chronos.sh` — deploys to chronos.plan.ai (uses port 22222)
-3. `sh logos.sh` — deploys to logos.plan.ai
-1. `sh atlas.sh` — deploys to atlas.plan.ai
+1. `sh chronos.sh` — deploys to chronos.plan.ai (uses port 22222)
+2. `sh logos.sh` — deploys to logos.plan.ai
+3. `sh atlas.sh` — deploys to atlas.plan.ai
+4. `sh aarch64.sh` — deploys to aarch64.plan.ai
 
 Run each from the repo root. Use a timeout of 600000ms (10 minutes) per deploy.
 

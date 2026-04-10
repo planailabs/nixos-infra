@@ -54,9 +54,9 @@
           ./pi
           /* "${xnix}/defaults/hosted/base-backup.nix"
           "${xnix}/modules/admin/backup.nix" */
-          { nixpkgs.overlays = [
+          /*{ nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
-          ]; }
+          ]; }*/
         ];
       };
 
