@@ -8,4 +8,5 @@ with lib;
     "${modulesPath}/installer/sd-card/sd-image-aarch64-new-kernel-no-zfs-installer.nix"
   ];
   networking.wireless.enable = mkForce false;
+  networking.networkmanager.wifi.backend = "iwd";
 }
