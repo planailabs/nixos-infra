@@ -8,10 +8,10 @@ with lib;
       inputs.hardware.nixosModules.raspberry-pi-3
     ];
   hardware = {
-    raspberry-pi."4".apply-overlays-dtmerge.enable = true;
+#    raspberry-pi."3".apply-overlays-dtmerge.enable = true;
     deviceTree = {
       enable = true;
-      filter = "*rpi-4-*.dtb";
+      filter = "*rpi-3*-*.dtb";
     };
   };
 #  console.enable = false;
@@ -26,6 +26,7 @@ with lib;
   networking.networkmanager.wifi.powersave = false;
   # Prevent wait-online service from waiting forever
   systemd.network.enable = mkForce false;
+  hardware.enableRedistributableFirmware = true;
 
   #system.autoUpgrade.enable = true;
   #system.autoUpgrade.allowReboot = true;

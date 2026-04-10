@@ -2,6 +2,7 @@
   imports = [
     ./pi.nix
     ./wg.nix
+    ./kiosk.nix
     ../modules/common.nix
     ./hardware-configuration.nix
   ];

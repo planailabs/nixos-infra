@@ -43,20 +43,19 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
-      /* home-pi = nixpkgs.lib.nixosSystem {
+      plan-ai-pi = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
         modules = [
           mkg-mod.nixosModules.yggdrasil
           ./pi
-          "${xnix}/defaults/hosted/base-backup.nix"
-          "${xnix}/modules/admin/backup.nix"
+          /* "${xnix}/defaults/hosted/base-backup.nix"
+          "${xnix}/modules/admin/backup.nix" */
           { nixpkgs.overlays = [
-            copyparty.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
-      }; */
+      };
 
       atlas = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
