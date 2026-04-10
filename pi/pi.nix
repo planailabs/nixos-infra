@@ -5,7 +5,7 @@ with lib;
 {
   imports =
     [
-      inputs.hardware.nixosModules.raspberry-pi-4
+      inputs.hardware.nixosModules.raspberry-pi-3
     ];
   hardware = {
     raspberry-pi."4".apply-overlays-dtmerge.enable = true;
@@ -26,10 +26,6 @@ with lib;
   networking.networkmanager.wifi.powersave = false;
   # Prevent wait-online service from waiting forever
   systemd.network.enable = mkForce false;
-
-  services.backup = {
-    storage.repo = "ssh://u371708-sub3@u371708-sub3.your-storagebox.de:23/.//home-pi";
-  };
 
   #system.autoUpgrade.enable = true;
   #system.autoUpgrade.allowReboot = true;

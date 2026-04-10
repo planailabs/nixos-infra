@@ -1,6 +1,7 @@
 { inputs, pkgs, ... }: {
   imports = [
     ./pi.nix
+    ./wg.nix
     ../modules/common.nix
     ./hardware-configuration.nix
   ];
@@ -15,10 +16,10 @@
   mkg.mod = {
     yggdrasil = {
       enable = true;
-      port = 23345;
+      port = 23346;
       peers = [ "tcp://ygg.mkg20001.io:80" "tls://ygg.mkg20001.io:443" ];
     };
   };
 
-  networking.hostName = "home-pi";
+  networking.hostName = "plan-ai-pi";
 }
