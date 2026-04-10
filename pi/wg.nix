@@ -57,10 +57,11 @@
   services.radvd = {
     enable = true;
     config = ''
-    interface end0
+    interface enu1u1
     {
          AdvSendAdvert on;
          AdvDefaultLifetime 1800;
+         AdvDefaultPreference high;
          prefix 2a01:4f8:242:ea49::/64 {
              AdvOnLink on;
              AdvRouterAddr off;
@@ -82,6 +83,7 @@
       # The port that WireGuard listens to. Must be accessible by the client.
       listenPort = 1122;
       mtu = 1300;
+      metric = 5;
 
       # mtu = 1400;
 

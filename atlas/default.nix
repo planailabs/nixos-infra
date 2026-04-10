@@ -52,4 +52,6 @@ with lib;
       bash ${../export-incus.sh} u570346@u570346.your-storagebox.de
     '';
   };
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
 }
