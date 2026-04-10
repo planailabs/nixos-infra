@@ -40,6 +40,10 @@
   };
   networking.hostName = "aarch64-builder";
 
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAC1D5tV2Tjx2G76VT/hPxMx6H+o7nlxm6nMhobpZq8M root@nixos"
+  ];
+
   nix = {
     gc.automatic = mkForce false;
 

@@ -64,7 +64,18 @@
       # Automatic gc during build. Keep at least 12 gig free, gc if below 6 gig.
       min-free = toString (6 * 1024 * 1024 * 1024);
       max-free = toString (12 * 1024 * 1024 * 1024);
+      extra-platforms = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" "i686-linux" ];
     };
+
+    buildMachines = [
+      {
+        hostName = "aarch64.plan.ai";
+        systems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
+        maxJobs = 4;
+        supportedFeatures = [ "nixos-test" "big-parallel" ];
+      }
+    ];
+    distributedBuilds = true;
   };
 }
 
