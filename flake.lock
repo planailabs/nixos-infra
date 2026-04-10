@@ -396,8 +396,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1775779785,
-        "narHash": "sha256-+9VITrxZ7H3HzeTKcjf1BtPkhbA8miw4wOFUq4Jdu+k=",
+        "lastModified": 1775836261,
+        "narHash": "sha256-Bmz6v/Nd7y8EWVNXS7XvODnCEmExIvOm2gEwRWKBUZ0=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
