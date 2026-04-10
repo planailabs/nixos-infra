@@ -299,11 +299,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775818577,
-        "narHash": "sha256-4uiyBDrq2eb9QLji2dnxvgvSR2zIUrQbZF1dpWXlyDE=",
+        "lastModified": 1775819617,
+        "narHash": "sha256-IBpaHNR2Ea8NNeowcKYIvlh0cUtvZMvQ3F6fCHgNaFA=",
         "ref": "refs/heads/trunk",
-        "rev": "321ff90fd1a81d0f1eac0d149ff062ba2ad1c205",
-        "revCount": 72,
+        "rev": "c22662fbac71b68f59d1f9a8a95021f92e47d5a6",
+        "revCount": 78,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
