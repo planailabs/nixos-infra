@@ -21,6 +21,8 @@
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
+    common.url = "github:mgit-at/nixos-common";
+    common.inputs.nixpkgs.follows = "nixpkgs";
  };
 
   outputs = {
@@ -34,6 +36,7 @@
     rust-overlay,
     mac-mgmt,
     plan-ai-chat,
+    common,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -92,6 +95,17 @@
         modules = [
           mkg-mod.nixosModules.yggdrasil
           ./deploy
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      aarch64-builder = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          ./aarch64-builder
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
           ]; }

@@ -45,7 +45,53 @@
         "type": "github"
       }
     },
+    "common": {
+      "inputs": {
+        "disko": "disko",
+        "mgit-exporter": "mgit-exporter",
+        "nix-index-database": "nix-index-database",
+        "nix-unify": "nix-unify",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "patches4nixpkgs": "patches4nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1763800791,
+        "narHash": "sha256-8Dsf4UKctSATg8XFoeS6OMTLTPhwfBV4UWJa3UIdjTI=",
+        "owner": "mgit-at",
+        "repo": "nixos-common",
+        "rev": "bd9ae8abf34a8ad9a13c834071db606f0d122380",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mgit-at",
+        "repo": "nixos-common",
+        "type": "github"
+      }
+    },
     "disko": {
+      "inputs": {
+        "nixpkgs": [
+          "common",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1758287904,
+        "narHash": "sha256-IGmaEf3Do8o5Cwp1kXBN1wQmZwQN3NLfq5t4nHtVtcU=",
+        "owner": "nix-community",
+        "repo": "disko",
+        "rev": "67ff9807dd148e704baadbd4fd783b54282ca627",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "disko",
+        "type": "github"
+      }
+    },
+    "disko_2": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -194,6 +240,32 @@
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       }
     },
+    "mgit-exporter": {
+      "inputs": {
+        "nixpkgs": [
+          "common",
+          "nixpkgs"
+        ],
+        "patches4nixpkgs": [
+          "common",
+          "patches4nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1753050291,
+        "narHash": "sha256-bA5prVLvkp0NtMkGYwk0oO7GWBNKoIt3Ht5oq6CFExI=",
+        "owner": "mgit-at",
+        "repo": "prometheus-mgit-exporter",
+        "rev": "aead48040290055e36c8574db4a5ce6d33335afd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mgit-at",
+        "ref": "topic/nixos",
+        "repo": "prometheus-mgit-exporter",
+        "type": "github"
+      }
+    },
     "mkg": {
       "locked": {
         "lastModified": 1614068235,
@@ -228,6 +300,27 @@
         "owner": "mkg20001",
         "ref": "master",
         "repo": "mkg-mod",
+        "type": "github"
+      }
+    },
+    "nix-index-database": {
+      "inputs": {
+        "nixpkgs": [
+          "common",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1759032422,
+        "narHash": "sha256-WZf+FhebP2/1pK2np5xj/NuDjD6fXK2BHnq/tPUN18o=",
+        "owner": "nix-community",
+        "repo": "nix-index-database",
+        "rev": "ec7a78cb0e098832d8acac091a4df393259c4839",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nix-index-database",
         "type": "github"
       }
     },
@@ -279,6 +372,28 @@
         "type": "github"
       }
     },
+    "nix-unify": {
+      "inputs": {
+        "nixpkgs": [
+          "common",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1727526428,
+        "narHash": "sha256-Amte8t+ImQ8u5le0wu7LdfYnh0b+HWQ1SpraoBS5zpg=",
+        "owner": "mgit-at",
+        "repo": "nix-unify",
+        "rev": "b60be5ac4b368da503dde176623e5f460a3257d1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mgit-at",
+        "ref": "master",
+        "repo": "nix-unify",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1775779785,
@@ -289,6 +404,22 @@
       "original": {
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
+      }
+    },
+    "patches4nixpkgs": {
+      "locked": {
+        "lastModified": 1713984892,
+        "narHash": "sha256-rPu+gkj3qvjor3vvAFurlonyo03bop8s84fvvtNq5mc=",
+        "owner": "mgit-at",
+        "repo": "patches4nixpkgs",
+        "rev": "24952ef04759d20868efe437bb4a88e8dc0265e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mgit-at",
+        "ref": "master",
+        "repo": "patches4nixpkgs",
+        "type": "github"
       }
     },
     "plan-ai-chat": {
@@ -315,7 +446,8 @@
     "root": {
       "inputs": {
         "acme-distributor": "acme-distributor",
-        "disko": "disko",
+        "common": "common",
+        "disko": "disko_2",
         "hardware": "hardware",
         "mac-mgmt": "mac-mgmt",
         "mkg-mod": "mkg-mod",
