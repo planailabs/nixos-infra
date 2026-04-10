@@ -12,6 +12,8 @@ Follow these steps to update and deploy the NixOS infrastructure:
 
 Run `nix flake update` in the repo root. Wait for it to complete. If it fails, diagnose and report to the user.
 
+After `nix flake update` succeeds, commit the updated `flake.lock` with the message `chore: upgrade depss`.
+
 ## Step 2: Deploy to each server
 
 Run each server's deploy script **sequentially**. The deploy scripts are:
