@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775939920,
-        "narHash": "sha256-evG72S3i64dmAqUqaMDKyIZZdlYW1MVuKEr0tqIYqqE=",
+        "lastModified": 1775941455,
+        "narHash": "sha256-athqRbrdb/XqZ2rBPsdOuydGyia7LgJpoBTf2otafIg=",
         "ref": "refs/heads/trunk",
-        "rev": "c20cbe9ec0bd96284d7a7ec0724a269bb8673234",
-        "revCount": 400,
+        "rev": "8b9b7867b8b252f8620d782264c5fcb15d7d6f5b",
+        "revCount": 401,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -430,11 +430,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775819969,
-        "narHash": "sha256-uWL/eH015HZJjSfN/+0dw0lJKceG6Xxee1JeBVLfKno=",
+        "lastModified": 1775942302,
+        "narHash": "sha256-8PU1XpFwZohgODL+7Q7pbouztjED/Lr/HmxJnudZcCA=",
         "ref": "refs/heads/trunk",
-        "rev": "15e0936c4b3123bcc6184a2af14a9a6b40e04409",
-        "revCount": 79,
+        "rev": "cd5066585c6c83cd4900ded021d42fcdfcdf8332",
+        "revCount": 80,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
