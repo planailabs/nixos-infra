@@ -89,7 +89,7 @@ with lib;
     # Binary caches
     substituters = [
       "https://cache.nixos.org/"
-      "https://xzar.plan.ai"
+      "https://xzar.plan.ai/"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
