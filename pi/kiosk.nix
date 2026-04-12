@@ -4,7 +4,7 @@ let
   kioskUrl = "https://prometheus.plan.ai";
 
   chromiumArgs = [
-    "--kiosk"
+    "--app=${kioskUrl}"
     "--no-first-run"
     "--disable-infobars"
     "--disable-translate"
@@ -26,7 +26,7 @@ let
   # Cage is a minimal Wayland kiosk compositor — runs a single fullscreen app
   kioskScript = pkgs.writeShellScriptBin "kiosk" ''
     exec ${pkgs.cage}/bin/cage -- \
-      ${browser}/bin/chromium ${chromiumArgsStr} "${kioskUrl}"
+      ${browser}/bin/chromium ${chromiumArgsStr}
   '';
 
 in
@@ -52,7 +52,7 @@ in
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.cage}/bin/cage -- ${browser}/bin/chromium ${chromiumArgsStr} \"${kioskUrl}\"";
+        command = "${pkgs.cage}/bin/cage -- ${browser}/bin/chromium ${chromiumArgsStr}";
         user = "kiosk";
       };
     };

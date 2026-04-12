@@ -70,6 +70,12 @@ in
       };
     };
 
+    "api.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:7378/";
+      };
+    };
+
     "mgmt.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:7377/";
