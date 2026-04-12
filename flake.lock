@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775941455,
-        "narHash": "sha256-athqRbrdb/XqZ2rBPsdOuydGyia7LgJpoBTf2otafIg=",
+        "lastModified": 1775986259,
+        "narHash": "sha256-F4BFVl6Nxy3VxtL6Lr36uBc9GzHlCv8gjuN5ivOi8ew=",
         "ref": "refs/heads/trunk",
-        "rev": "8b9b7867b8b252f8620d782264c5fcb15d7d6f5b",
-        "revCount": 401,
+        "rev": "84c6fcb358c73d6695f1472278f91503dcd4e1cc",
+        "revCount": 408,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -486,11 +486,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775877051,
-        "narHash": "sha256-wpSQm2PD/w4uRo2wb8utk0b5hOBkkg/CZ1xICY+qB7M=",
+        "lastModified": 1775963625,
+        "narHash": "sha256-OmwF0Rd/HDbEGC0ZcBS2jPMvmCcn3HDqUypjXrR7KfM=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "08b4f3633471874c8894632ade1b78d75dbda002",
+        "rev": "573a61faa8ec910a6b8576cc3c145844245574f3",
         "type": "github"
       },
       "original": {
