@@ -23,7 +23,7 @@ Run each server's deploy script **sequentially**. The deploy scripts are:
 3. `sh atlas.sh` — deploys to atlas.plan.ai
 4. `sh aarch64.sh` — deploys to aarch64.plan.ai
 
-Run each from the repo root. Use a timeout of 600000ms (10 minutes) per deploy.
+Run each from the repo root. Use a timeout of 1200000ms (20 minutes) per deploy.
 
 ## Step 3: Handle build failures
 
