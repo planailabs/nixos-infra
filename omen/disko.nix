@@ -24,6 +24,13 @@
                 discardPolicy = "both";
               };
             };
+            zil = {
+              size = "10G";
+              content = {
+                type = "zfs";
+                pool = "omen-hdd";
+              };
+            };
             zfs = {
               size = "100%";
               content = {
@@ -72,7 +79,22 @@
     zpool = {
       omen-hdd = {
         type = "zpool";
-        mode = "mirror";
+        mode = {
+          topology = {
+            type = "topology";
+            vdev = [
+              {
+                mode = "mirror";
+                members = [ "hdd_a" "hdd_b" ];
+              }
+            ];
+            log = [
+              {
+                members = [ "/dev/disk/by-partlabel/disk-ssd-zil" ];
+              }
+            ];
+          };
+        };
         options = {
           autotrim = "on";
           cachefile = "none";
