@@ -14,31 +14,32 @@ Run `nix flake update` in the repo root. Wait for it to complete. If it fails, d
 
 After `nix flake update` succeeds, commit the updated `flake.lock` with the message `chore: upgrade depss`.
 
-## Step 2: Deploy to each server
+## Step 2: Deploy to all servers in parallel
 
-Run each server's deploy script **sequentially**. The deploy scripts are:
+Run all server deploy scripts **in parallel** using the Agent tool. Launch one agent per server, all in a single message. Each agent should run its deploy script from the repo root with a timeout of 1200000ms (20 minutes).
+
+The deploy scripts are:
 
 1. `sh chronos.sh` — deploys to chronos.plan.ai (uses port 22222)
 2. `sh logos.sh` — deploys to logos.plan.ai
 3. `sh atlas.sh` — deploys to atlas.plan.ai
 4. `sh aarch64.sh` — deploys to aarch64.plan.ai
-
-Run each from the repo root. Use a timeout of 1200000ms (20 minutes) per deploy.
+5. `sh omen.sh` — deploys to omen
 
 ## Step 3: Handle build failures
 
-If a deploy script fails:
+If any deploy agent reports a failure:
 
 1. Read the build error output carefully.
 2. Identify the NixOS module or package causing the failure — look for lines like `error:`, `attribute ... not found`, or `build of ... failed`.
-3. Find and fix the relevant `.nix` file in the repo (check `modules/`, `configuration.nix`, `flake.nix`, and the server-specific directories like `atlas/`, `chronos/`, `logos/`, `pi/`).
+3. Find and fix the relevant `.nix` file in the repo (check `modules/`, `configuration.nix`, `flake.nix`, and the server-specific directories like `atlas/`, `chronos/`, `logos/`, `pi/`, `omen/`).
 4. Re-run **only** the failed server's deploy script.
 5. If it fails again with a different error, repeat the fix cycle up to 3 times per server.
-6. If a server still fails after 3 fix attempts, move on to the next server and report the failure to the user at the end.
+6. If a server still fails after 3 fix attempts, report the failure to the user.
 
-## Step 3.5: Commit fixes after each server
+## Step 3.5: Commit fixes
 
-After a server deploys successfully (whether on first try or after fixes), if any `.nix` files were modified to fix build errors, commit those changes before moving on to the next server. Use a descriptive commit message like `<server>: <what was fixed>`. This ensures fixes are saved incrementally and not lost if a later deploy fails.
+After all deploys complete, if any `.nix` files were modified to fix build errors, commit those changes with a descriptive commit message like `fix: <what was fixed>`. If fixes were applied for multiple servers, they can be combined into a single commit.
 
 ## Step 4: Summary
 
