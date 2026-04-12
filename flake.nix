@@ -60,6 +60,20 @@
         ];
       };
 
+      omen = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          disko.nixosModules.disko
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          ./omen
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       atlas = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
