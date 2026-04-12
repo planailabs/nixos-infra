@@ -72,6 +72,7 @@
     zpool = {
       rtorrent = {
         type = "zpool";
+        mode = "mirror";
         options = {
           autotrim = "on";
           cachefile = "none";
