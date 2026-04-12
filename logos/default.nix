@@ -97,7 +97,7 @@
     settings = {
       listen_addr = "127.0.0.1:7380";
       server_api_url = "https://mgmt.plan.ai/daemon/";
-      proxy_hostname = "relay.plan.ai";
+      proxy_hostname = "plan-ai-relay.com";
     };
   };
 
