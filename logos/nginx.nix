@@ -51,6 +51,7 @@ in
     };
 
     "relay.plan.ai" = h {
+      serverAliases = [ "*.relay.plan.ai" ];
       locations."/" = {
         proxyPass = "http://localhost:7380/";
         proxyWebsockets = true;
