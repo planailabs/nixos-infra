@@ -57,7 +57,7 @@
   services.radvd = {
     enable = true;
     config = ''
-    interface enu1u1
+    interface wlan0
     {
          AdvSendAdvert on;
          AdvDefaultLifetime 1800;
