@@ -33,6 +33,7 @@
   services.grafana = {
     enable = true;
     settings = {
+      feature_toggles.publicDashboards = true;
       server = {
         http_addr = "127.0.0.1";
         http_port = 3434;
