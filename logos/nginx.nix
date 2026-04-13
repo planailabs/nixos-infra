@@ -50,6 +50,13 @@ in
       };
     };
 
+    "relay.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:7380/";
+        proxyWebsockets = true;
+      };
+    };
+
     "plan-ai-relay.com" = h {
       serverAliases = [ "*.plan-ai-relay.com" ];
       locations."/" = {

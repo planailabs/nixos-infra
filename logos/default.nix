@@ -98,6 +98,7 @@
       listen_addr = "127.0.0.1:7380";
       server_api_url = "https://mgmt.plan.ai/daemon/";
       proxy_hostname = "plan-ai-relay.com";
+      data_dir = "/var/lib/mac-mgmt-relay";
     };
   };
 
