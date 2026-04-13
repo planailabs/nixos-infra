@@ -72,6 +72,13 @@ in
       };
     };
 
+    "grafana.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3434/";
+        proxyWebsockets = true;
+      };
+    };
+
     "prometheus.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:9090/";

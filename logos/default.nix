@@ -30,6 +30,17 @@
     };
   };
 
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        http_addr = "127.0.0.1";
+        http_port = 3434;
+        root_url = "https://grafana.plan.ai";
+      };
+    };
+  };
+
   services.prometheus = {
     enable = true;
     port = 9090;
