@@ -3,7 +3,7 @@
     disk = {
       ssd = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL2512HCJQ-00B00_S675NF0R800054_1";
+        device = "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NWAG831361V";
         content = {
           type = "gpt";
           partitions = {
@@ -44,15 +44,23 @@
 
       hdd_a = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL2512HCJQ-00B00_S675NF0R800054_1";
+        device = "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_895D82NAS";
         content = {
           type = "gpt";
           partitions = {
             zfs = {
-              size = "100%";
+              size = "3000591450112";
               content = {
                 type = "zfs";
                 pool = "omen-hdd";
+              };
+            };
+            ext4 = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/hdd_leftover";
               };
             };
           };
@@ -61,12 +69,12 @@
 
       hdd_b = {
         type = "disk";
-        device = "/dev/disk/by-id/nvme-SAMSUNG_MZVL2512HCJQ-00B00_S675NF0R800058_1";
+        device = "/dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N1_WD-WX22D917F7AC";
         content = {
           type = "gpt";
           partitions = {
             zfs = {
-              size = "100%";
+              size = "3000591450112";
               content = {
                 type = "zfs";
                 pool = "omen-hdd";
