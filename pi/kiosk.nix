@@ -1,7 +1,8 @@
 { config, pkgs, lib, ... }:
 
 let
-  kioskUrl = "https://prometheus.plan.ai";
+  cfg = config.services.kiosk;
+  kioskUrl = cfg.url;
 
   chromiumArgs = [
     "--app=${kioskUrl}"
@@ -31,6 +32,12 @@ let
 
 in
 {
+  options.services.kiosk.url = lib.mkOption {
+    type = lib.types.str;
+    description = "URL to display in the kiosk browser";
+  };
+
+  config = {
   # Disable display manager restart on config changes (matches original)
   systemd.services.display-manager.restartIfChanged = false;
 
@@ -82,5 +89,6 @@ in
     NIXOS_OZONE_WL = "1";
     # Prevent cursor theming issues in kiosk
     WLR_NO_HARDWARE_CURSORS = "1";
+  };
   };
 }

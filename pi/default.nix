@@ -4,6 +4,7 @@
     ./wg.nix
     ./kiosk.nix
     ../modules/common.nix
+    "${inputs.self.private}/pi.nix"
     ./hardware-configuration.nix
   ];
 
