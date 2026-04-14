@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, extendModules, lib, pkgs, diskoLib, ... }:
 
 with lib;
 
@@ -12,6 +12,24 @@ with lib;
     ./network-configuration.nix
     ../modules/common.nix
   ];
+
+  # Override installTest to provide VM disks large enough for the 3TB HDD partitions.
+  # qcow2 images are sparse so this doesn't consume actual disk space.
+  system.build.installTest = mkForce (diskoLib.testLib.makeDiskoTest {
+    inherit extendModules pkgs;
+    name = "${config.networking.hostName}-disko";
+    disko-config = builtins.removeAttrs config [ "_module" ];
+    testMode = "direct";
+    bootCommands = config.disko.tests.bootCommands;
+    efi = config.disko.tests.efi;
+    enableOCR = config.disko.tests.enableOCR;
+    extraSystemConfig = config.disko.tests.extraConfig;
+    extraTestScript = config.disko.tests.extraChecks;
+    extraInstallerConfig = {
+      # Alphabetical order: hdd_a (3TB), hdd_b (3TB), ssd (512G) — in MiB
+      virtualisation.emptyDiskImages = mkForce [ 3145728 3145728 524288 ];
+    };
+  });
 
   system.stateVersion = "26.11";
 

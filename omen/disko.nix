@@ -49,7 +49,7 @@
           type = "gpt";
           partitions = {
             zfs = {
-              size = "3000591450112";
+              size = "2930265088K";
               content = {
                 type = "zfs";
                 pool = "omen-hdd";
@@ -74,7 +74,7 @@
           type = "gpt";
           partitions = {
             zfs = {
-              size = "3000591450112";
+              size = "2930265088K";
               content = {
                 type = "zfs";
                 pool = "omen-hdd";
