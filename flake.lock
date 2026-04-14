@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776045177,
-        "narHash": "sha256-+7hAH3z8PFkyXh9CUHXuVtmNal6zmvQE3nA0aT+Jl5s=",
+        "lastModified": 1776145655,
+        "narHash": "sha256-Jsf4YGO9kV36Jo1X0nwjJ/+tWjPNLOJcX3nX59YI+ts=",
         "ref": "refs/heads/trunk",
-        "rev": "418ec0b3ef9deff3d918a51605cf9809bc9534f3",
-        "revCount": 497,
+        "rev": "a024111e9c712c50f2eab245b1a1fc9d38cd1daf",
+        "revCount": 516,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -396,8 +396,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1775992911,
-        "narHash": "sha256-i8esddItOIYQFUy+YHfi0FjP/teD/KMNwfR72RYgAKs=",
+        "lastModified": 1776113964,
+        "narHash": "sha256-4XNEtpDwLlws5J9RnnYW04mgZzp/GnMyrzJdQ7pSZfM=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -430,11 +430,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775942302,
-        "narHash": "sha256-8PU1XpFwZohgODL+7Q7pbouztjED/Lr/HmxJnudZcCA=",
+        "lastModified": 1776108120,
+        "narHash": "sha256-/P17dbK/W1wwlajryin3phA3xgH5qjJBpb83BmAgcQ8=",
         "ref": "refs/heads/trunk",
-        "rev": "cd5066585c6c83cd4900ded021d42fcdfcdf8332",
-        "revCount": 80,
+        "rev": "5666048a81c84162d289ccbc2eb6c09498070bfc",
+        "revCount": 82,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
       },
@@ -486,11 +486,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775963625,
-        "narHash": "sha256-OmwF0Rd/HDbEGC0ZcBS2jPMvmCcn3HDqUypjXrR7KfM=",
+        "lastModified": 1776136407,
+        "narHash": "sha256-Cp8XrVLGruSDBTRs8L4LmvaEcd76tHHU9esLk7Ysa4E=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "573a61faa8ec910a6b8576cc3c145844245574f3",
+        "rev": "753568957a87312ed599cba5699e67126eded6c0",
         "type": "github"
       },
       "original": {
