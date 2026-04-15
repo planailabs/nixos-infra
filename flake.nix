@@ -136,6 +136,7 @@
           xzar.nixosModules.xzar
           mac-mgmt.nixosModules.default
           mac-mgmt.nixosModules.relay
+          mac-mgmt.nixosModules.runner
           plan-ai-chat.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
@@ -146,6 +147,7 @@
             (final: prev: {
               mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
               mac-mgmt-relay = mac-mgmt.packages.${final.system}.relay;
+              mac-mgmt-runner = mac-mgmt.packages.${final.system}.runner;
             })
             (import ./pkgs/overlay.nix)
           ]; }

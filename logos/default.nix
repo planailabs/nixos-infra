@@ -103,6 +103,10 @@
     enable = true;
   };
 
+  services.mac-mgmt-runner = {
+    enable = true;
+  };
+
   services.mac-mgmt-relay = {
     enable = true;
     openFirewall = true;
