@@ -12,6 +12,7 @@ with lib;
     ./network-configuration.nix
     ../modules/common.nix
     ./wg.nix
+    ./zfs.nix
   ];
 
   # Override installTest to provide VM disks large enough for the 3TB HDD partitions.
