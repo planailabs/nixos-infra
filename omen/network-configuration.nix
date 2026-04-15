@@ -15,8 +15,11 @@
 
     firewall.logRefusedPackets = true;
   };
-  networking.useDHCP = true;
-  networking.useNetworkd = lib.mkForce true;
+  networking.useDHCP = false;
+  networking.useNetworkd = lib.mkForce false;
+  networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.powersave = false;
+  networking.networkmanager.wifi.backend = "iwd";
 #  services.udev.extraRules = ''ATTR{address}=="04:42:1a:23:db:9d", NAME="eth0"'';
 }
 
