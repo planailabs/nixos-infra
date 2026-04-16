@@ -69,6 +69,14 @@
                 annotations:
                   summary: "mac-mgmt service unhealthy for {{ $labels.customer_id }} ({{ $labels.hostname }})"
                   description: "mac_mgmt_service_healthy has been 0 for more than 5 minutes for customer {{ $labels.customer_id }} on host {{ $labels.hostname }}."
+              - alert: MacMgmtProbeNotOk
+                expr: mac_mgmt_prob_ok == 0
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "mac-mgmt probe not ok for {{ $labels.customer_id }} ({{ $labels.hostname }})"
+                  description: "mac_mgmt_prob_ok has been 0 for more than 5 minutes for customer {{ $labels.customer_id }} on host {{ $labels.hostname }}."
           - name: disk
             rules:
               - alert: NodeFilesystemLowSpace
