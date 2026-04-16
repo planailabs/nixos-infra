@@ -100,5 +100,12 @@ in
         proxyPass = "http://localhost:7378/";
       };
     };
+
+    "runner.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://localhost:9400/";
+        proxyWebsockets = true;
+      };
+    };
   };
 }
