@@ -41,7 +41,11 @@ If any deploy agent reports a failure:
 
 After all deploys complete, if any `.nix` files were modified to fix build errors, commit those changes with a descriptive commit message like `fix: <what was fixed>`. If fixes were applied for multiple servers, they can be combined into a single commit.
 
-## Step 4: Summary
+## Step 4: Push commits
+
+After all deploys complete and any fix commits have been made, run `git push` to push all commits to the remote.
+
+## Step 5: Summary
 
 After all deploys complete (or exhaust retries), report:
 - Which servers deployed successfully
