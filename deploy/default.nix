@@ -74,9 +74,21 @@
         maxJobs = 4;
         supportedFeatures = [ "nixos-test" "big-parallel" ];
       }
+      {
+        hostName = "neon.i.xeredo.it";
+        systems = [ "x86_64-linux" "i686-linux" ];
+        maxJobs = 8;
+        supportedFeatures = [ "nixos-test" "big-parallel" ];
+      }
     ];
     distributedBuilds = true;
   };
+
+  programs.ssh.extraConfig = ''
+    Host neon.i.xeredo.it
+      Port 37017
+      User maciej
+  '';
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
 
