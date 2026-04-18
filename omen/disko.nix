@@ -55,14 +55,6 @@
                 pool = "omen-hdd";
               };
             };
-            ext4 = {
-              size = "100%";
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/hdd_leftover";
-              };
-            };
           };
         };
       };
@@ -78,6 +70,14 @@
               content = {
                 type = "zfs";
                 pool = "omen-hdd";
+              };
+            };
+            ext4 = {
+              size = "100%";
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/hdd_leftover";
               };
             };
           };
