@@ -55,6 +55,11 @@ in
         proxyPass = "http://localhost:7380/";
         proxyWebsockets = true;
       };
+      extraConfig = ''
+        proxy_read_timeout 60;
+        proxy_send_timeout 60;
+        proxy_connect_timeout 60;
+      '';
     };
 
     "plan-ai-relay.com" = h {
@@ -63,6 +68,11 @@ in
         proxyPass = "http://localhost:7380/";
         proxyWebsockets = true;
       };
+      extraConfig = ''
+        proxy_read_timeout 60;
+        proxy_send_timeout 60;
+        proxy_connect_timeout 60;
+      '';
     };
 
     "kan.plan.ai" = h {
@@ -89,6 +99,11 @@ in
       locations."/" = {
         proxyPass = "http://localhost:7378/";
       };
+      extraConfig = ''
+        proxy_read_timeout 60;
+        proxy_send_timeout 60;
+        proxy_connect_timeout 60;
+      '';
     };
 
     "mgmt.plan.ai" = h {
@@ -99,6 +114,11 @@ in
       locations."/daemon/" = {
         proxyPass = "http://localhost:7378/";
       };
+      extraConfig = ''
+        proxy_read_timeout 60;
+        proxy_send_timeout 60;
+        proxy_connect_timeout 60;
+      '';
     };
 
     "runner.plan.ai" = h {

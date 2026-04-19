@@ -98,11 +98,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1773889306,
-        "narHash": "sha256-PAqwnsBSI9SVC2QugvQ3xeYCB0otOwCacB1ueQj2tgw=",
+        "lastModified": 1776607438,
+        "narHash": "sha256-M/fus9ENW+JAL2L8XabQ7Sq+a2CsvjjueB9SKQzUNp0=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "5ad85c82cc52264f4beddc934ba57f3789f28347",
+        "rev": "156dd93f5972adad7d6318bc87f8755086e30731",
         "type": "github"
       },
       "original": {
@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776519940,
-        "narHash": "sha256-16zGzhAKxrI9fVxAwd0ucKPYHWaWLrBIY/sH5lAyB7Q=",
+        "lastModified": 1776608808,
+        "narHash": "sha256-Ez+AtwLMF2U/IfJNrp6q6Dwqv3+CR04UlQdin9hgijg=",
         "ref": "refs/heads/trunk",
-        "rev": "a6244bd0a82d8f98d14b010967291f81547a60d1",
-        "revCount": 671,
+        "rev": "b327f7809b2722f69bd7ebe2056da06538443d67",
+        "revCount": 739,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -396,8 +396,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1776157044,
-        "narHash": "sha256-52YZ91AJ0c8NZ2hSa8BsdYeaZFKzlzkgWUSNqcyeah8=",
+        "lastModified": 1776524140,
+        "narHash": "sha256-IPfcX1jCfOquafw1CuUQgHBv9fGTqL0FrAJTPhEgoeY=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -486,11 +486,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776481912,
-        "narHash": "sha256-Xq7p+Ex3YHFAd+fFFLOYw2Wv67582X7SAmrEDtIDZQ4=",
+        "lastModified": 1776568404,
+        "narHash": "sha256-Xng/brVgk+0+ggo/4xnaxb5v4lU82RxPpmFlMHXLGYg=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "e611106c527e8ab0adbb641183cda284411d575c",
+        "rev": "e65c31bc66b9194a9fc5b5a9f97ac049523f9438",
         "type": "github"
       },
       "original": {
