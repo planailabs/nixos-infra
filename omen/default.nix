@@ -1,10 +1,11 @@
-{ config, extendModules, lib, pkgs, diskoLib, ... }:
+{ inputs, config, extendModules, lib, pkgs, diskoLib, ... }:
 
 with lib;
 
 {
   imports = [
     ./disko.nix
+    "${inputs.self.private}/omen.nix"
     ({
       _module.args.disks = [ "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NWAG831361V" "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_895D82NAS" "/dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N1_WD-WX22D917F7AC" ];
     })
@@ -57,6 +58,15 @@ with lib;
   networking.hostName = "omen";
   networking.firewall.allowedTCPPorts = [ 8443 ];
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
+  networking.firewall.extraInputRules = ''
+    ip6 saddr {
+      2a01:4f8:242:ea00::/56,  # sodium ipv6 tunnel
+      2a01:4f8:242:1ae1::/64,  # sodium vms
+      2a01:4f9:1a:90eb::/64,   # atlas vms
+    } tcp dport 11434 accept
+    ip saddr 192.168.68.0/22 tcp dport 11434 accept  # wifi
+    ip6 saddr 201:39a5:2fa6:ffb0:41e8:475c:e129:f30d tcp dport 11434 accept  # mkg-laptop
+  '';
 
   boot.kernel.sysctl."net.ipv4.conf.all.forwarding" = mkOverride 1 1;
   boot.kernel.sysctl."net.ipv6.conf.all.forwarding" = mkOverride 1 1;
@@ -73,5 +83,20 @@ with lib;
     '';
   }; */
 
+  services.mac-mgmt = {
+    enable = true;
+    serverUrl = "https://api.plan.ai";
+    version = "0.1.5";
+    environmentFile = "/etc/mac-mgmt.env";
+    settings = {
+      daemon.log_level = "info";
+    };
+  };
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
+
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
+  hardware.nvidia.open = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.graphics.enable = true;
 }

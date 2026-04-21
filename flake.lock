@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776704351,
-        "narHash": "sha256-l4LrDMQDSVhokn9w2hGBhcwn161db06r0iwoGuePRVQ=",
+        "lastModified": 1776773392,
+        "narHash": "sha256-AYLnHUECvdWOqwMS9AptSGO6xdKaRSKm+6mZBY32pSE=",
         "ref": "refs/heads/trunk",
-        "rev": "dc7772db9be01866d363e707fd7aaa1ffdd743e8",
-        "revCount": 802,
+        "rev": "23f5b0018f6c0aad5d2007d4e4cdcb6810992a38",
+        "revCount": 818,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -396,8 +396,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1776650743,
-        "narHash": "sha256-qMsY8T9gw/eX9yRm2S0LxdbBbobsMa2MwutFq6Ei0TU=",
+        "lastModified": 1776704694,
+        "narHash": "sha256-YJnyseogaVxAkLKQP4a/q64xWxMJ3fiWobEBQArOZHc=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -486,11 +486,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776654897,
-        "narHash": "sha256-Vqi4AiJVCcBGn/RmBtRCgyH5rCxqm/w0xV9diJWF1Ic=",
+        "lastModified": 1776741231,
+        "narHash": "sha256-k9G98qzn+7npROUaks8VqCFm7cFtEG8ulQLBBo5lItg=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "25d75be8139815a53560745fa060909777495105",
+        "rev": "02061303f7c4c964f7b4584dabd9e985b4cd442b",
         "type": "github"
       },
       "original": {

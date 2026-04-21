@@ -67,9 +67,11 @@
           disko.nixosModules.disko
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
+          mac-mgmt.nixosModules.daemon
           ./omen
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
+            mac-mgmt.overlays.default
           ]; }
         ];
       };
