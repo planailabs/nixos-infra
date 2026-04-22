@@ -38,6 +38,8 @@ with lib;
         # sebfried
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJDZOo2bcD9nCYzO1F8k4irkpfYxBtFkp+XzItrgQ9n6 gitlab"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO0lbtC49VLxNoHbBOSxadGIfXsMinUyXuaIqgDfzFAT git.plan.ai"
+        # alberto
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJFHNMyr+Ny78rEkBJU13SczCGrNAZTH/QpOctaDinp alberto@plan.ai"
       ];
     };
   };

@@ -63,6 +63,7 @@ with lib;
       2a01:4f8:242:ea00::/56,  # sodium ipv6 tunnel
       2a01:4f8:242:1ae1::/64,  # sodium vms
       2a01:4f9:1a:90eb::/64,   # atlas vms
+      2a01:4f8:262:494f::/64,  # neon
     } tcp dport 11434 accept
     ip saddr 192.168.68.0/22 tcp dport 11434 accept  # wifi
     ip6 saddr 201:39a5:2fa6:ffb0:41e8:475c:e129:f30d tcp dport 11434 accept  # mkg-laptop

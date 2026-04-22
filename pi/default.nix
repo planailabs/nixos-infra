@@ -1,7 +1,7 @@
 { inputs, pkgs, ... }: {
   imports = [
     ./pi.nix
-    ./wg.nix
+    # ./wg.nix
     ./kiosk.nix
     ../modules/common.nix
     "${inputs.self.private}/pi.nix"
@@ -22,6 +22,11 @@
       peers = [ "tcp://ygg.mkg20001.io:80" "tls://ygg.mkg20001.io:443" ];
     };
   };
+
+  swapDevices = [{
+    device = "/swapfile";
+    size = 5120; # 5 GiB
+  }];
 
   networking.hostName = "plan-ai-pi";
 }
