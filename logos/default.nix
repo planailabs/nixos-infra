@@ -120,10 +120,11 @@
     openFirewall = true;
     settings = {
       listen_addr = "127.0.0.1:7380";
-      server_api_url = "https://mgmt.plan.ai/daemon/";
+      server_api_url = "https://api.plan.ai";
       proxy_hostname = "plan-ai-relay.com";
       proxy_url = "https://plan-ai-relay.com";
       data_dir = "/var/lib/mac-mgmt-relay";
+      cors_origins = [ "https://mgmt.plan.ai" ];
     };
   };
 
