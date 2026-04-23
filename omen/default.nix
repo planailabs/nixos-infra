@@ -100,4 +100,42 @@ with lib;
   hardware.nvidia.open = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.graphics.enable = true;
+
+  # ref https://www.howtoforge.com/ipp_based_print_server_cups
+  services.printing = {
+    enable = true;
+    startWhenNeeded = false;
+    allowFrom = [ "@LOCAL" ];
+    browsing = true;
+    defaultShared = true;
+    openFirewall = true;
+    listenAddresses = [ "*:631" ];
+    # disable auth
+    extraConf = ''
+      AuthType Basic
+      AuthClass System
+      BrowseLocalProtocols dnssd
+      DefaultPaperSize A4
+      ReadyPaperSizes A4
+    '';
+  };
+
+  services.avahi = {
+    enable = true;
+    publish = {
+      enable = true;
+      userServices = true;
+    };
+  };
+
+  boot.kernelParams = [ "swapaccount=1" ];
+
+  systemd.services.ztrim = {
+    startAt = "weekly";
+    script = ''
+      /run/current-system/sw/bin/zpool trim omen
+    '';
+  };
+
+  services.fwupd.enable = true;
 }

@@ -54,4 +54,15 @@ with lib;
   };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
+
+  boot.kernelParams = [ "swapaccount=1" ];
+
+  systemd.services.ztrim = {
+    startAt = "weekly";
+    script = ''
+      /run/current-system/sw/bin/zpool trim rtorrent
+    '';
+  };
+
+  services.fwupd.enable = true;
 }
