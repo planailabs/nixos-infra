@@ -89,6 +89,27 @@ Replace `IPV6PREFIX` with your server's IPv6 prefix (e.g. for `2a01:4f9:1a:90eb:
 
 Setting `ipv6.nat: "false"` with `ipv6.routing: "true"` means VMs get globally routable IPv6 addresses without NAT, while IPv4 is NATed through the host.
 
+### Configure Default Profile
+
+Set resource limits and snapshot policy on the default profile so new VMs inherit them:
+
+```sh
+incus profile edit default
+```
+
+Add to the `config` section:
+
+```yaml
+config:
+  limits.memory: 4GiB
+  limits.memory.swap: 20GiB
+  snapshots.expiry: 10d
+  snapshots.schedule: 0 0 * * *
+  snapshots.schedule.stopped: "true"
+```
+
+This gives each VM 4 GiB RAM with up to 20 GiB swap, and takes a daily snapshot at midnight (including stopped VMs) retained for 10 days.
+
 ## 4. VM Networking
 
 ### Configuring Fixed IPv6 for a VM
