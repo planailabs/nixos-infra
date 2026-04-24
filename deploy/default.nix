@@ -90,6 +90,12 @@
       User maciej
   '';
 
+  programs.bash.interactiveShellInit = ''
+    if [ -n "$IN_NIX_SHELL" ]; then
+      PS1="\[\e[33m\](nix:$IN_NIX_SHELL)\[\e[0m\] $PS1"
+    fi
+  '';
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
 
   environment.systemPackages = with pkgs; [
