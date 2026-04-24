@@ -121,6 +121,7 @@ with lib;
     iptraf-ng
     claude-code
     opencode
+    neovim
   ];
 
   programs.screen = {
