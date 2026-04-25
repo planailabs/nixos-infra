@@ -4,6 +4,7 @@
     ../modules/container.nix
     "${inputs.self.private}/logos.nix"
     ./nginx.nix
+    ./hedgedoc.nix
   ];
 
   system.stateVersion = "26.11";
@@ -140,6 +141,11 @@
       BETTER_AUTH_TRUSTED_ORIGINS = "https://kan.plan.ai";
       BETTER_AUTH_ALLOWED_DOMAINS = "plan.ai";
     };
+  };
+
+  services.hedgedoc = {
+    enable = true;
+    settings.domain = "docs.plan.ai";
   };
 
   services.plan-ai-chat = {
