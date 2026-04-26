@@ -160,11 +160,7 @@
             xzar.overlays.default
             acme-distributor.overlays.default
             plan-ai-chat.overlays.default
-            (final: prev: {
-              mac-mgmt-server = mac-mgmt.packages.${final.system}.server;
-              mac-mgmt-relay = mac-mgmt.packages.${final.system}.relay;
-              mac-mgmt-runner = mac-mgmt.packages.${final.system}.runner;
-            })
+            mac-mgmt.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
