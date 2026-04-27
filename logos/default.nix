@@ -5,6 +5,7 @@
     "${inputs.self.private}/logos.nix"
     ./nginx.nix
     ./hedgedoc.nix
+    ./zitadel.nix
   ];
 
   system.stateVersion = "26.11";
@@ -147,6 +148,8 @@
     enable = true;
     settings.domain = "docs.plan.ai";
   };
+
+  services.zitadel.enable = true;
 
   services.plan-ai-chat = {
     enable = true;
