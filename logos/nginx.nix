@@ -127,5 +127,17 @@ in
         proxyWebsockets = true;
       };
     };
+
+    "auth.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3636/";
+        proxyWebsockets = true;
+      };
+      extraConfig = ''
+        proxy_buffer_size       16k;
+        proxy_buffers           8 16k;
+        proxy_busy_buffers_size 32k;
+      '';
+    };
   };
 }

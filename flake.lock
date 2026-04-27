@@ -227,11 +227,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777241492,
-        "narHash": "sha256-8RGc83gh1534dZcOS6vps454hNfr5BR5lvq+uGu6R8M=",
+        "lastModified": 1777288860,
+        "narHash": "sha256-uUc1NfK2hinxrT35a/JuCZFizfWEqXKRWx7rbIrEqYg=",
         "ref": "refs/heads/trunk",
-        "rev": "6965366c51fac7fa185a3b9d4e1616b3648bcc3b",
-        "revCount": 969,
+        "rev": "12fbfbffe4937a85a1780df13e6352dc84aaa760",
+        "revCount": 973,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -454,6 +454,7 @@
         "nixpkgs": "nixpkgs",
         "plan-ai-chat": "plan-ai-chat",
         "rust-overlay": "rust-overlay_2",
+        "supabase-self-service-consent": "supabase-self-service-consent",
         "xnix": "xnix",
         "xzar": "xzar"
       }
@@ -486,11 +487,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777173302,
-        "narHash": "sha256-ERiu3cbxvnTDxiDcimRA7af7xp6x1y0sRyLGm28Qzz8=",
+        "lastModified": 1777259803,
+        "narHash": "sha256-fIb/EoVu/1U0qVrE6qZCJ2WCfprRpywNIAVzKEACIQc=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "aaec8c50baeaf2f2ba653e8aae71778a2bbbac94",
+        "rev": "a6cb2224d975e16b5e67de688c6ad306f7203425",
         "type": "github"
       },
       "original": {
@@ -540,6 +541,26 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "supabase-self-service-consent": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1777246933,
+        "narHash": "sha256-n5xq9hyhTI528bckLKHdayXtQRft53AuI9s2rlEq32k=",
+        "ref": "refs/heads/trunk",
+        "rev": "3e74ccf24643d597d80a4a9847769ac6cc31e208",
+        "revCount": 21,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent"
       }
     },
     "systems": {

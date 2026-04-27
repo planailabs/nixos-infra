@@ -21,6 +21,8 @@
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
+    supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
+    supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
     common.url = "github:mgit-at/nixos-common";
     common.inputs.nixpkgs.follows = "nixpkgs";
  };
@@ -36,6 +38,7 @@
     rust-overlay,
     mac-mgmt,
     plan-ai-chat,
+    supabase-self-service-consent,
     common,
     ...
   } @ inputs: let
@@ -154,6 +157,7 @@
           mac-mgmt.nixosModules.relay
           mac-mgmt.nixosModules.runner
           plan-ai-chat.nixosModules.default
+          supabase-self-service-consent.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default

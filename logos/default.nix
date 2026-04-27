@@ -159,6 +159,14 @@
     environmentFile = "/etc/plan-ai-chat.env";
   };
 
+  services.supabase-self-service-consent = {
+    enable = true;
+    hostname = "127.0.0.1";
+    port = 3636;
+    NEXT_PUBLIC_SUPABASE_URL = "https://tlssdiqdokctvxcezptr.supabase.co";
+    NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0jDsNegZ46CUSePRIj5-Bw_0_UYc41b";
+  };
+
 #  security.acme.distributor-server = "https://acme.plan.ai";
   security.acme.distributor-server = "http://localhost:3444";
 
