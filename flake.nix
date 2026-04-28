@@ -169,6 +169,45 @@
           ]; }
         ];
       };
+
+      peira = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          xzar.nixosModules.xzar
+          mac-mgmt.nixosModules.default
+          mac-mgmt.nixosModules.relay
+          ./peira
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            xzar.overlays.default
+            acme-distributor.overlays.default
+            mac-mgmt.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      metis = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          xzar.nixosModules.xzar
+          mac-mgmt.nixosModules.default
+          ./metis
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            xzar.overlays.default
+            acme-distributor.overlays.default
+            mac-mgmt.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
     };
   };
 }
