@@ -9,8 +9,8 @@ set -euxo pipefail
 CONFIG="$1"
 ALIAS="${2:-$CONFIG}"
 
-nix build ".#nixosConfigurations.${CONFIG}.config.system.build.metadata" -L -o "result-metadata-${CONFIG}"
-nix build ".#nixosConfigurations.${CONFIG}.config.system.build.tarball"  -L -o "result-tarball-${CONFIG}"
+nix build ".#nixosConfigurations.${CONFIG}.config.system.build.metadata" -L -o "result-metadata-${CONFIG}" --impure
+nix build ".#nixosConfigurations.${CONFIG}.config.system.build.tarball"  -L -o "result-tarball-${CONFIG}" --impure
 
 METADATA="$(echo "result-metadata-${CONFIG}"/tarball/*.tar.xz)"
 ROOTFS="$(echo "result-tarball-${CONFIG}"/tarball/*.tar.xz)"
