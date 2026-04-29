@@ -25,6 +25,8 @@ The deploy scripts are:
 3. `sh atlas.sh` — deploys to atlas.plan.ai
 4. `sh aarch64.sh` — deploys to aarch64.plan.ai
 5. `sh omen.sh` — deploys to omen
+6. `sh peira.sh` — deploys to peira.plan.ai
+7. `sh metis.sh` — deploys to metis.plan.ai
 
 ## Step 3: Handle build failures
 
