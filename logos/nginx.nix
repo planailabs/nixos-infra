@@ -93,7 +93,19 @@ in
       locations."/" = {
         proxyPass = "http://localhost:9090/";
       };
+      # Allow either oauth2 (browser) or basic auth (grafana datasource).
+      extraConfig = ''
+        satisfy any;
+      '';
+      locations."= /oauth2/auth".extraConfig = ''
+        auth_basic off;
+      '';
+      locations."@redirectToAuth2ProxyLogin".extraConfig = ''
+        auth_basic off;
+      '';
     };
+
+    "login.plan.ai" = h { };
 
     "api.plan.ai" = h {
       locations."/" = {

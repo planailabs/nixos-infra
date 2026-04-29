@@ -101,6 +101,19 @@
     ];
   };
 
+  services.oauth2-proxy = {
+    enable = true;
+    provider = "google";
+    email.domains = [ "plan.ai" ];
+    reverseProxy = true;
+    setXauthrequest = true;
+    cookie.domain = ".plan.ai";
+    extraConfig.whitelist-domain = ".plan.ai";
+    nginx.domain = "login.plan.ai";
+    nginx.virtualHosts."prometheus.plan.ai" = { };
+    nginx.virtualHosts."runner.plan.ai" = { };
+  };
+
   services.xzar-server = {
     enable = true;
   };
