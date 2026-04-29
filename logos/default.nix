@@ -143,6 +143,10 @@
     };
   };
 
+  # libp2p QUIC enumerates interfaces via netlink
+  systemd.services.mac-mgmt-relay.serviceConfig.RestrictAddressFamilies =
+    lib.mkForce [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
+
   services.kanbn = {
     enable = true;
     baseUrl = "https://kan.plan.ai";
