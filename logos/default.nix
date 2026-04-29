@@ -97,6 +97,34 @@
                 annotations:
                   summary: "Critically low disk space on {{ $labels.instance }} ({{ $labels.mountpoint }})"
                   description: "Filesystem {{ $labels.mountpoint }} on {{ $labels.instance }} has less than 5% free space (currently {{ $value | printf \"%.1f\" }}%)."
+          - name: scrape
+            rules:
+              - alert: PrometheusTargetDown
+                expr: up == 0
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Prometheus failing to fetch from {{ $labels.job }} on {{ $labels.instance }}"
+                  description: "Prometheus has been unable to scrape job {{ $labels.job }} on {{ $labels.instance }} for more than 5 minutes."
+          - name: memory
+            rules:
+              - alert: NodeMemoryHigh
+                expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 85
+                for: 10m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "High RAM usage on {{ $labels.hostname }} ({{ $labels.instance }})"
+                  description: "Memory usage on {{ $labels.hostname }} has been above 85% for more than 10 minutes (currently {{ $value | printf \"%.1f\" }}%)."
+              - alert: NodeMemoryCritical
+                expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 95
+                for: 5m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Critical RAM usage on {{ $labels.hostname }} ({{ $labels.instance }})"
+                  description: "Memory usage on {{ $labels.hostname }} has been above 95% for more than 5 minutes (currently {{ $value | printf \"%.1f\" }}%)."
       ''
     ];
   };
