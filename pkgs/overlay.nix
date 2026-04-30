@@ -8,4 +8,7 @@ final: prev: {
       sha256 = "sha256-uxfa6KIL0BfqmI/OzZjmOwXhte48SuEgL7eYp2DD/90=";
     };
   });
+
+  obsidian-mcp-server = prev.callPackage ./obsidian-mcp-server { };
+  obsidian-local-rest-api-plugin = prev.callPackage ./obsidian-local-rest-api-plugin.nix { };
 }

@@ -208,6 +208,19 @@
           ]; }
         ];
       };
+
+      obsidian = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          ./obsidian
+          { nixpkgs.overlays = [
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
     };
   };
 }
