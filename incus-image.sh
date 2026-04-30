@@ -18,4 +18,4 @@ ROOTFS="$(echo "result-tarball-${CONFIG}"/tarball/*.tar.xz)"
 rsync -L --progress "${METADATA}" atlas.plan.ai:metadata.tar.xz
 rsync -L --progress "${ROOTFS}"   atlas.plan.ai:image.tar.xz
 
-ssh atlas.plan.ai "incus image import metadata.tar.xz image.tar.xz --alias ${ALIAS} && incus create ${ALIAS} ${ALIAS} -c security.nesting=true"
+ssh atlas.plan.ai -t "incus image import metadata.tar.xz image.tar.xz --alias ${ALIAS} && incus create ${ALIAS} ${ALIAS} -c security.nesting=true"
