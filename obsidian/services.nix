@@ -95,16 +95,56 @@ in
       # Mark the registered vault as currently open. Without this Obsidian
       # falls into the vault picker, which never gets a click in headless
       # mode and freezes the renderer before plugins load.
-      ExecStartPre = "${pkgs.writeShellScript "obsidian-mark-vault-open" ''
-        set -euo pipefail
-        cfg="${configHome}/.config/obsidian/obsidian.json"
-        if [ -f "$cfg" ]; then
-          tmp="$(${pkgs.coreutils}/bin/mktemp)"
-          ${pkgs.jq}/bin/jq '.vaults |= with_entries(.value.open = true)' "$cfg" > "$tmp"
-          ${pkgs.coreutils}/bin/install -m 0644 "$tmp" "$cfg"
-          rm -f "$tmp"
-        fi
-      ''}";
+      #
+      # Then disable Restricted Mode by writing the
+      # `enable-plugin-<appId>` key directly into Electron's localStorage
+      # LevelDB. Otherwise Obsidian refuses to load community plugins
+      # (incl. Local REST API) and `:27123` never binds.
+      ExecStartPre = [
+        "${pkgs.writeShellScript "obsidian-mark-vault-open" ''
+          set -euo pipefail
+          cfg="${configHome}/.config/obsidian/obsidian.json"
+          if [ -f "$cfg" ]; then
+            tmp="$(${pkgs.coreutils}/bin/mktemp)"
+            ${pkgs.jq}/bin/jq '.vaults |= with_entries(.value.open = true)' "$cfg" > "$tmp"
+            ${pkgs.coreutils}/bin/install -m 0644 "$tmp" "$cfg"
+            rm -f "$tmp"
+          fi
+        ''}"
+        "${pkgs.writers.writePython3 "obsidian-trust-plugins" {
+          libraries = [ pkgs.python3Packages.plyvel ];
+          flakeIgnore = [ "E501" ];
+        } ''
+          import os, sys, plyvel
+
+          home = os.environ.get("HOME", "${configHome}")
+          id_path = os.path.join(home, ".config", "obsidian", "id")
+          db_path = os.path.join(home, ".config", "obsidian", "Local Storage", "leveldb")
+
+          if not os.path.exists(id_path):
+              sys.exit(0)
+
+          with open(id_path) as fh:
+              app_id = fh.read().strip()
+
+          os.makedirs(db_path, exist_ok=True)
+
+          # Chromium localStorage layout:
+          #   key   = b"_<origin>\x00\x01<storage-key>"
+          #   value = b"\x01" + utf-16-le bytes of the value
+          # Obsidian uses the `app://obsidian.md` scheme.
+          origin = b"app://obsidian.md"
+          storage_key = ("enable-plugin-" + app_id).encode("ascii")
+          db_key = b"_" + origin + b"\x00\x01" + storage_key
+          db_val = b"\x01" + "true".encode("utf-16-le")
+
+          db = plyvel.DB(db_path, create_if_missing=True)
+          try:
+              db.put(db_key, db_val)
+          finally:
+              db.close()
+        ''}"
+      ];
       ExecStart = "${pkgs.xvfb-run}/bin/xvfb-run -a -s '-screen 0 1280x720x24' ${pkgs.obsidian}/bin/obsidian --no-sandbox --disable-gpu";
       Restart = "always";
       RestartSec = "10s";
