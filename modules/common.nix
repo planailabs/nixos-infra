@@ -122,6 +122,7 @@ with lib;
     claude-code
     opencode
     neovim
+    rsync
   ];
 
   programs.screen = {
