@@ -94,7 +94,20 @@ in
       Type = "simple";
       User = "obsidian";
       Group = "obsidian";
-      ExecStart = "${pkgs.xvfb-run}/bin/xvfb-run -a -s '-screen 0 1280x720x24' ${pkgs.obsidian}/bin/obsidian --no-sandbox --disable-gpu ${vaultDir}";
+      # Mark the registered vault as currently open. Without this Obsidian
+      # falls into the vault picker, which never gets a click in headless
+      # mode and freezes the renderer before plugins load.
+      ExecStartPre = "${pkgs.writeShellScript "obsidian-mark-vault-open" ''
+        set -euo pipefail
+        cfg="${configHome}/.config/obsidian/obsidian.json"
+        if [ -f "$cfg" ]; then
+          tmp="$(${pkgs.coreutils}/bin/mktemp)"
+          ${pkgs.jq}/bin/jq '.vaults |= with_entries(.value.open = true)' "$cfg" > "$tmp"
+          ${pkgs.coreutils}/bin/install -m 0644 "$tmp" "$cfg"
+          rm -f "$tmp"
+        fi
+      ''}";
+      ExecStart = "${pkgs.xvfb-run}/bin/xvfb-run -a -s '-screen 0 1280x720x24' ${pkgs.obsidian}/bin/obsidian --no-sandbox --disable-gpu";
       Restart = "always";
       RestartSec = "10s";
       PrivateTmp = true;
