@@ -115,6 +115,7 @@ in
       MCP_SESSION_MODE = "stateless";
       MCP_LOG_LEVEL = "info";
       MCP_FORCE_CONSOLE_LOGGING = "true";
+      LOGS_DIR = "/var/log/obsidian-mcp-server";
       OBSIDIAN_BASE_URL = "http://127.0.0.1:${toString restApiPort}";
       OBSIDIAN_VERIFY_SSL = "false";
       OBSIDIAN_READ_ONLY = "true";
@@ -128,6 +129,8 @@ in
       ExecStart = "${pkgs.obsidian-mcp-server}/bin/obsidian-mcp-server";
       Restart = "always";
       RestartSec = "5s";
+      LogsDirectory = "obsidian-mcp-server";
+      LogsDirectoryMode = "0750";
     };
   };
 }
