@@ -71,28 +71,19 @@ in
   };
 
   # Hourly fast-forward pull. Obsidian's renderer watches the filesystem,
-  # so new commits are picked up live without a service restart.
+  # so new commits are picked up live without a service restart. startAt
+  # generates an attached timer (OnCalendar=hourly, Persistent=true).
   systemd.services.obsidian-vault-update = {
     description = "Fast-forward the plan-ai knowledge vault from upstream";
     after = [ "network-online.target" "obsidian-vault-setup.service" ];
     wants = [ "network-online.target" ];
     requires = [ "obsidian-vault-setup.service" ];
+    startAt = "hourly";
     serviceConfig = {
       Type = "oneshot";
       ExecStart = "${vaultSetup}/bin/obsidian-vault-setup";
       User = "obsidian";
       Group = "obsidian";
-    };
-  };
-
-  systemd.timers.obsidian-vault-update = {
-    description = "Hourly fast-forward of the plan-ai knowledge vault";
-    wantedBy = [ "timers.target" ];
-    timerConfig = {
-      OnCalendar = "hourly";
-      Persistent = true;
-      RandomizedDelaySec = "5m";
-      Unit = "obsidian-vault-update.service";
     };
   };
 
