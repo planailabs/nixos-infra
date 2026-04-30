@@ -115,34 +115,43 @@ in
           libraries = [ pkgs.python3Packages.plyvel ];
           flakeIgnore = [ "E501" "E401" ];
         } ''
+          import json
           import os
           import sys
           import plyvel
 
           home = os.environ.get("HOME", "${configHome}")
-          id_path = os.path.join(home, ".config", "obsidian", "id")
+          obsidian_json = os.path.join(home, ".config", "obsidian", "obsidian.json")
           db_path = os.path.join(home, ".config", "obsidian", "Local Storage", "leveldb")
 
-          if not os.path.exists(id_path):
+          if not os.path.exists(obsidian_json):
               sys.exit(0)
 
-          with open(id_path) as fh:
-              app_id = fh.read().strip()
+          with open(obsidian_json) as fh:
+              cfg = json.load(fh)
+
+          # The renderer's `app.appId` is the per-vault id — the key under
+          # .vaults in obsidian.json — not the global instance id at
+          # ~/.config/obsidian/id. We seed enable-plugin-<appId>=true for
+          # every registered vault so Restricted Mode is off on first open.
+          vault_ids = list((cfg.get("vaults") or {}).keys())
+          if not vault_ids:
+              sys.exit(0)
 
           os.makedirs(db_path, exist_ok=True)
 
           # Chromium localStorage layout:
           #   key   = b"_<origin>\x00\x01<storage-key>"
           #   value = b"\x01" + utf-16-le bytes of the value
-          # Obsidian uses the `app://obsidian.md` scheme.
           origin = b"app://obsidian.md"
-          storage_key = ("enable-plugin-" + app_id).encode("ascii")
-          db_key = b"_" + origin + b"\x00\x01" + storage_key
           db_val = b"\x01" + "true".encode("utf-16-le")
 
           db = plyvel.DB(db_path, create_if_missing=True)
           try:
-              db.put(db_key, db_val)
+              with db.write_batch(transaction=True) as wb:
+                  for app_id in vault_ids:
+                      storage_key = ("enable-plugin-" + app_id).encode("ascii")
+                      wb.put(b"_" + origin + b"\x00\x01" + storage_key, db_val)
           finally:
               db.close()
         ''}"
