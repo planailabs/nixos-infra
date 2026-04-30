@@ -113,9 +113,11 @@ in
         ''}"
         "${pkgs.writers.writePython3 "obsidian-trust-plugins" {
           libraries = [ pkgs.python3Packages.plyvel ];
-          flakeIgnore = [ "E501" ];
+          flakeIgnore = [ "E501" "E401" ];
         } ''
-          import os, sys, plyvel
+          import os
+          import sys
+          import plyvel
 
           home = os.environ.get("HOME", "${configHome}")
           id_path = os.path.join(home, ".config", "obsidian", "id")
