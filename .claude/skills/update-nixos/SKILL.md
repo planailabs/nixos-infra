@@ -27,6 +27,7 @@ The deploy scripts are:
 5. `sh omen.sh` — deploys to omen
 6. `sh peira.sh` — deploys to peira.plan.ai
 7. `sh metis.sh` — deploys to metis.plan.ai
+8. `sh obsidian.sh` — deploys to obsidian.plan.ai
 
 ## Step 3: Handle build failures
 
