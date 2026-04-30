@@ -25,6 +25,8 @@
     supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
     common.url = "github:mgit-at/nixos-common";
     common.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
  };
 
   outputs = {
@@ -40,6 +42,7 @@
     plan-ai-chat,
     supabase-self-service-consent,
     common,
+    home-manager,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -214,6 +217,7 @@
         modules = [
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
+          home-manager.nixosModules.home-manager
           ./obsidian
           { nixpkgs.overlays = [
             acme-distributor.overlays.default

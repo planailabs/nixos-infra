@@ -3,8 +3,12 @@
 with lib;
 
 let
-  vaultDir = "/var/lib/obsidian/vault";
+  # Home for the obsidian system user. The vault lives at $HOME/knowledge —
+  # programs.obsidian (home-manager) materializes plugins/data.json relative
+  # to that path.
   configHome = "/var/lib/obsidian/home";
+  vaultName = "knowledge";
+  vaultDir = "${configHome}/${vaultName}";
   vaultRepo = "https://git.plan.ai/plan-ai/knowledge.git";
 
   # Obsidian Local REST API plugin endpoint (HTTP, plaintext) on loopback.
@@ -14,27 +18,17 @@ let
   mcpHost = "127.0.0.1";
   mcpPort = 3010;
 
-  # Bootstrap script: clones / fast-forwards the vault, links the Local REST
-  # API plugin into .obsidian/plugins/, and writes its data.json from the
-  # operator-supplied API key.
+  # Bootstrap script: clones / fast-forwards the vault. Plugin install +
+  # data.json + community-plugins.json are owned by home-manager
+  # (programs.obsidian) and applied on top of the cloned tree.
   vaultSetup = pkgs.writeShellApplication {
     name = "obsidian-vault-setup";
-    runtimeInputs = with pkgs; [ git coreutils jq ];
+    runtimeInputs = with pkgs; [ git coreutils ];
     text = ''
       set -euo pipefail
 
       VAULT="${vaultDir}"
-      HOME_DIR="${configHome}"
-      PLUGIN_SRC="${pkgs.obsidian-local-rest-api-plugin}"
-      API_KEY_FILE="''${OBSIDIAN_API_KEY_FILE:-/etc/obsidian/api-key}"
-
-      if [ ! -f "$API_KEY_FILE" ]; then
-        echo "missing api key file at $API_KEY_FILE" >&2
-        exit 1
-      fi
-      API_KEY="$(tr -d '\n\r' < "$API_KEY_FILE")"
-
-      mkdir -p "$HOME_DIR" "$(dirname "$VAULT")"
+      mkdir -p "$(dirname "$VAULT")"
 
       if [ ! -d "$VAULT/.git" ]; then
         git clone "${vaultRepo}" "$VAULT"
@@ -44,28 +38,7 @@ let
         git -C "$VAULT" merge --ff-only --quiet FETCH_HEAD || true
       fi
 
-      mkdir -p "$VAULT/.obsidian/plugins/obsidian-local-rest-api"
-      cp -f "$PLUGIN_SRC/main.js"       "$VAULT/.obsidian/plugins/obsidian-local-rest-api/main.js"
-      cp -f "$PLUGIN_SRC/manifest.json" "$VAULT/.obsidian/plugins/obsidian-local-rest-api/manifest.json"
-      cp -f "$PLUGIN_SRC/styles.css"    "$VAULT/.obsidian/plugins/obsidian-local-rest-api/styles.css"
-
-      jq -n \
-        --arg apiKey "$API_KEY" \
-        --argjson port ${toString restApiPort} \
-        '{ apiKey: $apiKey, insecurePort: $port, enableInsecureServer: true, bindingHost: "127.0.0.1" }' \
-        > "$VAULT/.obsidian/plugins/obsidian-local-rest-api/data.json"
-
-      # community-plugins.json: ensure obsidian-local-rest-api is enabled.
-      CP="$VAULT/.obsidian/community-plugins.json"
-      if [ -f "$CP" ]; then
-        tmp="$(mktemp)"
-        jq '. + ["obsidian-local-rest-api"] | unique' "$CP" > "$tmp"
-        mv "$tmp" "$CP"
-      else
-        echo '["obsidian-local-rest-api"]' > "$CP"
-      fi
-
-      chown -R obsidian:obsidian "$VAULT" "$HOME_DIR"
+      chown -R obsidian:obsidian "$VAULT"
     '';
   };
 in
@@ -84,17 +57,18 @@ in
   ];
 
   systemd.services.obsidian-vault-setup = {
-    description = "Clone the plan-ai vault and install the Local REST API plugin";
+    description = "Clone / fast-forward the plan-ai knowledge vault";
     wantedBy = [ "multi-user.target" ];
-    before = [ "obsidian.service" ];
+    # Ensure the vault tree exists before home-manager symlinks plugin
+    # contents into it, and before Obsidian is launched against it.
+    before = [ "home-manager-obsidian.service" "obsidian.service" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
     serviceConfig = {
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = "${vaultSetup}/bin/obsidian-vault-setup";
       User = "root";
-    };
-    environment = {
-      OBSIDIAN_API_KEY_FILE = "/etc/obsidian/api-key";
     };
   };
 
@@ -103,9 +77,8 @@ in
   systemd.services.obsidian = {
     description = "Headless Obsidian (vault host for Local REST API)";
     wantedBy = [ "multi-user.target" ];
-    after = [ "obsidian-vault-setup.service" "network-online.target" ];
-    wants = [ "network-online.target" ];
-    requires = [ "obsidian-vault-setup.service" ];
+    after = [ "obsidian-vault-setup.service" "home-manager-obsidian.service" ];
+    requires = [ "obsidian-vault-setup.service" "home-manager-obsidian.service" ];
 
     path = with pkgs; [ obsidian xvfb dbus ];
 
@@ -124,7 +97,6 @@ in
       ExecStart = "${pkgs.xvfb-run}/bin/xvfb-run -a -s '-screen 0 1280x720x24' ${pkgs.obsidian}/bin/obsidian --no-sandbox --disable-gpu ${vaultDir}";
       Restart = "always";
       RestartSec = "10s";
-      # Loopback only — the plugin binds 127.0.0.1.
       PrivateTmp = true;
     };
   };

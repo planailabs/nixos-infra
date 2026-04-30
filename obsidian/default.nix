@@ -5,6 +5,7 @@
     "${inputs.self.private}/obsidian.nix"
     ./nginx.nix
     ./services.nix
+    ./home.nix
   ];
 
   system.stateVersion = "26.11";
