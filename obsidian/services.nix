@@ -108,6 +108,7 @@ in
       ExecStart = "${pkgs.xvfb-run}/bin/xvfb-run -a -s '-screen 0 1280x720x24' ${pkgs.obsidian}/bin/obsidian --no-sandbox --disable-gpu";
       Restart = "always";
       RestartSec = "10s";
+      TimeoutStopSec = "10s";
       PrivateTmp = true;
     };
   };
