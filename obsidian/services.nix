@@ -28,7 +28,6 @@ let
       set -euo pipefail
 
       VAULT="${vaultDir}"
-      mkdir -p "$(dirname "$VAULT")"
 
       if [ ! -d "$VAULT/.git" ]; then
         git clone "${vaultRepo}" "$VAULT"
@@ -37,8 +36,6 @@ let
         # Fast-forward only — preserve any uncommitted local edits.
         git -C "$VAULT" merge --ff-only --quiet FETCH_HEAD || true
       fi
-
-      chown -R obsidian:obsidian "$VAULT"
     '';
   };
 in
@@ -68,7 +65,8 @@ in
       Type = "oneshot";
       RemainAfterExit = true;
       ExecStart = "${vaultSetup}/bin/obsidian-vault-setup";
-      User = "root";
+      User = "obsidian";
+      Group = "obsidian";
     };
   };
 
