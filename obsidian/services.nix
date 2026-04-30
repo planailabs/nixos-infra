@@ -142,9 +142,12 @@ in
 
           # Chromium localStorage layout:
           #   key   = b"_<origin>\x00\x01<storage-key>"
-          #   value = b"\x01" + utf-16-le bytes of the value
+          #   value = b"\x01<latin-1>"  OR  b"\x00<utf-16-le>"
+          # Latin-1 type byte is 0x01 — get this wrong and the renderer
+          # hands callers the raw type-prefixed bytes, which compare
+          # unequal to the literal "true" the gate checks for.
           origin = b"app://obsidian.md"
-          db_val = b"\x01" + "true".encode("utf-16-le")
+          db_val = b"\x01true"
 
           db = plyvel.DB(db_path, create_if_missing=True)
           try:
