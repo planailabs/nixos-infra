@@ -34,5 +34,20 @@ in
         proxy_buffering off;
       '';
     };
+
+    "wiki.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3011";
+        proxyWebsockets = true;
+      };
+      extraConfig = ''
+        proxy_read_timeout 3600;
+        proxy_send_timeout 3600;
+        proxy_connect_timeout 60;
+        # SilverBullet streams sync events over a long-lived connection.
+        proxy_buffering off;
+        client_max_body_size 64m;
+      '';
+    };
   };
 }

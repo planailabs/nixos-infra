@@ -18,6 +18,10 @@ let
   mcpHost = "127.0.0.1";
   mcpPort = 3010;
 
+  # Read-only SilverBullet web UI over the same vault directory.
+  silverbulletHost = "127.0.0.1";
+  silverbulletPort = 3011;
+
   # Bootstrap script: clones / fast-forwards the vault. Plugin install +
   # data.json + community-plugins.json are owned by home-manager
   # (programs.obsidian) and applied on top of the cloned tree.
@@ -182,6 +186,29 @@ in
       TimeoutStopSec = "10s";
       PrivateTmp = true;
     };
+  };
+
+  # Read-only SilverBullet view of the same vault. Runs as the obsidian
+  # user so it shares filesystem access with the headless Obsidian
+  # instance and the hourly git fast-forward.
+  services.silverbullet = {
+    enable = true;
+    user = "obsidian";
+    group = "obsidian";
+    spaceDir = vaultDir;
+    listenAddress = silverbulletHost;
+    listenPort = silverbulletPort;
+  };
+
+  systemd.services.silverbullet = {
+    after = [ "obsidian-vault-setup.service" ];
+    requires = [ "obsidian-vault-setup.service" ];
+    environment.SB_READ_ONLY = "1";
+    # The upstream module derives StateDirectory from the last segment of
+    # spaceDir whenever it sits under /var/lib/, which would chown an
+    # unrelated /var/lib/knowledge to obsidian. The vault is provisioned
+    # by obsidian-vault-setup.service, so suppress the directive.
+    serviceConfig.StateDirectory = lib.mkForce "";
   };
 
   systemd.services.obsidian-mcp-server = {
