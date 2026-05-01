@@ -14,9 +14,11 @@ Run `nix flake update` in the repo root. Wait for it to complete. If it fails, d
 
 After `nix flake update` succeeds, commit the updated `flake.lock` with the message `chore: upgrade depss`.
 
-## Step 2: Deploy to all servers in parallel
+## Step 2: Deploy servers in batches of 3
 
-Run all server deploy scripts **in parallel** using the Agent tool. Launch one agent per server, all in a single message. Each agent should run its deploy script from the repo root with a timeout of 1200000ms (20 minutes).
+Deploy the servers in batches of **at most 3 in parallel**. Within a batch, launch each deploy as a background Bash command (`run_in_background: true`) running the script from the repo root. Wait for all 3 to complete before starting the next batch — use TaskOutput with `block: true` on each background task ID to await completion, then Read the output file to inspect results.
+
+Do NOT use the Agent tool for deploys — agents abandon long-running background scripts before they finish. Run the deploy scripts directly via Bash.
 
 The deploy scripts are:
 
@@ -28,6 +30,8 @@ The deploy scripts are:
 6. `sh peira.sh` — deploys to peira.plan.ai
 7. `sh metis.sh` — deploys to metis.plan.ai
 8. `sh obsidian.sh` — deploys to obsidian.plan.ai
+
+Suggested batching: (chronos, logos, atlas) → (aarch64, omen, peira) → (metis, obsidian).
 
 ## Step 3: Handle build failures
 
