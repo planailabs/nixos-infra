@@ -100,11 +100,6 @@ with lib;
   };
 
   nix.channel.enable = false;
-  # nix-channel-init.service comes from the installer-image module, gated on
-  # this option (not nix.channel.enable). It re-runs every boot when
-  # /var/lib/nixos/did-channel-init is missing, and its `ln -s` (no -f) fails
-  # on hosts where /root/.nix-defexpr/channels already exists.
-  system.installer.channel.enable = false;
 
   nix.gc.automatic = true;
   nix.gc.options = "--delete-older-than 14d";

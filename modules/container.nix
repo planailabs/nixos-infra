@@ -2,6 +2,13 @@
   imports = [
     "${modulesPath}/virtualisation/lxc-container.nix"
   ];
+
+  # nix-channel-init.service comes from the installer-image module (imported
+  # via lxc-container.nix), gated on this option (not nix.channel.enable). It
+  # re-runs every boot when /var/lib/nixos/did-channel-init is missing, and
+  # its `ln -s` (no -f) fails on hosts where /root/.nix-defexpr/channels
+  # already exists.
+  system.installer.channel.enable = false;
   # TODO: set those properly with the right prio
   security.audit.enable = mkOverride 1 false; # common and container, common should have lower prio
   security.auditd.enable = mkOverride 1 false; # common and container, common should have lower prio
