@@ -248,11 +248,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778100115,
-        "narHash": "sha256-UvpYjAaIge+1oKn6rsc5RnxQrPHbL9DpSLqmEmnAB6I=",
+        "lastModified": 1778100589,
+        "narHash": "sha256-TG/w1OAmGkk+/fsnMlx7uo5RHir5RRmatMim1z5upKs=",
         "ref": "refs/heads/trunk",
-        "rev": "49d51b32939bf25e1432f17d2a5258ad56aa0748",
-        "revCount": 1455,
+        "rev": "986bbe004ceae02cd9960171681d47cb3966f00f",
+        "revCount": 1456,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
