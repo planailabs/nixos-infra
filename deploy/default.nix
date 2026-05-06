@@ -99,6 +99,9 @@
   environment.systemPackages = with pkgs; [
     github-cli
     nixpkgs-review
+    python3
+    jq
+    openssl
   ];
 }
 
