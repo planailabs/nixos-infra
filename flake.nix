@@ -193,6 +193,22 @@
         ];
       };
 
+      agency = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          mac-mgmt.nixosModules.web-agency
+          ./agency
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            acme-distributor.overlays.default
+            mac-mgmt.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       metis = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
