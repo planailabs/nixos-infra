@@ -3,7 +3,6 @@
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/agency.nix"
-    ./nginx.nix
   ];
 
   system.stateVersion = "26.11";
@@ -22,7 +21,16 @@
     enable = true;
     settings = {
       web.port = 7380;
+      proxy = {
+        agency_domain = "agency.plan.ai";
+        acme_email = "admin@plan.ai";
+      };
     };
+  };
+
+  services.web-agency-proxy = {
+    enable = true;
+    openFirewall = true;
   };
 
   security.acme.distributor-server = "https://acme.plan.ai";
