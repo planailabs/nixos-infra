@@ -30,8 +30,9 @@ The deploy scripts are:
 6. `sh peira.sh` — deploys to peira.plan.ai
 7. `sh metis.sh` — deploys to metis.plan.ai
 8. `sh obsidian.sh` — deploys to obsidian.plan.ai
+9. `sh agency.sh` — deploys to agency.plan.ai
 
-Suggested batching: (chronos, logos, atlas) → (aarch64, omen, peira) → (metis, obsidian).
+Suggested batching: (chronos, logos, atlas) → (aarch64, omen, peira) → (metis, obsidian, agency).
 
 ## Step 3: Handle build failures
 
