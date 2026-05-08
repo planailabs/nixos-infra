@@ -5,6 +5,18 @@
     "${inputs.self.private}/agency.nix"
   ];
 
+  systemd.network = {
+    networks."40-public0" = {
+      matchConfig = {
+        Name = "public0";
+      };
+      gateway = [ "65.108.140.193" ];
+      addresses = [
+        { addressConfig = { Address = "65.108.140.205/26"; Peer = "65.108.140.193"; }; }
+      ];
+    };
+  };
+
   system.stateVersion = "26.11";
 
   nixpkgs.hostPlatform = "x86_64-linux";
