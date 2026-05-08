@@ -9,7 +9,7 @@ let
   configHome = "/var/lib/obsidian/home";
   vaultName = "knowledge";
   vaultDir = "${configHome}/${vaultName}";
-  vaultRepo = "https://git.plan.ai/plan-ai/knowledge.git";
+  vaultRepo = "git@git.plan.ai:plan-ai/knowledge";
 
   # Obsidian Local REST API plugin endpoint (HTTP, plaintext) on loopback.
   restApiPort = 27123;
@@ -27,11 +27,13 @@ let
   # (programs.obsidian) and applied on top of the cloned tree.
   vaultSetup = pkgs.writeShellApplication {
     name = "obsidian-vault-setup";
-    runtimeInputs = with pkgs; [ git coreutils ];
+    runtimeInputs = with pkgs; [ git coreutils openssh ];
     text = ''
       set -euo pipefail
 
       VAULT="${vaultDir}"
+
+      export GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no"
 
       if [ ! -d "$VAULT/.git" ]; then
         git clone "${vaultRepo}" "$VAULT"
