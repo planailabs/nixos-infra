@@ -40,6 +40,20 @@ in
         proxyPass = "http://127.0.0.1:3011";
         proxyWebsockets = true;
       };
+      # Service worker and SilverBullet client assets must load without auth
+      # so the PWA shell can bootstrap before the oauth2 cookie is presented.
+      locations."= /service_worker.js" = {
+        proxyPass = "http://127.0.0.1:3011";
+        extraConfig = ''
+          auth_request off;
+        '';
+      };
+      locations."/.client/" = {
+        proxyPass = "http://127.0.0.1:3011";
+        extraConfig = ''
+          auth_request off;
+        '';
+      };
       extraConfig = ''
         proxy_read_timeout 3600;
         proxy_send_timeout 3600;
