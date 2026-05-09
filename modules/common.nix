@@ -120,6 +120,7 @@ with lib;
     nethogs
     iptraf-ng
     claude-code
+    cozempic
     opencode
     neovim
     rsync
