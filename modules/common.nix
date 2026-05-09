@@ -27,6 +27,13 @@ with lib;
     config = {
       # Disable if you don't want unfree packages
       allowUnfree = true;
+
+      problems.matchers = [
+        {
+          kind = "maintainerless";
+          handler = "warn";
+        }
+      ];
     };
   };
 
