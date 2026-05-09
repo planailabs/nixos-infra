@@ -27,6 +27,7 @@
     common.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    flake-utils.url = "github:numtide/flake-utils";
  };
 
   outputs = {
@@ -43,11 +44,25 @@
     supabase-self-service-consent,
     common,
     home-manager,
+    flake-utils,
     ...
   } @ inputs: let
     inherit (self) outputs;
   in {
     private = import ./private.nix;
+
+    overlays.default = import ./pkgs/overlay.nix;
+  } // flake-utils.lib.eachDefaultSystem (system: let
+    pkgs = import nixpkgs {
+      inherit system;
+      overlays = [ (import ./pkgs/overlay.nix) ];
+      config.allowUnfree = true;
+    };
+  in {
+    packages = {
+      inherit (pkgs) cozempic obsidian-mcp-server obsidian-local-rest-api-plugin;
+    };
+  }) // {
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
