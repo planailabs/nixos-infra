@@ -89,6 +89,7 @@
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
           mac-mgmt.nixosModules.daemon
+          mac-mgmt.nixosModules.nix-driver-sync
           ./omen
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)

@@ -94,6 +94,12 @@ with lib;
     };
   };
 
+  services.nix-driver-sync = {
+    enable = true;
+    projects = [ "default" "mmr" ];
+    gpuPci = "0000:65:00.0";
+  };
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
 
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
