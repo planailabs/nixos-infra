@@ -134,7 +134,7 @@ with lib;
     };
   };
 
-  boot.kernelParams = [ "swapaccount=1" ];
+  boot.kernelParams = [ "swapaccount=1"  "reboot=efi" ];
 
   systemd.services.ztrim = {
     startAt = "weekly";
