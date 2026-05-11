@@ -102,14 +102,16 @@
 
   programs.bash.interactiveShellInit = lib.mkAfter ''
     MID=$(cut -c1-5 /etc/machine-id 2>/dev/null || echo "?????")
-    _mid_palette=(91 92 93 94 95 96)
+    _mid_palette=(81 117 123 156 159 186 187 217 218 222 223 229)
     if [[ $MID =~ ^[0-9a-f]+$ ]]; then
       _mid_hash=$((16#$MID))
     else
       _mid_hash=0
     fi
     MID_COLOR=''${_mid_palette[$((_mid_hash % ''${#_mid_palette[@]}))]}
-    PS1="\[\033[01;''${MID_COLOR}m\](\h-$MID)\[\033[00m\] $PS1"
+    [ -r /etc/friendly-name ] && . /etc/friendly-name
+    HOST_LABEL="''${FRIENDLY_NAME:-\h-$MID}"
+    PS1="\[\033[01;38;5;''${MID_COLOR}m\]($HOST_LABEL)\[\033[00m\] $PS1"
     PS1="\''${IN_NIX_SHELL:+\[\e[33m\](nix:\$IN_NIX_SHELL)\[\e[0m\] }$PS1"
     PS1="\n$PS1"
   '';
