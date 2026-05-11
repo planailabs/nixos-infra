@@ -102,7 +102,7 @@
 
   programs.bash.interactiveShellInit = lib.mkAfter ''
     MID=$(cut -c1-5 /etc/machine-id 2>/dev/null || echo "?????")
-    _mid_palette=(31 32 33 34 35 36 91 92 93 94 95 96)
+    _mid_palette=(81 117 123 156 159 186 187 217 218 222 223 229)
     if [[ $MID =~ ^[0-9a-f]+$ ]]; then
       _mid_hash=$((16#$MID))
     else
