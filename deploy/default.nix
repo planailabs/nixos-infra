@@ -115,5 +115,9 @@
     PS1="\''${IN_NIX_SHELL:+\[\e[33m\](nix:\$IN_NIX_SHELL)\[\e[0m\] }$PS1"
     PS1="\n$PS1"
   '';
+
+  environment.shellAliases = {
+    yolo = "claude --dangerously-skip-permissions";
+  };
 }
 
