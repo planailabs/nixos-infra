@@ -102,8 +102,9 @@
 
   programs.bash.interactiveShellInit = lib.mkAfter ''
     MID=$(cut -c1-5 /etc/machine-id 2>/dev/null || echo "?????")
-    PS1="\[\033[01;34m\](\h-$MID)\[\033[00m\]: $PS1"
+    PS1="\[\033[01;34m\](\h-$MID)\[\033[00m\] $PS1"
     PS1="\''${IN_NIX_SHELL:+\[\e[33m\](nix:\$IN_NIX_SHELL)\[\e[0m\] }$PS1"
+    PS1="\n$PS1"
   '';
 }
 
