@@ -109,7 +109,7 @@
       _mid_hash=0
     fi
     MID_COLOR=''${_mid_palette[$((_mid_hash % ''${#_mid_palette[@]}))]}
-    [ -r /etc/friendly-name ] && . /etc/friendly-name
+    [ -r /etc/friendly-name ] && FRIENDLY_NAME=$(cat /etc/friendly-name)
     HOST_LABEL="''${FRIENDLY_NAME:-\h-$MID}"
     PS1="\[\033[01;38;5;''${MID_COLOR}m\]($HOST_LABEL)\[\033[00m\] $PS1"
     PS1="\''${IN_NIX_SHELL:+\[\e[33m\](nix:\$IN_NIX_SHELL)\[\e[0m\] }$PS1"
