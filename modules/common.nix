@@ -28,12 +28,12 @@ with lib;
       # Disable if you don't want unfree packages
       allowUnfree = true;
 
-      problems.matchers = [
+      /* problems.matchers = [
         {
           kind = "maintainerless";
           handler = "warn";
         }
-      ];
+      ]; */
     };
   };
 
