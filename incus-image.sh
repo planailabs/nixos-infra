@@ -7,7 +7,8 @@ set -euxo pipefail
 # Usage: ./incus-image.sh <configuration> [alias]
 
 CONFIG="$1"
-ALIAS="${2:-$CONFIG}"
+SERVER="$2"
+ALIAS="${3:-$CONFIG}"
 
 nix build ".#nixosConfigurations.${CONFIG}.config.system.build.metadata" -L -o "result-metadata-${CONFIG}" --impure
 nix build ".#nixosConfigurations.${CONFIG}.config.system.build.tarball"  -L -o "result-tarball-${CONFIG}" --impure
@@ -15,7 +16,7 @@ nix build ".#nixosConfigurations.${CONFIG}.config.system.build.tarball"  -L -o "
 METADATA="$(echo "result-metadata-${CONFIG}"/tarball/*.tar.xz)"
 ROOTFS="$(echo "result-tarball-${CONFIG}"/tarball/*.tar.xz)"
 
-rsync -L --progress "${METADATA}" atlas.plan.ai:metadata.tar.xz
-rsync -L --progress "${ROOTFS}"   atlas.plan.ai:image.tar.xz
+rsync -L --progress "${METADATA}" $SERVER:metadata.tar.xz
+rsync -L --progress "${ROOTFS}"   $SERVER:image.tar.xz
 
-ssh atlas.plan.ai -t "incus image import metadata.tar.xz image.tar.xz --alias ${ALIAS} && incus create ${ALIAS} ${ALIAS} -c security.nesting=true"
+ssh $SERVER -t "incus image import metadata.tar.xz image.tar.xz --alias ${ALIAS} && incus create ${ALIAS} ${ALIAS} -c security.nesting=true"
