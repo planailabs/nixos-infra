@@ -417,6 +417,13 @@
   systemd.services.mac-mgmt-relay.serviceConfig.RestrictAddressFamilies =
     lib.mkForce [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
 
+  # runner's preflight hits mac-mgmt at 127.0.0.1:7378 — without ordering, the
+  # parallel start races and the first attempt exits 1 before systemd retries.
+  systemd.services.mac-mgmt-runner = {
+    after = [ "mac-mgmt.service" ];
+    wants = [ "mac-mgmt.service" ];
+  };
+
   services.kanbn = {
     enable = true;
     baseUrl = "https://kan.plan.ai";
