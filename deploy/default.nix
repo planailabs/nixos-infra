@@ -117,7 +117,7 @@
   '';
 
   environment.shellAliases = {
-    yolo = "claude --dangerously-skip-permissions";
+    yolo = "env IS_SANDBOX=1 claude --dangerously-skip-permissions";
   };
 }
 
