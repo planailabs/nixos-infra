@@ -28,6 +28,9 @@
     home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
+    gitlab-incus-image.url = "git+https://git.mkg20001.io/mkg20001/gitlab-incus-image.git";
+    gitlab-nix-ci.url = "git+https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git";
+    gitlab-nix-ci.inputs.nixpkgs.follows = "nixpkgs";
  };
 
   outputs = {
@@ -119,8 +122,11 @@
           disko.nixosModules.disko
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
+          inputs.gitlab-nix-ci.nixosModules.gitlab-nix-ci
           ./hyperion
           { nixpkgs.overlays = [
+            inputs.gitlab-incus-image.overlay
+            inputs.gitlab-nix-ci.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];

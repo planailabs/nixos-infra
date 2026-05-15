@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ inputs, lib, pkgs, ... }:
 
 with lib;
 
@@ -11,7 +11,10 @@ with lib;
     ./hardware-configuration.nix
     ./network-configuration.nix
     ../modules/common.nix
+    "${inputs.self.private}/hyperion.nix"
   ];
+
+  gitlab-nix-ci.enable = true;
 
   system.stateVersion = "26.11";
 

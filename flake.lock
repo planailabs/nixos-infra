@@ -219,6 +219,57 @@
         "type": "github"
       }
     },
+    "gitlab-incus-image": {
+      "locked": {
+        "lastModified": 1753527178,
+        "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
+        "ref": "refs/heads/master",
+        "rev": "6e4ac068f63b1149c4c3ec8d5aee4436ccaaaae6",
+        "revCount": 28,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      }
+    },
+    "gitlab-incus-image_2": {
+      "locked": {
+        "lastModified": 1707416373,
+        "narHash": "sha256-qPCDp2UTSG59DiVFmWpxJUkrZprd9lBgM1ilI5HN6zc=",
+        "ref": "refs/heads/master",
+        "rev": "a68eeb99276163315fee02a0038c97bcdd02e845",
+        "revCount": 25,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      }
+    },
+    "gitlab-nix-ci": {
+      "inputs": {
+        "gitlab-incus-image": "gitlab-incus-image_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778853030,
+        "narHash": "sha256-nnmC45ZHKW22RB342BkIxa0JvlkpBvguQjP0qROIU5k=",
+        "ref": "refs/heads/master",
+        "rev": "1d7f52f3c6f07e52ae137fedff8d94a9f0edafe1",
+        "revCount": 29,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      }
+    },
     "hardware": {
       "locked": {
         "lastModified": 1778593042,
@@ -488,6 +539,8 @@
         "common": "common",
         "disko": "disko_2",
         "flake-utils": "flake-utils_2",
+        "gitlab-incus-image": "gitlab-incus-image",
+        "gitlab-nix-ci": "gitlab-nix-ci",
         "hardware": "hardware",
         "home-manager": "home-manager",
         "mac-mgmt": "mac-mgmt",
