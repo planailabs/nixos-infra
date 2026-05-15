@@ -234,24 +234,11 @@
         "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
       }
     },
-    "gitlab-incus-image_2": {
-      "locked": {
-        "lastModified": 1707416373,
-        "narHash": "sha256-qPCDp2UTSG59DiVFmWpxJUkrZprd9lBgM1ilI5HN6zc=",
-        "ref": "refs/heads/master",
-        "rev": "a68eeb99276163315fee02a0038c97bcdd02e845",
-        "revCount": 25,
-        "type": "git",
-        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
-      }
-    },
     "gitlab-nix-ci": {
       "inputs": {
-        "gitlab-incus-image": "gitlab-incus-image_2",
+        "gitlab-incus-image": [
+          "gitlab-incus-image"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ]

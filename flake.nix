@@ -31,6 +31,7 @@
     gitlab-incus-image.url = "git+https://git.mkg20001.io/mkg20001/gitlab-incus-image.git";
     gitlab-nix-ci.url = "git+https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git";
     gitlab-nix-ci.inputs.nixpkgs.follows = "nixpkgs";
+    gitlab-nix-ci.inputs.gitlab-incus-image.follows = "gitlab-incus-image";
  };
 
   outputs = {
