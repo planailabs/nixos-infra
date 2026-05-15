@@ -2,12 +2,12 @@
   "nodes": {
     "acme": {
       "inputs": {
-        "flake-utils": "flake-utils_5",
+        "flake-utils": "flake-utils_6",
         "nixpkgs": [
           "xnix",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_3"
+        "rust-overlay": "rust-overlay_4"
       },
       "locked": {
         "lastModified": 1773239493,
@@ -219,7 +219,40 @@
         "type": "github"
       }
     },
+    "flake-utils_7": {
+      "inputs": {
+        "systems": "systems_7"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "gitlab-incus-image": {
+      "locked": {
+        "lastModified": 1753527178,
+        "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
+        "ref": "refs/heads/master",
+        "rev": "6e4ac068f63b1149c4c3ec8d5aee4436ccaaaae6",
+        "revCount": 28,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      }
+    },
+    "gitlab-incus-image_2": {
       "locked": {
         "lastModified": 1753527178,
         "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
@@ -279,11 +312,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778781368,
-        "narHash": "sha256-t7GW8f4So0b+ATPACjTkCy9UesbSidDW3X9w3utVC1A=",
+        "lastModified": 1778858474,
+        "narHash": "sha256-uOh5fCoxOgdFa50WymuhCwJKuEVv/Eo4VYjK0SgzlPs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c68d2a24376da3860ef161373d91348b1542356b",
+        "rev": "ca77575d39c908de876c10f93704532689df546f",
         "type": "github"
       },
       "original": {
@@ -296,19 +329,22 @@
     "mac-mgmt": {
       "inputs": {
         "flake-utils": "flake-utils_3",
+        "gitlab-incus-image": "gitlab-incus-image_2",
+        "nixos2docker": "nixos2docker",
         "nixpkgs": [
           "nixpkgs"
         ],
         "rust-overlay": [
           "rust-overlay"
-        ]
+        ],
+        "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1778778375,
-        "narHash": "sha256-cbtYtPZp9f+XfGJaMBd65AqGNBqRZawEg9uIYVw7GIE=",
+        "lastModified": 1778859788,
+        "narHash": "sha256-MTIHAaCU7aCWP4iuCkWP0nfXBgFyxPmwUp5nOQxSIHs=",
         "ref": "refs/heads/trunk",
-        "rev": "f8ccea6463993650f19ea47dade4b1f038c82918",
-        "revCount": 1587,
+        "rev": "f8c54c3f9be4f7b814d73868f48596be7029af75",
+        "revCount": 1605,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -471,6 +507,27 @@
         "type": "github"
       }
     },
+    "nixos2docker": {
+      "inputs": {
+        "nixpkgs": [
+          "mac-mgmt",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778802548,
+        "narHash": "sha256-TnhaqfRnzyFqcuUZ88obeLk/3BnJlkvFhSOnQsJEp/o=",
+        "ref": "refs/heads/trunk",
+        "rev": "27dca9bcfc12e9a0e46248cd55d9ce51413ad05c",
+        "revCount": 12,
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/nixos2docker"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/nixos2docker"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1778175121,
@@ -501,7 +558,7 @@
     },
     "plan-ai-chat": {
       "inputs": {
-        "flake-utils": "flake-utils_4",
+        "flake-utils": "flake-utils_5",
         "nixpkgs": [
           "nixpkgs"
         ]
@@ -534,10 +591,10 @@
         "mkg-mod": "mkg-mod",
         "nixpkgs": "nixpkgs",
         "plan-ai-chat": "plan-ai-chat",
-        "rust-overlay": "rust-overlay_2",
+        "rust-overlay": "rust-overlay_3",
         "supabase-self-service-consent": "supabase-self-service-consent",
         "xnix": "xnix",
-        "xzar": "xzar"
+        "xzar": "xzar_2"
       }
     },
     "rust-overlay": {
@@ -564,15 +621,17 @@
     "rust-overlay_2": {
       "inputs": {
         "nixpkgs": [
+          "mac-mgmt",
+          "xzar",
           "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1778728594,
-        "narHash": "sha256-+gIOsOzqWNfn+ThCXBQGcLHVEnaGQW59XjghE9JUIYk=",
+        "lastModified": 1775704356,
+        "narHash": "sha256-A9JX65WofIF8OKrkMsjznSYNj/A4hfJfEGonsEQ9kxA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "83a17ebffcfacb17b49e1b5e9dc15eed07936648",
+        "rev": "55660228072f38c64c4d2fd227944334dc3f4326",
         "type": "github"
       },
       "original": {
@@ -582,6 +641,26 @@
       }
     },
     "rust-overlay_3": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778815121,
+        "narHash": "sha256-xlhD+1NVJbhrUUM2usRHW6iKWTXP2uw2Fo6sWJmLg8g=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "017351829a9356423afd2cca0dde9b63346c8ab3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_4": {
       "inputs": {
         "nixpkgs": [
           "xnix",
@@ -603,7 +682,7 @@
         "type": "github"
       }
     },
-    "rust-overlay_4": {
+    "rust-overlay_5": {
       "inputs": {
         "nixpkgs": [
           "xzar",
@@ -611,11 +690,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775704356,
-        "narHash": "sha256-A9JX65WofIF8OKrkMsjznSYNj/A4hfJfEGonsEQ9kxA=",
+        "lastModified": 1778815121,
+        "narHash": "sha256-xlhD+1NVJbhrUUM2usRHW6iKWTXP2uw2Fo6sWJmLg8g=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "55660228072f38c64c4d2fd227944334dc3f4326",
+        "rev": "017351829a9356423afd2cca0dde9b63346c8ab3",
         "type": "github"
       },
       "original": {
@@ -734,6 +813,21 @@
         "type": "github"
       }
     },
+    "systems_7": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "xnix": {
       "inputs": {
         "acme": "acme",
@@ -783,18 +877,19 @@
     },
     "xzar": {
       "inputs": {
-        "flake-utils": "flake-utils_6",
+        "flake-utils": "flake-utils_4",
         "nixpkgs": [
+          "mac-mgmt",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_4"
+        "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1776513538,
-        "narHash": "sha256-MMtLQOCS2GB3luBWUUgLqbxcr5j+oNfp4yR7q0PSneY=",
+        "lastModified": 1778855949,
+        "narHash": "sha256-/rfcIyptO1YE6Oxmb+xMmT/Qo8HclJwxFFoxHc4JMYs=",
         "owner": "mkg20001",
         "repo": "xzar",
-        "rev": "ca9d5447e0bc340484e55891e61a3b722e9a8c41",
+        "rev": "55a4275b65e92f5561bfcf8e5c6402983a7252d7",
         "type": "github"
       },
       "original": {
@@ -823,6 +918,28 @@
       "original": {
         "type": "git",
         "url": "https://git.xeredo.it/xeredo/xzar/xzar-client"
+      }
+    },
+    "xzar_2": {
+      "inputs": {
+        "flake-utils": "flake-utils_7",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_5"
+      },
+      "locked": {
+        "lastModified": 1778863706,
+        "narHash": "sha256-e1eWtgNLyhQn4m9WgTdiywH967XVTpuC+pFwiQMS74g=",
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "rev": "8d1190d46618800b49e1cc514321d852d0a4ecf1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "type": "github"
       }
     }
   },
