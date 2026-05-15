@@ -15,9 +15,9 @@ d() {
 
   nix-copy-closure --gzip --to "$TARGET" "$META" "$IMAGE"
   if $3; then
-    ssh "$TARGET" sudo incus image import "$META"/*/*xz "$IMAGE"/*/*xz --alias $2 --public || true
+    ssh "$TARGET" incus image import "$META"/*/*xz "$IMAGE"/*/*xz --alias $2 --public || true
   else
-    ssh "$TARGET" sudo incus image import "$META"/*/*xz "$IMAGE"/*squashfs --alias $2 --public || true
+    ssh "$TARGET" incus image import "$META"/*/*xz "$IMAGE"/*squashfs --alias $2 --public || true
   fi
 }
 
