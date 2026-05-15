@@ -64,7 +64,7 @@
   in {
     packages = {
       inherit (pkgs) cozempic obsidian-mcp-server obsidian-local-rest-api-plugin;
-    };
+    } // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") inputs.gitlab-nix-ci.packages.x86_64-linux;
   }) // {
 
     # NixOS configuration entrypoint
