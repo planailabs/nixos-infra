@@ -27,6 +27,7 @@ in
       };
       extraConfig = ''
         client_max_body_size 10g;
+        proxy_request_buffering off;
         proxy_read_timeout 3600;
         proxy_send_timeout 3600;
         proxy_connect_timeout 3600;
