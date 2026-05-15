@@ -419,9 +419,15 @@
 
   # runner's preflight hits mac-mgmt at 127.0.0.1:7378 — without ordering, the
   # parallel start races and the first attempt exits 1 before systemd retries.
+  # `after` only sequences process *fork*, not readiness — mac-mgmt isn't
+  # Type=notify, so it takes a moment after fork to bind the port. Poll for it.
   systemd.services.mac-mgmt-runner = {
     after = [ "mac-mgmt.service" ];
     wants = [ "mac-mgmt.service" ];
+    # /api/self returns 401 unauthenticated — that's fine, we only need to know
+    # the port is bound, so drop -f and accept any HTTP response as readiness.
+    serviceConfig.ExecStartPre =
+      "${pkgs.bash}/bin/bash -c 'for i in $(seq 1 30); do ${pkgs.curl}/bin/curl -sS -o /dev/null --max-time 2 http://127.0.0.1:7378/api/self && exit 0; sleep 1; done; exit 1'";
   };
 
   services.kanbn = {
