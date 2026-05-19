@@ -98,11 +98,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778958912,
-        "narHash": "sha256-6pvS9rIF9mZRj1ENwu9fDLHeG1JFDTCpRyy6vJhXkTA=",
+        "lastModified": 1779226674,
+        "narHash": "sha256-wuOkjI6pRiN4sEn/EPBRnNW5cmcpvd7xtIM8y5LooAs=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "6e8dc7aa0e65fce67c76e18227a13a7d529f2cdf",
+        "rev": "65fb947964bd44fc0008faf77d1fcb7a9f40bb32",
         "type": "github"
       },
       "original": {
@@ -312,11 +312,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779113444,
-        "narHash": "sha256-/L61sT1PIKmGWIQpIh0uJGH/ANvcsf6y4alxtb9kelg=",
+        "lastModified": 1779213149,
+        "narHash": "sha256-Cf+p/T4Z3n9Sw0TiR3kQaIwQI+/hfvLJcoTzeq6yS3E=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "74f170c62d57f90e656841f1f699e6bdf40f0a24",
+        "rev": "bd868f769a69d3b6091a1da68a75cb83a181033c",
         "type": "github"
       },
       "original": {
@@ -340,11 +340,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1779114249,
-        "narHash": "sha256-O8q6Q4IS3S5b8PPY0dDr6ZDunYbvpTTScWWvvuvJO1A=",
+        "lastModified": 1779233361,
+        "narHash": "sha256-ur19yy3xaiLGiUmAicEG0alVE9T6lFiDtINPv6hL+po=",
         "ref": "refs/heads/trunk",
-        "rev": "4e676f8e9b054d168a9dc7bc23eff0d70bdfe988",
-        "revCount": 1649,
+        "rev": "787e404be99e8b1fa2076f6fed2b5c8e84275822",
+        "revCount": 1660,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -530,8 +530,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1778175121,
-        "narHash": "sha256-dvdhQ6Zi3oN8aoWe0BFabQ/7rzkkowVAv8vsSyRKfVU=",
+        "lastModified": 1779231201,
+        "narHash": "sha256-7tLcnGQSA8u4KXDZTQa9kma8oVg0lMnQdywxabkoGsM=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -647,11 +647,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779074409,
-        "narHash": "sha256-6aXy8Ga41iLVM8ibddFU1O5+wYWcBGNEfZzZuL91eIc=",
+        "lastModified": 1779160702,
+        "narHash": "sha256-frUihZLlBLdcFN95mq5QiQmxF2M16nxtmw1GH4rhZmg=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "2a77b5b1dc952f214e8102acdef1622b68515560",
+        "rev": "8cd592658d4448c57326aaa819e1c2f91086eb40",
         "type": "github"
       },
       "original": {
