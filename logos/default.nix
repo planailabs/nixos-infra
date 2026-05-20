@@ -453,12 +453,16 @@
 
   services.plan-ai-chat = {
     enable = true;
-    package = pkgs.plan-ai-chat.override {
+    package = (pkgs.plan-ai-chat.override {
       envVars = {
         VITE_SUPABASE_URL = "https://tlssdiqdokctvxcezptr.supabase.co";
         VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0jDsNegZ46CUSePRIj5-Bw_0_UYc41b";
       };
-    };
+    }).overrideAttrs (old: {
+      pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
+        outputHash = "sha256-sZHHfBDZLMP/AhkrXPaNvTbRXz3XHtPaVBXab4oGObo=";
+      });
+    });
     environmentFile = "/etc/plan-ai-chat.env";
   };
 
