@@ -1,1 +1,1 @@
-"${/root/nixos-infra/private}"
+"${builtins.getEnv "PWD"}/private"
