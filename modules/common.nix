@@ -47,6 +47,8 @@ with lib;
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO0lbtC49VLxNoHbBOSxadGIfXsMinUyXuaIqgDfzFAT git.plan.ai"
         # alberto
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJFHNMyr+Ny78rEkBJU13SczCGrNAZTH/QpOctaDinp alberto@plan.ai"
+        # sysadmin bot
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTSrNdtjar9uZ8BPHQ0DFU4GVfrvZQJnVduLgE0ATfT mac-mgmt@deploy"
       ];
     };
   };
