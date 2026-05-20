@@ -1,28 +1,60 @@
 ---
 name: update-nixos
-description: Update NixOS flake inputs and deploy to all servers, fixing build errors if needed
+description: Use when updating NixOS flake inputs and deploying nixos-infra to all plan.ai servers, including fixing build errors and pushing resulting commits.
+version: 1.0.0
+author: plan.ai
+license: MIT
+metadata:
+  hermes:
+    tags: [nixos, infrastructure, deploy, flake-update]
+    related_skills: []
 user_invocable: true
 ---
 
 # Update NixOS Infrastructure
 
-Follow these steps to update and deploy the NixOS infrastructure:
+## Overview
+
+This skill updates the nixos-infra flake inputs, deploys the resulting NixOS configurations to all servers, fixes build errors when possible, commits any fixes, and pushes the result.
+
+Run commands from the repository root.
+
+## When to Use
+
+Use this skill when the user asks to:
+
+- update NixOS
+- update or upgrade nixos-infra
+- update flake inputs
+- deploy the updated NixOS infrastructure
+- run the infra update workflow
 
 ## Step 1: Update flake inputs
 
-Run `nix flake update` in the repo root. Wait for it to complete. If it fails, diagnose and report to the user.
+Run:
 
-After `nix flake update` succeeds, commit the updated `flake.lock` with the message `chore: upgrade depss`.
+```bash
+nix flake update
+```
+
+Wait for it to complete. If it fails, diagnose the failure and report it to the user.
+
+After `nix flake update` succeeds, commit the updated `flake.lock` using the conventional commit message below:
+
+```bash
+git add flake.lock
+git commit -m 'chore: update flake inputs'
+```
 
 ## Step 2: Deploy servers in batches of 3
 
-Deploy the servers in batches of **at most 3 in parallel**. Within a batch, launch each deploy as a background Bash command (`run_in_background: true`) running the script from the repo root. Wait for all 3 to complete before starting the next batch — use TaskOutput with `block: true` on each background task ID to await completion, then Read the output file to inspect results.
+Deploy servers in batches of at most 3 in parallel. Within each batch, launch each deploy script directly as a background shell process from the repository root. Wait for every process in the batch to complete, then inspect all output before starting the next batch.
 
-Do NOT use the Agent tool for deploys — agents abandon long-running background scripts before they finish. Run the deploy scripts directly via Bash.
+Do not delegate deploys to subagents or external agent workers. Long-running deploy scripts can outlive delegated agent contexts; run the deploy scripts directly from the shell.
 
-The deploy scripts are:
+Deploy scripts:
 
-1. `sh chronos.sh` — deploys to chronos.plan.ai (uses port 22222)
+1. `sh chronos.sh` — deploys to chronos.plan.ai using port 22222
 2. `sh logos.sh` — deploys to logos.plan.ai
 3. `sh atlas.sh` — deploys to atlas.plan.ai
 4. `sh aarch64.sh` — deploys to aarch64.plan.ai
@@ -32,30 +64,64 @@ The deploy scripts are:
 8. `sh obsidian.sh` — deploys to obsidian.plan.ai
 9. `sh agency.sh` — deploys to agency.plan.ai
 
-Suggested batching: (chronos, logos, atlas) → (aarch64, omen, peira) → (metis, obsidian, agency).
+Suggested batching:
+
+1. `chronos.sh`, `logos.sh`, `atlas.sh`
+2. `aarch64.sh`, `omen.sh`, `peira.sh`
+3. `metis.sh`, `obsidian.sh`, `agency.sh`
 
 ## Step 3: Handle build failures
 
-If any deploy agent reports a failure:
+If any deploy fails:
 
 1. Read the build error output carefully.
-2. Identify the NixOS module or package causing the failure — look for lines like `error:`, `attribute ... not found`, or `build of ... failed`.
-3. Find and fix the relevant `.nix` file in the repo (check `modules/`, `configuration.nix`, `flake.nix`, and the server-specific directories like `atlas/`, `chronos/`, `logos/`, `pi/`, `omen/`).
-4. Re-run **only** the failed server's deploy script.
+2. Identify the NixOS module or package causing the failure. Look for lines like `error:`, `attribute ... not found`, or `build of ... failed`.
+3. Find and fix the relevant `.nix` file in the repo. Check `modules/`, `configuration.nix`, `flake.nix`, and server-specific directories such as `atlas/`, `chronos/`, `logos/`, `pi/`, and `omen/`.
+4. Re-run only the failed server's deploy script.
 5. If it fails again with a different error, repeat the fix cycle up to 3 times per server.
 6. If a server still fails after 3 fix attempts, report the failure to the user.
 
-## Step 3.5: Commit fixes
+## Step 4: Commit fixes
 
-After all deploys complete, if any `.nix` files were modified to fix build errors, commit those changes with a descriptive commit message like `fix: <what was fixed>`. If fixes were applied for multiple servers, they can be combined into a single commit.
+After all deploys complete, if any `.nix` files were modified to fix build errors, commit those changes with a descriptive conventional commit message:
 
-## Step 4: Push commits
+```bash
+git add <changed-files>
+git commit -m 'fix: <what was fixed>'
+```
 
-After all deploys complete and any fix commits have been made, run `git push` to push all commits to the remote.
+If fixes were applied for multiple servers, they can be combined into a single commit.
 
-## Step 5: Summary
+## Step 5: Push commits
 
-After all deploys complete (or exhaust retries), report:
+After all deploys complete and any fix commits have been made, push all commits:
+
+```bash
+git push
+```
+
+## Step 6: Summary
+
+Report:
+
 - Which servers deployed successfully
-- Which servers failed and what the final error was
-- What fixes were applied (if any)
+- Which servers failed and the final error
+- What fixes were applied, if any
+
+## Common Pitfalls
+
+1. Do not run more than 3 deploys in parallel.
+2. Do not use subagents for the deploy scripts.
+3. Do not push before all deploys and fix commits are complete.
+4. Re-run only failed deploys after fixes; do not re-run successful servers unnecessarily.
+5. Use conventional commit messages for all commits created during this workflow.
+
+## Verification Checklist
+
+- [ ] `nix flake update` completed successfully
+- [ ] `flake.lock` update was committed with a conventional commit message
+- [ ] all deploy scripts were run in batches of at most 3
+- [ ] any failed deploys were diagnosed and retried after fixes
+- [ ] any fix changes were committed with conventional commit messages
+- [ ] commits were pushed
+- [ ] final summary includes successes, failures, and fixes
