@@ -115,6 +115,7 @@ Report:
 3. Do not push before all deploys and fix commits are complete.
 4. Re-run only failed deploys after fixes; do not re-run successful servers unnecessarily.
 5. Use conventional commit messages for all commits created during this workflow.
+6. `nixos-rebuild-ng` may try to stat `/etc/nixos/system.nix` even when `--flake` is passed. The deploy wrappers should set `NIX_PATH=nixos-system="$PWD/flake.nix"` after `cd`-ing into the repo so deployments do not fail when `/etc/nixos` points into an unreadable `/root` directory.
 
 ## Verification Checklist
 
