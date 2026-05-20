@@ -98,6 +98,7 @@
     python3
     jq
     openssl
+    diffoscope
   ];
 
   programs.bash.interactiveShellInit = lib.mkAfter ''
@@ -119,5 +120,18 @@
   environment.shellAliases = {
     yolo = "env IS_SANDBOX=1 claude --dangerously-skip-permissions";
   };
+
+  services.mac-mgmt = {
+    enable = true;
+    serverUrl = "https://api.plan.ai";
+    version = "0.1.5";
+    environmentFile = "/etc/mac-mgmt.env";
+    settings = {
+      daemon.log_level = "info";
+    };
+    system = "x86_64-linux";
+  };
+
+  systemd.services.mac-mgmt.unitConfig.ConditionPathExists = "/etc/mac-mgmt.env";
 }
 

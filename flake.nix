@@ -153,6 +153,7 @@
         # > Our main nixos configuration file <
         modules = [
           mkg-mod.nixosModules.yggdrasil
+          mac-mgmt.nixosModules.daemon
           ./deploy
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
