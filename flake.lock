@@ -312,11 +312,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779213149,
-        "narHash": "sha256-Cf+p/T4Z3n9Sw0TiR3kQaIwQI+/hfvLJcoTzeq6yS3E=",
+        "lastModified": 1779336838,
+        "narHash": "sha256-n1+l78hJRABp4cQHKeD0BVByT0vZLPqd09Tvoq8Q+d8=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bd868f769a69d3b6091a1da68a75cb83a181033c",
+        "rev": "928d72376949e222ea4f07b44828a55b0136422e",
         "type": "github"
       },
       "original": {
@@ -340,11 +340,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1779288607,
-        "narHash": "sha256-fTlSI+c6NcgZd75q0pGt3zpfbQZoNNHXtfGfO+RfeYo=",
+        "lastModified": 1779389428,
+        "narHash": "sha256-ezcCkTedTcfMr0gNHT7sBkHnFX80nOGNnb/0UxSzNtY=",
         "ref": "refs/heads/trunk",
-        "rev": "cf2b00fa86849d91f1307fc4ae8727fd1f15f3d4",
-        "revCount": 1665,
+        "rev": "7804bacb07c6e019e22b430bdaed6bacf1e448a5",
+        "revCount": 1683,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       },
@@ -530,8 +530,8 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1779231201,
-        "narHash": "sha256-7tLcnGQSA8u4KXDZTQa9kma8oVg0lMnQdywxabkoGsM=",
+        "lastModified": 1779374976,
+        "narHash": "sha256-kKtn9+D+vOHLuSnMQlD5ipKOvXHiTTpA04qrTpI1Tck=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -647,11 +647,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1779247103,
-        "narHash": "sha256-DwltBoBl9a7fCzlKi3xnNha1NHbfvawwkNdnTXEyfFQ=",
+        "lastModified": 1779333539,
+        "narHash": "sha256-lpmN2lrBDZDPjov2cbD3bOOJsI0fkKolKXasYPCqSys=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "86dbfb70dc1c2967245d87ed6d07d2c8bda305e3",
+        "rev": "672fa5fc5608d5cd82286a6f69aaf84a40b4fe41",
         "type": "github"
       },
       "original": {
@@ -885,11 +885,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1778863706,
-        "narHash": "sha256-e1eWtgNLyhQn4m9WgTdiywH967XVTpuC+pFwiQMS74g=",
+        "lastModified": 1778871970,
+        "narHash": "sha256-pe2RQESspfhvYtX3VbjOI9Dc/x4erZU/he3s6hvVOP8=",
         "owner": "mkg20001",
         "repo": "xzar",
-        "rev": "8d1190d46618800b49e1cc514321d852d0a4ecf1",
+        "rev": "dca77eb94036679a8d02eb55c092e6d4e3aaab02",
         "type": "github"
       },
       "original": {
