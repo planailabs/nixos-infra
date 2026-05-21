@@ -75,11 +75,17 @@ Suggested batching:
 If any deploy fails:
 
 1. Read the build error output carefully.
-2. Identify the NixOS module or package causing the failure. Look for lines like `error:`, `attribute ... not found`, or `build of ... failed`.
-3. Find and fix the relevant `.nix` file in the repo. Check `modules/`, `configuration.nix`, `flake.nix`, and server-specific directories such as `atlas/`, `chronos/`, `logos/`, `pi/`, and `omen/`.
-4. Re-run only the failed server's deploy script.
-5. If it fails again with a different error, repeat the fix cycle up to 3 times per server.
-6. If a server still fails after 3 fix attempts, report the failure to the user.
+2. Identify the NixOS module, package, or flake input causing the failure. Look for lines like `error:`, `attribute ... not found`, `build of ... failed`, `while evaluating`, and the first project-owned source path in the trace.
+3. First fix issues owned by this repo. Check `modules/`, `configuration.nix`, `flake.nix`, and server-specific directories such as `atlas/`, `chronos/`, `logos/`, `pi/`, and `omen/`.
+4. If the failure is caused by an upstream flake input or tool repository that plan.ai controls, fix it in that tool repository instead of working around it here:
+   - Use `nix flake metadata --json` and `flake.lock` to identify the input name, locked rev, and repository URL.
+   - Locate an existing checkout if available, otherwise clone the upstream repository under a temporary working directory.
+   - Reproduce or inspect the failing derivation/source in that repository, make the minimal fix, run the relevant formatter/tests/build checks, commit with a conventional commit message, and push the upstream fix.
+   - Return to `nixos-infra`, update only the affected flake input when possible (for example `nix flake lock --update-input <input>`; use `nix flake update` only if targeted update is not possible), inspect and commit the resulting `flake.lock` change.
+   - Re-run only the affected server's deploy script.
+5. Re-run only failed server deploy scripts after fixes; do not re-run successful servers unnecessarily.
+6. If it fails again with a different Nix error, repeat the fix cycle up to 3 times per server, including upstream tool-repo fixes when that is the actual source of the failure.
+7. If a server still fails after 3 fix attempts, report the failure to the user with the last real error and the repository/input you traced it to.
 
 ## Step 4: Commit fixes
 
