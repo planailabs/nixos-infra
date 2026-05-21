@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+base=$(git merge-base upstream/master HEAD)
+count=$(git rev-list --count "$base..HEAD")
+
+if [ "$count" -eq 0 ]; then
+  echo "No commits ahead of upstream/master."
+  exit 0
+fi
+
+needs_rewrite=0
+
+# Check for admin@plan.ai authorship
+plan_ai_commits=0
+while IFS= read -r sha; do
+  author_email=$(git log -1 --format=%ae "$sha")
+  committer_email=$(git log -1 --format=%ce "$sha")
+  if [ "$author_email" = "admin@plan.ai" ] || [ "$committer_email" = "admin@plan.ai" ]; then
+    echo "WARNING: admin@plan.ai authorship in $(git log -1 --oneline "$sha")"
+    plan_ai_commits=$((plan_ai_commits + 1))
+  fi
+done < <(git rev-list "$base..HEAD")
+
+if [ "$plan_ai_commits" -gt 0 ]; then
+  # Determine correct name/email from git config
+  correct_name=$(git config user.name || true)
+  correct_email=$(git config user.email || true)
+
+  if [ -z "$correct_name" ] || [ -z "$correct_email" ] || [ "$correct_email" = "admin@plan.ai" ]; then
+    echo ""
+    echo "ERROR: Found $plan_ai_commits commit(s) authored by admin@plan.ai but your git config"
+    echo "       also uses admin@plan.ai (or is unset). Please set your correct identity first:"
+    echo "         git config user.name \"Your Name\""
+    echo "         git config user.email \"your@email.com\""
+    exit 1
+  fi
+
+  echo ""
+  echo "Will fix $plan_ai_commits commit(s) from admin@plan.ai -> $correct_name <$correct_email>"
+  needs_rewrite=1
+fi
+
+# Check which commits have Claude co-authored-by lines
+coauthor_matches=0
+while IFS= read -r sha; do
+  msg=$(git log -1 --format=%B "$sha")
+  if echo "$msg" | grep -qi 'Co-Authored-By:.*Claude'; then
+    echo "Found Claude Co-Authored-By in $(git log -1 --oneline "$sha")"
+    coauthor_matches=$((coauthor_matches + 1))
+  fi
+done < <(git rev-list "$base..HEAD")
+
+if [ "$coauthor_matches" -gt 0 ]; then
+  needs_rewrite=1
+fi
+
+if [ "$needs_rewrite" -eq 0 ]; then
+  echo "Nothing to fix in $count commits since $(git log -1 --oneline "$base")."
+  exit 0
+fi
+
+echo ""
+echo "Rewriting commits..."
+
+env_filter=""
+if [ "$plan_ai_commits" -gt 0 ]; then
+  env_filter='
+    if [ "$GIT_AUTHOR_EMAIL" = "admin@plan.ai" ]; then
+      export GIT_AUTHOR_NAME="'"$correct_name"'"
+      export GIT_AUTHOR_EMAIL="'"$correct_email"'"
+    fi
+    if [ "$GIT_COMMITTER_EMAIL" = "admin@plan.ai" ]; then
+      export GIT_COMMITTER_NAME="'"$correct_name"'"
+      export GIT_COMMITTER_EMAIL="'"$correct_email"'"
+    fi
+  '
+fi
+
+msg_filter=""
+if [ "$coauthor_matches" -gt 0 ]; then
+  msg_filter='sed -E "s/^Co-Authored-By:(.*(Claude|claude\.ai|anthropic|noreply@anthropic\.com).*)/Assisted-By:\1/I"'
+else
+  msg_filter="cat"
+fi
+
+FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f \
+  ${env_filter:+--env-filter "$env_filter"} \
+  --msg-filter "$msg_filter" \
+  "$base..HEAD"
+
+echo "Done. Review with: git log --oneline $base..HEAD"

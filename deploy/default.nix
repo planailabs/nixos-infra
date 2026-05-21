@@ -1,4 +1,10 @@
-{ inputs, lib, pkgs, ... }: with lib; {
+{ inputs, lib, pkgs, ... }: with lib;
+
+let
+  claude-nixpkgs-fixup = pkgs.writeShellScriptBin "claude-nixpkgs-fixup" (builtins.readFile ./claude-nixpkgs-fixup);
+in
+
+{
   imports = [
     ../modules/common.nix
     ../modules/container.nix
@@ -93,6 +99,7 @@
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "armv7l-linux" "armv6l-linux" ];
 
   environment.systemPackages = with pkgs; [
+    claude-nixpkgs-fixup
     github-cli
     nixpkgs-review
     python3
