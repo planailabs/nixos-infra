@@ -21,7 +21,7 @@
   # networkd
   networking.useNetworkd = mkForce true;
   networking.dhcpcd.enable = mkForce false;
-  services.resolved.dnssec = "false";
+  services.resolved.settings.Resolve.DNSSEC = "false";
   systemd.network.wait-online.enable = false;
 
   # don't do dhcp everywhere
