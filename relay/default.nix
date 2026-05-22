@@ -1,9 +1,8 @@
-{ inputs, lib, pkgs, ... }: with lib; {
+{ config, inputs, lib, pkgs, ... }: with lib; {
   imports = [
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/relay.nix"
-    ./nginx.nix
   ];
 
   system.stateVersion = "26.11";
@@ -22,20 +21,42 @@
     enable = true;
     openFirewall = true;
     settings = {
-      listen_addr = "127.0.0.1:7380";
+      listen_addr = "0.0.0.0:443";
       server_api_url = "https://api.plan.ai";
       proxy_hostname = "plan-ai-relay.com";
       proxy_url = "https://plan-ai-relay.com";
       data_dir = "/var/lib/mac-mgmt-relay";
       cors_origins = [ "https://mgmt.plan.ai" ];
+      tls_cert_path = "${config.security.acme.certs."plan-ai-relay.com".directory}/fullchain.pem";
+      tls_key_path = "${config.security.acme.certs."plan-ai-relay.com".directory}/key.pem";
     };
   };
 
-  # libp2p QUIC enumerates interfaces via netlink
-  systemd.services.mac-mgmt-relay.serviceConfig.RestrictAddressFamilies =
-    lib.mkForce [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
+  security.acme = {
+    distributor-server = "https://acme.plan.ai";
+    certs."plan-ai-relay.com" = {
+      domain = "plan-ai-relay.com";
+      extraDomainNames = [
+        "*.plan-ai-relay.com"
+        "relay.plan.ai"
+      ];
+      group = "acme";
+      webroot = "/var/lib/acme/acme-challenge";
+    };
+  };
 
-  security.acme.distributor-server = "https://acme.plan.ai";
+  networking.firewall.allowedTCPPorts = [ 443 ];
+
+  systemd.services.mac-mgmt-relay = {
+    wants = [ "acme-plan-ai-relay.com.service" ];
+    after = [ "acme-plan-ai-relay.com.service" ];
+    serviceConfig = {
+      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
+      CapabilityBoundingSet = lib.mkForce [ "CAP_NET_BIND_SERVICE" ];
+      SupplementaryGroups = [ "acme" ];
+      RestrictAddressFamilies = lib.mkForce [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
+    };
+  };
 
   networking.hostName = "relay";
 }
