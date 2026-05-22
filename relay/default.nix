@@ -21,7 +21,7 @@
     enable = true;
     openFirewall = true;
     settings = {
-      listen_addr = "0.0.0.0:443";
+      listen_addr = "[::]:443";
       server_api_url = "https://api.plan.ai";
       proxy_hostname = "plan-ai-relay.com";
       proxy_url = "https://plan-ai-relay.com";
