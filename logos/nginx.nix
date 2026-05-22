@@ -52,31 +52,6 @@ in
       };
     };
 
-    "relay.plan.ai" = h {
-      locations."/" = {
-        proxyPass = "http://localhost:7380/";
-        proxyWebsockets = true;
-      };
-      extraConfig = ''
-        proxy_read_timeout 60;
-        proxy_send_timeout 60;
-        proxy_connect_timeout 60;
-      '';
-    };
-
-    "plan-ai-relay.com" = h {
-      serverAliases = [ "*.plan-ai-relay.com" ];
-      locations."/" = {
-        proxyPass = "http://localhost:7380/";
-        proxyWebsockets = true;
-      };
-      extraConfig = ''
-        proxy_read_timeout 60;
-        proxy_send_timeout 60;
-        proxy_connect_timeout 60;
-      '';
-    };
-
     "kan.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3055/";

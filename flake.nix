@@ -181,7 +181,6 @@
           acme-distributor.nixosModules.acme-distributor
           xzar.nixosModules.xzar
           mac-mgmt.nixosModules.default
-          mac-mgmt.nixosModules.relay
           mac-mgmt.nixosModules.runner
           plan-ai-chat.nixosModules.default
           supabase-self-service-consent.nixosModules.default
@@ -191,6 +190,22 @@
             xzar.overlays.default
             acme-distributor.overlays.default
             plan-ai-chat.overlays.default
+            mac-mgmt.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      relay = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          mac-mgmt.nixosModules.relay
+          ./relay
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            acme-distributor.overlays.default
             mac-mgmt.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }

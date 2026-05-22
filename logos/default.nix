@@ -400,23 +400,6 @@
     enable = true;
   };
 
-  services.mac-mgmt-relay = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      listen_addr = "127.0.0.1:7380";
-      server_api_url = "https://api.plan.ai";
-      proxy_hostname = "plan-ai-relay.com";
-      proxy_url = "https://plan-ai-relay.com";
-      data_dir = "/var/lib/mac-mgmt-relay";
-      cors_origins = [ "https://mgmt.plan.ai" ];
-    };
-  };
-
-  # libp2p QUIC enumerates interfaces via netlink
-  systemd.services.mac-mgmt-relay.serviceConfig.RestrictAddressFamilies =
-    lib.mkForce [ "AF_INET" "AF_INET6" "AF_UNIX" "AF_NETLINK" ];
-
   # runner's preflight hits mac-mgmt at 127.0.0.1:7378 — without ordering, the
   # parallel start races and the first attempt exits 1 before systemd retries.
   # `after` only sequences process *fork*, not readiness — mac-mgmt isn't
