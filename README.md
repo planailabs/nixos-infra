@@ -8,7 +8,8 @@ NixOS infrastructure configuration for plan.ai servers, managed via Nix flakes.
 |--------|----------|----------|------|
 | **chronos** | `chronos` | x86_64-linux (LXC) | GitLab, Docker workloads |
 | **logos** | `logos` | x86_64-linux (LXC) | Nginx reverse proxy, ACME distributor, xzar |
-| **relay** | `relay` | x86_64-linux (LXC) | Dedicated mac-mgmt relay |
+| **relay** | `relay` | x86_64-linux (LXC) | Dedicated plan.ai mac-mgmt relay |
+| **peira-relay** | `peira-relay` | x86_64-linux (LXC) | Dedicated peira mac-mgmt relay |
 | **home-pi** | `home-pi` | Raspberry Pi | Home server, Incus VMs (currently commented out in flake) |
 
 All servers run as LXC containers (except home-pi) with networkd, nftables, and Yggdrasil mesh networking.
@@ -26,6 +27,9 @@ Each server has a deployment script in the repository root. Run it from this dir
 
 # Deploy relay
 ./relay.sh
+
+# Deploy peira relay
+./peira-relay.sh
 
 # Deploy home-pi (requires aarch64 build host)
 ./pi.sh
@@ -57,7 +61,8 @@ For Raspberry Pi initial setup:
 flake.nix          # Flake entrypoint, defines all nixosConfigurations
 chronos/           # chronos server config
 logos/             # logos server config
-relay/             # relay server config
+relay/             # plan.ai relay server config
+peira-relay/       # peira relay server config
 pi/                # home-pi server config
 modules/           # Shared NixOS modules (common.nix, container.nix)
 pkgs/              # Custom package overlays

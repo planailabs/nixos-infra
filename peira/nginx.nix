@@ -33,18 +33,6 @@ in
       '';
     };
 
-    "relay.peira.plan.ai" = h {
-      locations."/" = {
-        proxyPass = "https://127.0.0.1:7380/";
-        proxyWebsockets = true;
-      };
-      extraConfig = ''
-        proxy_read_timeout 60;
-        proxy_send_timeout 60;
-        proxy_connect_timeout 60;
-      '';
-    };
-
     "api.peira.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:7378/";

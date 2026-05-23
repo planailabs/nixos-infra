@@ -220,11 +220,26 @@
           acme-distributor.nixosModules.acme-shim
           xzar.nixosModules.xzar
           mac-mgmt.nixosModules.default
-          mac-mgmt.nixosModules.relay
           ./peira
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
             xzar.overlays.default
+            acme-distributor.overlays.default
+            mac-mgmt.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      peira-relay = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          mac-mgmt.nixosModules.relay
+          ./peira-relay
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
             acme-distributor.overlays.default
             mac-mgmt.overlays.default
             (import ./pkgs/overlay.nix)
