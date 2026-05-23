@@ -64,15 +64,16 @@ Deploy scripts:
 8. `sh obsidian.sh` — deploys to obsidian.plan.ai
 9. `sh agency.sh` — deploys to agency.plan.ai
 10. `sh relay.sh` — deploys to relay.plan.ai
+11. `sh peira-relay.sh` — deploys to peira-relay.plan.ai
 
 Suggested batching:
 
 1. `chronos.sh`, `logos.sh`, `atlas.sh`
 2. `aarch64.sh`, `omen.sh`, `peira.sh`
 3. `metis.sh`, `obsidian.sh`, `agency.sh`
-4. `relay.sh`
+4. `relay.sh`, `peira-relay.sh`
 
-Always include `relay.sh` in the update workflow. Run it after the other batches unless the user explicitly asks to deploy the relay earlier or only deploy the relay. Treat relay deployment failures like any other deploy failure: inspect the first real Nix/build/SSH error, apply the minimal fix, and re-run `relay.sh` only after successful servers have already completed.
+Always include `relay.sh` and `peira-relay.sh` in the update workflow. Run them after the other batches unless the user explicitly asks to deploy a relay earlier or only deploy a relay. Treat relay deployment failures like any other deploy failure: inspect the first real Nix/build/SSH error, apply the minimal fix, and re-run only the failed relay script after successful servers have already completed.
 
 ## Step 3: Handle build failures
 
