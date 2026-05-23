@@ -64,7 +64,7 @@ Deploy scripts:
 8. `sh obsidian.sh` — deploys to obsidian.plan.ai
 9. `sh agency.sh` — deploys to agency.plan.ai
 10. `sh relay.sh` — deploys to relay.plan.ai
-11. `sh peira-relay.sh` — deploys to peira-relay.plan.ai
+11. `sh peira-relay.sh` — deploys to relay.peira.plan.ai
 
 Suggested batching:
 
