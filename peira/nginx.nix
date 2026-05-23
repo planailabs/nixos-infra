@@ -35,7 +35,7 @@ in
 
     "relay.peira.plan.ai" = h {
       locations."/" = {
-        proxyPass = "http://localhost:7380/";
+        proxyPass = "https://127.0.0.1:7380/";
         proxyWebsockets = true;
       };
       extraConfig = ''
