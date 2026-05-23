@@ -9,6 +9,10 @@ final: prev: {
     };
   });
 
+  acme-distributor = prev.acme-distributor.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./acme-distributor-specific-cert-match.patch ];
+  });
+
   obsidian-mcp-server = prev.callPackage ./obsidian-mcp-server { };
   obsidian-local-rest-api-plugin = prev.callPackage ./obsidian-local-rest-api-plugin.nix { };
   cozempic = prev.callPackage ./cozempic.nix { };

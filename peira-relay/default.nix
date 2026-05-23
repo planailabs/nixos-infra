@@ -27,15 +27,15 @@
       proxy_url = "https://relay.peira.plan.ai";
       data_dir = "/var/lib/mac-mgmt-relay";
       cors_origins = [ "https://mgmt.peira.plan.ai" ];
-      tls_cert_path = "${config.security.acme.certs."relay.peira.plan.ai".directory}/fullchain.pem";
-      tls_key_path = "${config.security.acme.certs."relay.peira.plan.ai".directory}/key.pem";
+      tls_cert_path = "${config.security.acme.certs."peira.plan.ai".directory}/fullchain.pem";
+      tls_key_path = "${config.security.acme.certs."peira.plan.ai".directory}/key.pem";
     };
   };
 
   security.acme = {
     distributor-server = "https://acme.plan.ai";
-    certs."relay.peira.plan.ai" = {
-      domain = "relay.peira.plan.ai";
+    certs."peira.plan.ai" = {
+      domain = "peira.plan.ai";
       group = "acme";
       webroot = "/var/lib/acme/acme-challenge";
     };
@@ -44,8 +44,8 @@
   networking.firewall.allowedTCPPorts = [ 443 ];
 
   systemd.services.mac-mgmt-relay = {
-    wants = [ "acme-relay.peira.plan.ai.service" ];
-    after = [ "acme-relay.peira.plan.ai.service" ];
+    wants = [ "acme-peira.plan.ai.service" ];
+    after = [ "acme-peira.plan.ai.service" ];
     serviceConfig = {
       AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
       CapabilityBoundingSet = lib.mkForce [ "CAP_NET_BIND_SERVICE" ];
