@@ -10,6 +10,14 @@
 
   system.stateVersion = "26.11";
 
+  # kanbn currently depends on nodejs_20, which is EOL and marked insecure in
+  # the updated nixpkgs. Keep the exception scoped to the only host that runs
+  # kanbn until the upstream package moves to a supported Node.js release.
+  nixpkgs.config.permittedInsecurePackages = [
+    "nodejs-20.20.2"
+    "nodejs-slim-20.20.2"
+  ];
+
   nixpkgs.hostPlatform = "x86_64-linux";
 
   systemd.network = {
@@ -443,7 +451,7 @@
       };
     }).overrideAttrs (old: {
       pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
-        outputHash = "sha256-sZHHfBDZLMP/AhkrXPaNvTbRXz3XHtPaVBXab4oGObo=";
+        outputHash = "sha256-dm69tZmhxxI4cIX7lry/cdLxROmT/BDds8PNRdPKPAg=";
       });
     });
     environmentFile = "/etc/plan-ai-chat.env";
