@@ -295,6 +295,17 @@
           ]; }
         ];
       };
+
+      uptime = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          ./uptime
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
     };
   };
 }
