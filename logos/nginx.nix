@@ -41,10 +41,6 @@ in
       };
     };
 
-    "update.plan.ai" = h {
-      root = "/srv/update";
-    };
-
     "chat.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:4321/";

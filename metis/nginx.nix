@@ -4,8 +4,8 @@ with lib;
 
 let
   h = a: a // {
-    enableACME = true;
     forceSSL = true;
+    useACMEHost = "extra-skills.plan.ai";
   };
 in
 {
@@ -19,6 +19,13 @@ in
   services.nginx.recommendedTlsSettings = true;
 
   networking.firewall.allowedTCPPorts = [ 80 443 ];
+
+  security.acme.certs."extra-skills.plan.ai" = {
+    domain = "extra-skills.plan.ai";
+    extraDomainNames = [ "*.extra-skills.plan.ai" ];
+    group = "nginx";
+    webroot = "/var/lib/acme/acme-challenge";
+  };
 
   services.nginx.virtualHosts = {
     "xzar.extra-skills.plan.ai" = h {
