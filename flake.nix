@@ -23,6 +23,12 @@
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
     supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
     supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
+    memvault.url = "git+https://git.plan.ai/plan-ai/memvault?submodules=1";
+    memvault.inputs.nixpkgs.follows = "nixpkgs";
+    memvault.inputs.rust-overlay.follows = "rust-overlay";
+    memvault.inputs.flake-utils.follows = "flake-utils";
+    memvault.inputs.xzar.follows = "xzar";
+    memvault.inputs.gitlab-incus-image.follows = "gitlab-incus-image";
     common.url = "github:mgit-at/nixos-common";
     common.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/master";
@@ -46,6 +52,7 @@
     mac-mgmt,
     plan-ai-chat,
     supabase-self-service-consent,
+    memvault,
     common,
     home-manager,
     flake-utils,
@@ -184,6 +191,7 @@
           mac-mgmt.nixosModules.runner
           plan-ai-chat.nixosModules.default
           supabase-self-service-consent.nixosModules.default
+          memvault.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
@@ -191,6 +199,7 @@
             acme-distributor.overlays.default
             plan-ai-chat.overlays.default
             mac-mgmt.overlays.default
+            memvault.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];

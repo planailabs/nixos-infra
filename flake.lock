@@ -356,6 +356,41 @@
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
       }
     },
+    "memvault": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "gitlab-incus-image": [
+          "gitlab-incus-image"
+        ],
+        "nixos2docker": "nixos2docker_2",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ],
+        "xzar": [
+          "xzar"
+        ]
+      },
+      "locked": {
+        "lastModified": 1780254632,
+        "narHash": "sha256-pT0ofRoiuwrc0IUWRjymzvCW6LLCtQPts/Y+wxhnjrk=",
+        "ref": "refs/heads/trunk",
+        "rev": "7a6ccc98c392fee5db8b8b0cd2edf40c1aa6594c",
+        "revCount": 505,
+        "submodules": true,
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/memvault"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/memvault"
+      }
+    },
     "mgit-exporter": {
       "inputs": {
         "nixpkgs": [
@@ -531,6 +566,27 @@
         "url": "https://git.plan.ai/plan-ai/nixos2docker"
       }
     },
+    "nixos2docker_2": {
+      "inputs": {
+        "nixpkgs": [
+          "memvault",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778802548,
+        "narHash": "sha256-TnhaqfRnzyFqcuUZ88obeLk/3BnJlkvFhSOnQsJEp/o=",
+        "ref": "refs/heads/trunk",
+        "rev": "27dca9bcfc12e9a0e46248cd55d9ce51413ad05c",
+        "revCount": 12,
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/nixos2docker"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/nixos2docker"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1767892417,
@@ -604,6 +660,7 @@
         "hardware": "hardware",
         "home-manager": "home-manager",
         "mac-mgmt": "mac-mgmt",
+        "memvault": "memvault",
         "mkg-mod": "mkg-mod",
         "nixpkgs": "nixpkgs_2",
         "plan-ai-chat": "plan-ai-chat",

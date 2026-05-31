@@ -469,6 +469,12 @@
     environmentFile = "/etc/plan-ai-chat.env";
   };
 
+  services.memvault = {
+    enable = true;
+    listen = "/ip4/0.0.0.0/tcp/4801";
+    openFirewall = true;
+  };
+
   services.supabase-self-service-consent = {
     enable = true;
     hostname = "127.0.0.1";
