@@ -402,6 +402,7 @@
     nginx.domain = "login.plan.ai";
     nginx.virtualHosts."prometheus.plan.ai" = { };
     nginx.virtualHosts."runner.plan.ai" = { };
+    nginx.virtualHosts."memvault.plan.ai" = { };
   };
 
   services.xzar-server = {

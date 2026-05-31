@@ -113,6 +113,19 @@ in
       };
     };
 
+    "memvault.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8401";
+        proxyWebsockets = true;
+      };
+      locations."/api" = {
+        proxyPass = "http://127.0.0.1:8401";
+        extraConfig = ''
+          auth_request off;
+        '';
+      };
+    };
+
     "auth.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3636/";
