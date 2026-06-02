@@ -37,6 +37,7 @@
         agency_domain = "agency.plan.ai";
         acme_email = "admin@plan.ai";
       };
+      local_hosting.dir = "/var/lib/web-agency-server/web";
     };
   };
 

@@ -474,6 +474,7 @@
     enable = true;
     listen = "/ip4/0.0.0.0/tcp/4801";
     openFirewall = true;
+    allowedOrigins = [ "https://memvault.plan.ai" ];
   };
 
   services.supabase-self-service-consent = {
