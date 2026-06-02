@@ -343,11 +343,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1780428017,
-        "narHash": "sha256-MQVQDVPckjKp++Lwqv37yisjbURE3tkUjwRbiEzc204=",
+        "lastModified": 1780432034,
+        "narHash": "sha256-dDHAy2eqp8zzUeXWgLUhbVr5AlnU1oqD2pYmzZEQPwA=",
         "ref": "refs/heads/trunk",
-        "rev": "6bc7ed4216dbc61e80ac830cd23438d3aae8e017",
-        "revCount": 2137,
+        "rev": "52f8bcd0a014e5538fb01a78e3591fc23cc9560d",
+        "revCount": 2138,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -377,11 +377,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780426095,
-        "narHash": "sha256-03qoR6fqFX3MBiBG9CDSWc1wF90olcCnuL/0BQQy568=",
+        "lastModified": 1780432023,
+        "narHash": "sha256-WxKjDrjUIQF2+F1oiQRgOdATvVFOuUyu6G76ifn8+w4=",
         "ref": "refs/heads/trunk",
-        "rev": "5c68e0a7c7f0042f4ca0d46bf4deee868b935c26",
-        "revCount": 544,
+        "rev": "d07dcc00bcc26d863c2b8f05aaccfde7a11e4844",
+        "revCount": 546,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
