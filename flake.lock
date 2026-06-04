@@ -315,11 +315,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780408569,
-        "narHash": "sha256-s7Tv6FUQThRAvW8En8XVC6HMb0uiikzVccCcCo9u/Bg=",
+        "lastModified": 1780515920,
+        "narHash": "sha256-8KX2hEeOX6KP3hBBJJI8dGWVrzbOOf1rBPmg/GUG24U=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "f384af1bec6423a0d4ba1855917ab948f64e5808",
+        "rev": "4c5c1e8ba14f1c7475fa31ff11bc1c19cd220974",
         "type": "github"
       },
       "original": {
@@ -343,11 +343,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1780441632,
-        "narHash": "sha256-os5JzlM95KB/v77VWCCVNz/sqXSzFCJyaQBFsBB2CSA=",
+        "lastModified": 1780527202,
+        "narHash": "sha256-9tkZmGqljvWF2/jAq8uFJc96KiatW7ANjQGtaPRteS4=",
         "ref": "refs/heads/trunk",
-        "rev": "9033f66dcbf3cd291a7d35cd2593acee27027517",
-        "revCount": 2144,
+        "rev": "461aeab71e682fd60d97f868fa99bb4ab7850d32",
+        "revCount": 2178,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -377,11 +377,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780441621,
-        "narHash": "sha256-o8DHfJGS0+n8T0fLy/CoPA3T4ZRT/WT9biIg3j85CZY=",
+        "lastModified": 1780527201,
+        "narHash": "sha256-qmY5DgaeZzPx5UbCPxfrrSsUPGH5Ku8qM2XVd8ompbc=",
         "ref": "refs/heads/trunk",
-        "rev": "3a50c45e72b9cc6864cb96fb8036140be406407b",
-        "revCount": 552,
+        "rev": "70e07c4026882b87baa51b6234e5043ca1204947",
+        "revCount": 603,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -721,11 +721,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780370483,
-        "narHash": "sha256-7mDa7OBAaf7MU6ZovT9ENfD62kH911SsSazBb4KTDF0=",
+        "lastModified": 1780456895,
+        "narHash": "sha256-CvRZn3Ut0scqLJ1xwQFkZwKGVBUUNBPrFVXRTMZpbfU=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "4a408e1fc99ad517b4cb402fd0de7464f40c05e1",
+        "rev": "7cc96a6a3fd6613cafd633250a3934483479b9a1",
         "type": "github"
       },
       "original": {
