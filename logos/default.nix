@@ -475,6 +475,7 @@
     listen = "/ip4/0.0.0.0/tcp/4801";
     openFirewall = true;
     allowedOrigins = [ "https://memvault.plan.ai" ];
+    extraArgs = [ "--kad-server" ];
   };
 
   services.supabase-self-service-consent = {
