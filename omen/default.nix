@@ -143,6 +143,20 @@ with lib;
     '';
   };
 
+  systemd.services.local-net = {
+    enable = true;
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    script = ''
+      bash ${./hop-switch.sh}
+    '';
+    path = with pkgs; [ inetutils iproute2 ];
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = 5;
+    };
+  };
+
   services.fwupd.enable = true;
 
   environment.systemPackages = with pkgs; [
