@@ -150,7 +150,7 @@ with lib;
     script = ''
       bash ${./hop-switch.sh}
     '';
-    path = with pkgs; [ bash inetutils iproute2 ];
+    path = with pkgs; [ gawk bash iputils iproute2 util-linux ];
     serviceConfig = {
       Restart = "always";
       RestartSec = 5;
