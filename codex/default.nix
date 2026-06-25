@@ -281,16 +281,33 @@ in
     '';
   };
 
-  # Expose a Docker-compatible socket so docuum can manage podman images.
-  virtualisation.podman.dockerSocket.enable = true;
-
   # LRU-evict old images (e.g. superseded litellm builds) once the image store
   # grows past the threshold. In-use images (the running container) are skipped.
+  # docuum shells out to the `docker` CLI, so on this podman host give it a
+  # docker->podman shim on PATH. docuum enumerates containers per Docker state
+  # (`docker ps -a --filter status=<state>`), but podman rejects Docker-only
+  # states like `dead`/`restarting`/`removing` ("unknown container state"). The
+  # shim drops every `--filter status=*` pair, so podman just lists all
+  # containers -- the same union docuum builds from the per-state queries.
   systemd.services.docuum = {
     description = "LRU eviction of old container images";
     wantedBy = [ "multi-user.target" ];
-    after = [ "podman.socket" ];
-    environment.DOCKER_HOST = "unix:///run/docker.sock";
+    after = [ "podman-litellm.service" ];
+    path = [
+      (pkgs.writeShellScriptBin "docker" ''
+        remaining=$#
+        while [ "$remaining" -gt 0 ]; do
+          cur="$1"; shift; remaining=$((remaining - 1))
+          if [ "$cur" = "--filter" ] && [ "$remaining" -gt 0 ]; then
+            case "$1" in
+              status=*) shift; remaining=$((remaining - 1)); continue ;;
+            esac
+          fi
+          set -- "$@" "$cur"
+        done
+        exec ${pkgs.podman}/bin/podman "$@"
+      '')
+    ];
     serviceConfig = {
       ExecStart = ''${pkgs.docuum}/bin/docuum --threshold "10 GB"'';
       Restart = "always";
