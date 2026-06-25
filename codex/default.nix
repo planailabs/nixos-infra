@@ -1,4 +1,34 @@
-{ inputs, lib, pkgs, ... }: with lib; {
+{ inputs, lib, pkgs, ... }: with lib;
+let
+  litellmSettings = {
+    general_settings.master_key = "os.environ/LITELLM_MASTER_KEY";
+
+    # ChatGPT Plus via Codex OAuth. These are OpenAI's latest GPT-5.1 Codex
+    # models, served through the user's ChatGPT plan (no API key -- the
+    # provider uses /root/.codex/auth.json from `codex login`, run on the host).
+    model_list = [
+      { model_name = "chatgpt-plus-gpt-5.1-codex-max"; litellm_params.model = "codex/gpt-5.1-codex-max"; }
+      { model_name = "chatgpt-plus-gpt-5.1-codex"; litellm_params.model = "codex/gpt-5.1-codex"; }
+      { model_name = "chatgpt-plus-gpt-5.1-codex-mini"; litellm_params.model = "codex/gpt-5.1-codex-mini"; }
+      { model_name = "chatgpt-plus-gpt-5.1"; litellm_params.model = "codex/gpt-5.1"; }
+    ];
+
+    litellm_settings.custom_provider_map = [
+      { provider = "codex"; custom_handler = "codex_handler.codex_auth_provider"; }
+    ];
+  };
+
+  # litellm resolves `custom_handler` as a PYTHON FILE relative to the config's
+  # directory -- not as an installed module -- so we can't point it straight at
+  # the site-packages package. Ship a one-line handler next to the config that
+  # re-exports the installed provider instance, and run litellm against this dir.
+  litellmConfigDir = pkgs.runCommand "litellm-codex-config" { } ''
+    mkdir -p "$out"
+    cp ${(pkgs.formats.yaml { }).generate "config.yaml" litellmSettings} "$out/config.yaml"
+    printf 'from litellm_codex_oauth_provider import codex_auth_provider\n' > "$out/codex_handler.py"
+  '';
+in
+{
   imports = [
     ../modules/common.nix
     ../modules/container.nix
@@ -36,38 +66,7 @@
       CODEX_AUTH_FILE = "/root/.codex/auth.json";
     };
 
-    settings = {
-      general_settings.master_key = "os.environ/LITELLM_MASTER_KEY";
-
-      # ChatGPT Plus via Codex OAuth. These are OpenAI's latest GPT-5.1 Codex
-      # models, served through the user's ChatGPT plan (no API key -- the
-      # provider uses /root/.codex/auth.json from `codex login`, run on the host).
-      model_list = [
-        {
-          model_name = "chatgpt-plus-gpt-5.1-codex-max";
-          litellm_params.model = "codex/gpt-5.1-codex-max";
-        }
-        {
-          model_name = "chatgpt-plus-gpt-5.1-codex";
-          litellm_params.model = "codex/gpt-5.1-codex";
-        }
-        {
-          model_name = "chatgpt-plus-gpt-5.1-codex-mini";
-          litellm_params.model = "codex/gpt-5.1-codex-mini";
-        }
-        {
-          model_name = "chatgpt-plus-gpt-5.1";
-          litellm_params.model = "codex/gpt-5.1";
-        }
-      ];
-
-      litellm_settings.custom_provider_map = [
-        {
-          provider = "codex";
-          custom_handler = "litellm_codex_oauth_provider.provider.codex_auth_provider";
-        }
-      ];
-    };
+    settings = litellmSettings;
   };
 
   # Authenticate the proxy by running `codex login` on the host (the Codex CLI
@@ -75,10 +74,15 @@
   # provider then reads and refreshes in place.
   environment.systemPackages = [ pkgs.codex ];
 
-  # The provider rewrites auth.json on token refresh, so litellm needs write
-  # access to /root/.codex. Drop the module's DynamicUser sandbox and run as
-  # root with its home reachable.
   systemd.services.litellm.serviceConfig = {
+    # The module renders the config as a lone store file, but litellm resolves
+    # the custom handler beside the config, so run against litellmConfigDir.
+    ExecStart = lib.mkForce
+      "${lib.getExe pkgs.litellm-with-codex} --host 127.0.0.1 --port 8080 --config ${litellmConfigDir}/config.yaml";
+
+    # The provider rewrites auth.json on token refresh, so litellm needs write
+    # access to /root/.codex. Drop the module's DynamicUser sandbox and run as
+    # root with its home reachable.
     DynamicUser = lib.mkForce false;
     User = lib.mkForce "root";
     Group = lib.mkForce "root";
