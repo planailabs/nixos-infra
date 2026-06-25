@@ -3,9 +3,10 @@ let
   # Official litellm image with the database/proxy stack (prisma engines +
   # migrations) baked in. The nixpkgs litellm package can't do DB mode (no
   # litellm_proxy_extras, no generated prisma client), so for virtual keys /
-  # spend tracking / the admin UI we run the upstream image instead. Pinned by
-  # digest (ghcr.io/berriai/litellm-database:main-stable as of 2026-06-25).
-  litellmImage = "ghcr.io/berriai/litellm-database@sha256:2dc76c3e37a0c4eecc5c7c08e26c8923938fb1e8e7ff860074025373dc3ce3c6";
+  # spend tracking / the admin UI we run the upstream image instead. Tracked by
+  # the `main-stable` tag (not a digest) so the litellm-image-update timer can
+  # pull newer builds.
+  litellmImage = "ghcr.io/berriai/litellm-database:main-stable";
 
   # Reported to the Codex models endpoint (it requires a client_version); track
   # the codex CLI package so it stays current. Used by both the config generator
@@ -48,10 +49,12 @@ let
   # small recent set only if discovery fails. config.yaml is emitted as JSON,
   # which litellm parses as YAML.
   genLitellmConfig = pkgs.writers.writePython3Bin "litellm-codex-genconfig"
-    { flakeIgnore = [ "E501" "W503" "W504" "E731" ]; } ''
+    { flakeIgnore = [ "E501" "W503" "W504" "E731" "E302" "E305" "E306" ]; } ''
     import base64
+    import html
     import json
     import os
+    import re
     import shutil
     import sys
     import urllib.parse
@@ -62,6 +65,7 @@ let
     AUTH = os.environ.get("CODEX_AUTH_FILE", "/root/.codex/auth.json")
     CLIENT_VERSION = os.environ.get("CODEX_CLIENT_VERSION", "${codexClientVersion}")
     FALLBACK = ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini"]
+    PRICING_URL = "https://developers.openai.com/api/docs/pricing"
 
     os.makedirs(OUT, exist_ok=True)
     for name in os.listdir(STATIC):
@@ -106,11 +110,45 @@ let
         ]
 
 
+    def fetch_pricing():
+        # The Codex models endpoint has no pricing (subscription), so scrape the
+        # public OpenAI pricing page. Prices are embedded as encoded rows shaped
+        # like [0,"<model> (...)"],[0,<input>],[0,<cached>],[0,<output>] (per 1M
+        # tokens); the first table is Standard pricing. Best-effort: {} on failure.
+        try:
+            req = urllib.request.Request(PRICING_URL, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                raw = html.unescape(resp.read().decode("utf-8", "replace"))
+        except Exception as exc:  # noqa: BLE001
+            sys.stderr.write("codex pricing fetch failed (%s)\n" % exc)
+            return {}
+        pat = re.compile(
+            r'\[0,"([a-zA-Z0-9.\-]+)[^"]*"\],\[0,([\d.]+)\],\[0,([\d.]+)\],\[0,([\d.]+)\]'
+        )
+        prices = {}
+        for m in pat.finditer(raw):
+            name = m.group(1)
+            if name not in prices:  # keep the first (Standard) table
+                prices[name] = (float(m.group(2)), float(m.group(3)), float(m.group(4)))
+        return prices
+
     try:
         slugs = discover() or FALLBACK
     except Exception as exc:  # noqa: BLE001
         sys.stderr.write("codex model discovery failed (%s); using fallback\n" % exc)
         slugs = FALLBACK
+
+    prices = fetch_pricing()
+
+    def params(slug):
+        out = {"model": "codex/" + slug}
+        price = prices.get(slug)
+        if price:
+            inp, cached, outp = price
+            out["input_cost_per_token"] = inp / 1_000_000
+            out["output_cost_per_token"] = outp / 1_000_000
+            out["cache_read_input_token_cost"] = cached / 1_000_000
+        return out
 
     config = {
         "general_settings": {"master_key": "os.environ/LITELLM_MASTER_KEY"},
@@ -119,10 +157,10 @@ let
                 {"provider": "codex", "custom_handler": "codex_handler.codex_auth_provider"}
             ]
         },
-        "model_list": [
-            {"model_name": s, "litellm_params": {"model": "codex/" + s}} for s in slugs
-        ],
+        "model_list": [{"model_name": s, "litellm_params": params(s)} for s in slugs],
     }
+    priced = [s for s in slugs if s in prices]
+    sys.stderr.write("priced models: %s\n" % ", ".join(priced))
     with open(os.path.join(OUT, "config.yaml"), "w") as fh:
         json.dump(config, fh, indent=2)
     sys.stderr.write("litellm model_list: %s\n" % ", ".join(slugs))
@@ -209,6 +247,55 @@ in
   systemd.services.podman-litellm = {
     after = [ "postgresql.service" ];
     requires = [ "postgresql.service" ];
+  };
+
+  # Refresh the model list + pricing every 7 days. Restarting the container
+  # re-runs litellm-codex-config, which re-discovers models and re-scrapes prices.
+  systemd.timers.litellm-codex-refresh = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = { OnCalendar = "weekly"; Persistent = true; RandomizedDelaySec = "1h"; };
+  };
+  systemd.services.litellm-codex-refresh = {
+    description = "Regenerate the litellm config from live models + pricing";
+    serviceConfig.Type = "oneshot";
+    serviceConfig.ExecStart = "${pkgs.systemd}/bin/systemctl restart podman-litellm.service";
+  };
+
+  # Auto-update the litellm image: pull main-stable weekly and restart only if it
+  # actually changed (the restart re-runs migrations + config regen).
+  systemd.timers.litellm-image-update = {
+    wantedBy = [ "timers.target" ];
+    timerConfig = { OnCalendar = "weekly"; Persistent = true; RandomizedDelaySec = "2h"; };
+  };
+  systemd.services.litellm-image-update = {
+    description = "Pull the latest litellm image and restart if changed";
+    path = [ pkgs.podman ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      before="$(podman image inspect --format '{{.Id}}' ${litellmImage} 2>/dev/null || true)"
+      podman pull ${litellmImage} || exit 0
+      after="$(podman image inspect --format '{{.Id}}' ${litellmImage})"
+      if [ "$before" != "$after" ]; then
+        systemctl restart podman-litellm.service
+      fi
+    '';
+  };
+
+  # Expose a Docker-compatible socket so docuum can manage podman images.
+  virtualisation.podman.dockerSocket.enable = true;
+
+  # LRU-evict old images (e.g. superseded litellm builds) once the image store
+  # grows past the threshold. In-use images (the running container) are skipped.
+  systemd.services.docuum = {
+    description = "LRU eviction of old container images";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "podman.socket" ];
+    environment.DOCKER_HOST = "unix:///run/docker.sock";
+    serviceConfig = {
+      ExecStart = ''${pkgs.docuum}/bin/docuum --threshold "10 GB"'';
+      Restart = "always";
+      RestartSec = 30;
+    };
   };
 
   # `codex login` on the host writes /root/.codex/auth.json (mounted into the
