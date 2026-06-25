@@ -153,6 +153,7 @@ let
     config = {
         "general_settings": {"master_key": "os.environ/LITELLM_MASTER_KEY"},
         "litellm_settings": {
+            "check_provider_endpoint": True,
             "custom_provider_map": [
                 {"provider": "codex", "custom_handler": "codex_handler.codex_auth_provider"}
             ]
