@@ -170,6 +170,11 @@ let
                         "api_base": "https://api.sakana.ai/v1",
                         "api_key": "os.environ/SAKANA_API_KEY",
                     },
+                    "model_info": {
+                        "input_cost_per_token": 5e-06,
+                        "output_cost_per_token": 3e-05,
+                        "cache_read_input_token_cost": 5e-07,
+                    },
                 }
             ]
         ),
