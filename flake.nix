@@ -205,6 +205,21 @@
         ];
       };
 
+      codex = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          ./codex
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       relay = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
