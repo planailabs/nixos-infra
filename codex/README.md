@@ -13,8 +13,8 @@ the `litellm-codex-oauth-provider` custom provider.
 ## Services
 
 - **LiteLLM** — LLM gateway on `127.0.0.1:8080`, fronted by nginx at `codex.plan.ai`.
-  Runs the official `ghcr.io/berriai/litellm-database` image (pinned by digest)
-  via podman/`oci-containers`. The nixpkgs litellm package can't do DB mode (no
+  Runs the official `ghcr.io/berriai/litellm-database:main-stable` image via
+  podman/`oci-containers`. The nixpkgs litellm package can't do DB mode (no
   `litellm_proxy_extras`, no generated prisma client), so the upstream image —
   which bundles the prisma engines and runs migrations on startup — is used to
   get virtual keys, spend tracking and the admin UI. The Codex OAuth provider is
@@ -39,9 +39,22 @@ as its slug, backed by `codex/<slug>`). The provider also validates and sources
 instructions against that same live list at runtime. If discovery fails it falls
 back to a small recent set (`gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`).
 
+Per-model **cost** (input / cached / output) is scraped from
+`developers.openai.com/api/docs/pricing` and written into each model's
+`litellm_params` so spend tracking is accurate (the Codex models API itself has
+no pricing — it's subscription-based). Models not listed there get no cost.
+
 See the current set with `curl https://codex.plan.ai/v1/models` (or the admin UI).
-To refresh after OpenAI ships new models: `systemctl restart litellm-codex-config
-podman-litellm`.
+To refresh immediately: `systemctl restart litellm-codex-config podman-litellm`.
+
+## Maintenance
+
+- `litellm-codex-refresh.timer` (weekly) — restarts the container to re-discover
+  models and re-scrape prices.
+- `litellm-image-update.timer` (weekly) — pulls `main-stable` and restarts the
+  container only if the image actually changed.
+- `docuum.service` — LRU-evicts old container images once the image store passes
+  10 GB (uses podman's Docker-compat socket); the running image is never evicted.
 
 ## Secrets
 
