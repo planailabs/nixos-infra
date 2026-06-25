@@ -158,7 +158,21 @@ let
                 {"provider": "codex", "custom_handler": "codex_handler.codex_auth_provider"}
             ]
         },
-        "model_list": [{"model_name": s, "litellm_params": params(s)} for s in slugs],
+        "model_list": (
+            [{"model_name": s, "litellm_params": params(s)} for s in slugs]
+            # Sakana AI -- OpenAI-compatible passthrough. `sakana/*` -> `openai/*`
+            # forwards the model name after `sakana/` straight to the endpoint.
+            + [
+                {
+                    "model_name": "sakana/*",
+                    "litellm_params": {
+                        "model": "openai/*",
+                        "api_base": "https://api.sakana.ai/v1",
+                        "api_key": "os.environ/SAKANA_API_KEY",
+                    },
+                }
+            ]
+        ),
     }
     priced = [s for s in slugs if s in prices]
     sys.stderr.write("priced models: %s\n" % ", ".join(priced))
