@@ -18,7 +18,8 @@ the `litellm-codex-oauth-provider` custom provider.
   `litellm_proxy_extras`, no generated prisma client), so the upstream image —
   which bundles the prisma engines and runs migrations on startup — is used to
   get virtual keys, spend tracking and the admin UI. The Codex OAuth provider is
-  mounted into the container as source (see `litellmConfigDir` in `default.nix`).
+  mounted into the container as source (see `litellmStaticDir` / `genLitellmConfig`
+  in `default.nix`).
 - **PostgreSQL** — local DB backing litellm's virtual keys / spend / UI.
   Loopback-only, trust auth (single-purpose host; only the container connects
   over the shared host network namespace).
@@ -31,14 +32,16 @@ the `litellm-codex-oauth-provider` custom provider.
 
 ## Models
 
-Configured in `default.nix` (`litellmSettings.model_list`):
+The model list is **not hardcoded**. On each container start, the
+`litellm-codex-config` oneshot queries the account's live, API-usable models from
+`GET /backend-api/codex/models` and writes the litellm `model_list` (each exposed
+as its slug, backed by `codex/<slug>`). The provider also validates and sources
+instructions against that same live list at runtime. If discovery fails it falls
+back to a small recent set (`gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`).
 
-| Model name | Backing model |
-|------------|---------------|
-| `chatgpt-plus-gpt-5.1-codex-max` | `codex/gpt-5.1-codex-max` |
-| `chatgpt-plus-gpt-5.1-codex` | `codex/gpt-5.1-codex` |
-| `chatgpt-plus-gpt-5.1-codex-mini` | `codex/gpt-5.1-codex-mini` |
-| `chatgpt-plus-gpt-5.1` | `codex/gpt-5.1` |
+See the current set with `curl https://codex.plan.ai/v1/models` (or the admin UI).
+To refresh after OpenAI ships new models: `systemctl restart litellm-codex-config
+podman-litellm`.
 
 ## Secrets
 
@@ -75,12 +78,12 @@ token is expired (or about to be), it exchanges the `refresh_token` at
 curl https://codex.plan.ai/v1/chat/completions \
   -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"model": "chatgpt-plus-gpt-5.1-codex", "messages": [{"role": "user", "content": "hi"}]}'
+  -d '{"model": "gpt-5.5", "messages": [{"role": "user", "content": "hi"}]}'
 
 # Mint a per-user virtual key:
 curl https://codex.plan.ai/key/generate \
   -H "Authorization: Bearer $LITELLM_MASTER_KEY" \
-  -H "Content-Type: application/json" -d '{"models": ["chatgpt-plus-gpt-5.1-codex"]}'
+  -H "Content-Type: application/json" -d '{"models": ["gpt-5.5"]}'
 ```
 
 ## Firewall

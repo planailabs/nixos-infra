@@ -7,53 +7,125 @@ let
   # digest (ghcr.io/berriai/litellm-database:main-stable as of 2026-06-25).
   litellmImage = "ghcr.io/berriai/litellm-database@sha256:2dc76c3e37a0c4eecc5c7c08e26c8923938fb1e8e7ff860074025373dc3ce3c6";
 
-  litellmSettings = {
-    general_settings.master_key = "os.environ/LITELLM_MASTER_KEY";
+  # Reported to the Codex models endpoint (it requires a client_version); track
+  # the codex CLI package so it stays current. Used by both the config generator
+  # and the provider's runtime discovery.
+  codexClientVersion = pkgs.codex.version;
 
-    # ChatGPT Plus via Codex OAuth. These are OpenAI's latest GPT-5.1 Codex
-    # models, served through the user's ChatGPT plan (no API key -- the
-    # provider uses /root/.codex/auth.json from `codex login`, run on the host).
-    model_list = [
-      { model_name = "chatgpt-plus-gpt-5.1-codex-max"; litellm_params.model = "codex/gpt-5.1-codex-max"; }
-      { model_name = "chatgpt-plus-gpt-5.1-codex"; litellm_params.model = "codex/gpt-5.1-codex"; }
-      { model_name = "chatgpt-plus-gpt-5.1-codex-mini"; litellm_params.model = "codex/gpt-5.1-codex-mini"; }
-      { model_name = "chatgpt-plus-gpt-5.1"; litellm_params.model = "codex/gpt-5.1"; }
-    ];
+  # Where the assembled config dir lives on the host (bind-mounted into /config).
+  configDir = "/var/lib/litellm-codex";
 
-    litellm_settings.custom_provider_map = [
-      { provider = "codex"; custom_handler = "codex_handler.codex_auth_provider"; }
-    ];
-  };
-
-  # The codex model names overlap with OpenAI's (gpt-5.1*), which are in
-  # litellm.open_ai_chat_completion_models. litellm's completion dispatch routes
-  # any model in that list to its built-in OpenAI handler BEFORE it checks the
-  # custom-provider map -- so without intervention our "codex/gpt-5.1-*" calls go
-  # to OpenAI (and fail: no api key) instead of our provider. The handler shim
-  # drops these names from that list at import (config-load time, before any
-  # request) so dispatch falls through to the custom provider.
-  codexModels = map (m: lib.removePrefix "codex/" m.litellm_params.model) litellmSettings.model_list;
+  # Handler shim. litellm resolves `custom_handler` as a file RELATIVE to the
+  # config dir (not as an installed module), so this re-exports the provider
+  # instance. It also drops any discovered model that collides with litellm's
+  # built-in OpenAI model list: litellm's dispatch routes a model in that list to
+  # its OpenAI handler BEFORE consulting the custom-provider map, which would send
+  # our codex models to OpenAI (and fail). Done dynamically -- no hardcoded names.
   codexHandlerPy = ''
     import litellm
-    for _m in [${lib.concatMapStringsSep ", " (m: "\"${m}\"") codexModels}]:
-        while _m in litellm.open_ai_chat_completion_models:
-            litellm.open_ai_chat_completion_models.remove(_m)
     from litellm_codex_oauth_provider import codex_auth_provider
+    try:
+        from litellm_codex_oauth_provider.models import available_model_slugs
+        for _m in available_model_slugs():
+            while _m in litellm.open_ai_chat_completion_models:
+                litellm.open_ai_chat_completion_models.remove(_m)
+    except Exception:
+        pass
   '';
 
-  # Bind-mounted into the container at /config. Contains:
-  #  - config.yaml
-  #  - codex_handler.py: litellm resolves `custom_handler` as a file RELATIVE to
-  #    the config dir (not as an installed module), so this shim re-exports the
-  #    provider instance (and applies the dispatch fix above).
-  #  - litellm_codex_oauth_provider/: the provider package source, importable via
-  #    PYTHONPATH=/config. It's pure Python; its runtime deps (litellm, httpx,
-  #    openai, typing_extensions) are already in the image.
-  litellmConfigDir = pkgs.runCommand "litellm-codex-config" { } ''
+  # Static files mounted into the container (handler shim + pure-Python provider
+  # source, importable via PYTHONPATH=/config). config.yaml is generated at start
+  # from the live model list -- see genLitellmConfig.
+  litellmStaticDir = pkgs.runCommand "litellm-codex-static" { } ''
     mkdir -p "$out"
-    cp ${(pkgs.formats.yaml { }).generate "config.yaml" litellmSettings} "$out/config.yaml"
     cp ${pkgs.writeText "codex_handler.py" codexHandlerPy} "$out/codex_handler.py"
     cp -r ${pkgs.litellm-codex-oauth-provider}/lib/python*/site-packages/litellm_codex_oauth_provider "$out/"
+  '';
+
+  # Assemble ${configDir} at each start: copy the static files, then write a
+  # config.yaml whose model_list is the account's live, API-usable models (from
+  # GET /backend-api/codex/models). No hardcoded model names; falls back to a
+  # small recent set only if discovery fails. config.yaml is emitted as JSON,
+  # which litellm parses as YAML.
+  genLitellmConfig = pkgs.writers.writePython3Bin "litellm-codex-genconfig"
+    { flakeIgnore = [ "E501" "W503" "W504" "E731" ]; } ''
+    import base64
+    import json
+    import os
+    import shutil
+    import sys
+    import urllib.parse
+    import urllib.request
+
+    STATIC = "${litellmStaticDir}"
+    OUT = "${configDir}"
+    AUTH = os.environ.get("CODEX_AUTH_FILE", "/root/.codex/auth.json")
+    CLIENT_VERSION = os.environ.get("CODEX_CLIENT_VERSION", "${codexClientVersion}")
+    FALLBACK = ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini"]
+
+    os.makedirs(OUT, exist_ok=True)
+    for name in os.listdir(STATIC):
+        src = os.path.join(STATIC, name)
+        dst = os.path.join(OUT, name)
+        if os.path.isdir(src):
+            shutil.rmtree(dst, ignore_errors=True)
+            shutil.copytree(src, dst)
+        else:
+            shutil.copyfile(src, dst)
+
+
+    def discover():
+        with open(AUTH) as fh:
+            data = json.load(fh)
+        tok = data.get("tokens") or data.get("chatgpt") or data
+        access = tok["access_token"]
+        account = tok.get("account_id")
+        if not account:
+            seg = access.split(".")[1]
+            seg += "=" * (-len(seg) % 4)
+            claims = json.loads(base64.urlsafe_b64decode(seg))
+            account = claims["https://api.openai.com/auth"]["chatgpt_account_id"]
+        query = urllib.parse.urlencode({"client_version": CLIENT_VERSION})
+        req = urllib.request.Request(
+            "https://chatgpt.com/backend-api/codex/models?" + query,
+            headers={
+                "Authorization": "Bearer " + access,
+                "chatgpt-account-id": account,
+                "OpenAI-Beta": "responses=experimental",
+                "originator": "codex_cli_rs",
+            },
+        )
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            models = json.load(resp).get("models", [])
+        return [
+            m["slug"]
+            for m in models
+            if m.get("slug")
+            and m.get("supported_in_api", True)
+            and m.get("visibility", "list") == "list"
+        ]
+
+
+    try:
+        slugs = discover() or FALLBACK
+    except Exception as exc:  # noqa: BLE001
+        sys.stderr.write("codex model discovery failed (%s); using fallback\n" % exc)
+        slugs = FALLBACK
+
+    config = {
+        "general_settings": {"master_key": "os.environ/LITELLM_MASTER_KEY"},
+        "litellm_settings": {
+            "custom_provider_map": [
+                {"provider": "codex", "custom_handler": "codex_handler.codex_auth_provider"}
+            ]
+        },
+        "model_list": [
+            {"model_name": s, "litellm_params": {"model": "codex/" + s}} for s in slugs
+        ],
+    }
+    with open(os.path.join(OUT, "config.yaml"), "w") as fh:
+        json.dump(config, fh, indent=2)
+    sys.stderr.write("litellm model_list: %s\n" % ", ".join(slugs))
   '';
 in
 {
@@ -105,16 +177,31 @@ in
         DATABASE_URL = "postgresql://litellm@127.0.0.1:5432/litellm";
         PYTHONPATH = "/config";
         CODEX_AUTH_FILE = "/root/.codex/auth.json";
+        CODEX_CLIENT_VERSION = codexClientVersion;
         SCARF_NO_ANALYTICS = "True";
         DO_NOT_TRACK = "True";
         ANONYMIZED_TELEMETRY = "False";
       };
       volumes = [
-        "${litellmConfigDir}:/config:ro"
+        "${configDir}:/config:ro"
         # The provider reads and (on refresh) rewrites the Codex tokens here;
         # `codex login` on the host populates it. Mounted rw so refresh persists.
         "/root/.codex:/root/.codex:rw"
       ];
+    };
+  };
+
+  # Regenerate the litellm config (live model_list) before the container starts.
+  systemd.services.litellm-codex-config = {
+    description = "Assemble litellm config dir from the live Codex model list";
+    before = [ "podman-litellm.service" ];
+    requiredBy = [ "podman-litellm.service" ];
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    environment.CODEX_CLIENT_VERSION = codexClientVersion;
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${genLitellmConfig}/bin/litellm-codex-genconfig";
     };
   };
 
