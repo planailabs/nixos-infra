@@ -1,5 +1,12 @@
 { inputs, lib, pkgs, ... }: with lib;
 let
+  # Official litellm image with the database/proxy stack (prisma engines +
+  # migrations) baked in. The nixpkgs litellm package can't do DB mode (no
+  # litellm_proxy_extras, no generated prisma client), so for virtual keys /
+  # spend tracking / the admin UI we run the upstream image instead. Pinned by
+  # digest (ghcr.io/berriai/litellm-database:main-stable as of 2026-06-25).
+  litellmImage = "ghcr.io/berriai/litellm-database@sha256:2dc76c3e37a0c4eecc5c7c08e26c8923938fb1e8e7ff860074025373dc3ce3c6";
+
   litellmSettings = {
     general_settings.master_key = "os.environ/LITELLM_MASTER_KEY";
 
@@ -18,14 +25,35 @@ let
     ];
   };
 
-  # litellm resolves `custom_handler` as a PYTHON FILE relative to the config's
-  # directory -- not as an installed module -- so we can't point it straight at
-  # the site-packages package. Ship a one-line handler next to the config that
-  # re-exports the installed provider instance, and run litellm against this dir.
+  # The codex model names overlap with OpenAI's (gpt-5.1*), which are in
+  # litellm.open_ai_chat_completion_models. litellm's completion dispatch routes
+  # any model in that list to its built-in OpenAI handler BEFORE it checks the
+  # custom-provider map -- so without intervention our "codex/gpt-5.1-*" calls go
+  # to OpenAI (and fail: no api key) instead of our provider. The handler shim
+  # drops these names from that list at import (config-load time, before any
+  # request) so dispatch falls through to the custom provider.
+  codexModels = map (m: lib.removePrefix "codex/" m.litellm_params.model) litellmSettings.model_list;
+  codexHandlerPy = ''
+    import litellm
+    for _m in [${lib.concatMapStringsSep ", " (m: "\"${m}\"") codexModels}]:
+        while _m in litellm.open_ai_chat_completion_models:
+            litellm.open_ai_chat_completion_models.remove(_m)
+    from litellm_codex_oauth_provider import codex_auth_provider
+  '';
+
+  # Bind-mounted into the container at /config. Contains:
+  #  - config.yaml
+  #  - codex_handler.py: litellm resolves `custom_handler` as a file RELATIVE to
+  #    the config dir (not as an installed module), so this shim re-exports the
+  #    provider instance (and applies the dispatch fix above).
+  #  - litellm_codex_oauth_provider/: the provider package source, importable via
+  #    PYTHONPATH=/config. It's pure Python; its runtime deps (litellm, httpx,
+  #    openai, typing_extensions) are already in the image.
   litellmConfigDir = pkgs.runCommand "litellm-codex-config" { } ''
     mkdir -p "$out"
     cp ${(pkgs.formats.yaml { }).generate "config.yaml" litellmSettings} "$out/config.yaml"
-    printf 'from litellm_codex_oauth_provider import codex_auth_provider\n' > "$out/codex_handler.py"
+    cp ${pkgs.writeText "codex_handler.py" codexHandlerPy} "$out/codex_handler.py"
+    cp -r ${pkgs.litellm-codex-oauth-provider}/lib/python*/site-packages/litellm_codex_oauth_provider "$out/"
   '';
 in
 {
@@ -48,47 +76,57 @@ in
     };
   };
 
-  services.litellm = {
+  # Local Postgres backing litellm's virtual keys, spend tracking and admin UI.
+  # Loopback-only with trust auth -- this is a single-purpose host and only the
+  # litellm container connects (over the shared host network namespace).
+  services.postgresql = {
     enable = true;
-    # litellm with the Codex OAuth custom provider on its Python path.
-    package = pkgs.litellm-with-codex;
-    host = "127.0.0.1";
-    port = 8080;
-    # Provides LITELLM_MASTER_KEY (and any provider API keys) out of the Nix store.
-    environmentFile = "/etc/litellm.env";
-    environment = {
-      SCARF_NO_ANALYTICS = "True";
-      DO_NOT_TRACK = "True";
-      ANONYMIZED_TELEMETRY = "False";
-      # The provider reads -- and, on refresh, rewrites -- the Codex OAuth tokens
-      # here. It must be a writable path (the fork persists rotated tokens), so
-      # we use root's home rather than a read-only systemd credential.
-      CODEX_AUTH_FILE = "/root/.codex/auth.json";
+    enableTCPIP = true;
+    settings.listen_addresses = lib.mkForce "127.0.0.1";
+    ensureDatabases = [ "litellm" ];
+    ensureUsers = [ { name = "litellm"; ensureDBOwnership = true; } ];
+    authentication = lib.mkBefore ''
+      host litellm litellm 127.0.0.1/32 trust
+      host litellm litellm ::1/128 trust
+    '';
+  };
+
+  # litellm proxy via the official DB image. --network=host so it can reach
+  # Postgres on 127.0.0.1 and bind the proxy on 127.0.0.1:8080 for nginx.
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers.litellm = {
+      image = litellmImage;
+      extraOptions = [ "--network=host" ];
+      cmd = [ "--config" "/config/config.yaml" "--host" "127.0.0.1" "--port" "8080" ];
+      # LITELLM_MASTER_KEY comes from the secret file; the rest are non-secret.
+      environmentFiles = [ "/etc/litellm.env" ];
+      environment = {
+        DATABASE_URL = "postgresql://litellm@127.0.0.1:5432/litellm";
+        PYTHONPATH = "/config";
+        CODEX_AUTH_FILE = "/root/.codex/auth.json";
+        SCARF_NO_ANALYTICS = "True";
+        DO_NOT_TRACK = "True";
+        ANONYMIZED_TELEMETRY = "False";
+      };
+      volumes = [
+        "${litellmConfigDir}:/config:ro"
+        # The provider reads and (on refresh) rewrites the Codex tokens here;
+        # `codex login` on the host populates it. Mounted rw so refresh persists.
+        "/root/.codex:/root/.codex:rw"
+      ];
     };
-
-    settings = litellmSettings;
   };
 
-  # Authenticate the proxy by running `codex login` on the host (the Codex CLI
-  # is in systemPackages below); it writes /root/.codex/auth.json, which the
-  # provider then reads and refreshes in place.
+  # The container needs Postgres up first (migrations run on start).
+  systemd.services.podman-litellm = {
+    after = [ "postgresql.service" ];
+    requires = [ "postgresql.service" ];
+  };
+
+  # `codex login` on the host writes /root/.codex/auth.json (mounted into the
+  # container); the provider reads and refreshes it in place.
   environment.systemPackages = [ pkgs.codex ];
-
-  systemd.services.litellm.serviceConfig = {
-    # The module renders the config as a lone store file, but litellm resolves
-    # the custom handler beside the config, so run against litellmConfigDir.
-    ExecStart = lib.mkForce
-      "${lib.getExe pkgs.litellm-with-codex} --host 127.0.0.1 --port 8080 --config ${litellmConfigDir}/config.yaml";
-
-    # The provider rewrites auth.json on token refresh, so litellm needs write
-    # access to /root/.codex. Drop the module's DynamicUser sandbox and run as
-    # root with its home reachable.
-    DynamicUser = lib.mkForce false;
-    User = lib.mkForce "root";
-    Group = lib.mkForce "root";
-    ProtectHome = lib.mkForce false;
-    PrivateUsers = lib.mkForce false;
-  };
 
   security.acme.distributor-server = "https://acme.plan.ai";
 

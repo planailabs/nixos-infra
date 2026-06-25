@@ -1,19 +1,4 @@
-final: prev:
-let
-  # litellm Python module with the proxy extras, matching how nixpkgs'
-  # litellm/package.nix assembles the application. We reuse this both to build
-  # the Codex provider plugin against the exact same litellm and to assemble the
-  # bundled application below, guaranteeing a single litellm in the final env.
-  py = final.python3Packages;
-  litellmModule = py.litellm.overridePythonAttrs (old: {
-    dependencies =
-      (old.dependencies or [ ])
-      ++ py.litellm.optional-dependencies.proxy
-      ++ py.litellm.optional-dependencies.extra_proxy
-      ++ py.litellm.optional-dependencies.proxy-runtime;
-  });
-in
-{
+final: prev: {
   sanoid = prev.sanoid.overrideAttrs(_: {
     # patches = [ ./sanoid.patch ];
     src = prev.fetchFromGitHub {
@@ -28,16 +13,8 @@ in
   obsidian-local-rest-api-plugin = prev.callPackage ./obsidian-local-rest-api-plugin.nix { };
   cozempic = prev.callPackage ./cozempic.nix { };
 
-  # Codex OAuth custom provider. It treats litellm as a peer dependency (see the
-  # package), so it carries no litellm of its own and bundles cleanly below.
-  litellm-codex-oauth-provider = py.callPackage ./litellm-codex-oauth-provider.nix { };
-
-  # litellm proxy with the Codex OAuth provider importable from the same Python
-  # environment, so `custom_provider_map` can reference
-  # `litellm_codex_oauth_provider.codex_auth_provider`.
-  litellm-with-codex = py.toPythonApplication (
-    litellmModule.overridePythonAttrs (old: {
-      dependencies = (old.dependencies or [ ]) ++ [ final.litellm-codex-oauth-provider ];
-    })
-  );
+  # Codex OAuth custom provider (pure-Python source). The codex host mounts this
+  # package's source into the official litellm container; litellm is provided by
+  # the image, so the package treats it as a peer dependency (see the package).
+  litellm-codex-oauth-provider = final.python3Packages.callPackage ./litellm-codex-oauth-provider.nix { };
 }
