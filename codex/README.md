@@ -31,24 +31,32 @@ Configured in `default.nix` under `services.litellm.settings.model_list`:
 
 ## Secrets
 
-Held in the `private` submodule at `private/codex.nix`:
+`LITELLM_MASTER_KEY` (the API key clients present to the proxy) lives in the
+`private` submodule at `private/codex.nix` → `/etc/litellm.env`.
 
-- `/etc/litellm.env` — `LITELLM_MASTER_KEY` (the API key clients present to the proxy).
-- `/etc/codex-auth.json` — the Codex CLI OAuth credentials.
+### Authenticating with Codex
 
-### Obtaining `codex-auth.json`
+The Codex OAuth credentials are **not** stored in the repo. The Codex CLI is in
+the host's `systemPackages`, so authenticate directly on the box:
 
-1. On any machine with the Codex CLI, run `codex login`.
-2. Copy the resulting `~/.codex/auth.json` into `private/codex.nix`
-   (`environment.etc."codex-auth.json"`).
-3. Redeploy.
+```sh
+ssh root@codex.plan.ai
+codex login        # writes /root/.codex/auth.json
+```
 
-The provider loads the file via systemd `LoadCredential` (exposed to the service
-as `$CREDENTIALS_DIRECTORY/codex-auth`, pointed at by `CODEX_AUTH_FILE`).
+`CODEX_AUTH_FILE` points the provider at `/root/.codex/auth.json`, and litellm
+runs as **root** (not the module's default DynamicUser) so it can rewrite that
+file on token refresh.
 
-> **Note:** upstream has **not** implemented automatic token refresh. When the
-> access token expires, re-run `codex login`, update `private/codex.nix`, and
-> redeploy.
+### Token refresh
+
+This host uses a [fork](https://github.com/mkg20001/litellm-codex-oauth-provider)
+of the provider that **implements OAuth access-token refresh**: when the access
+token is expired (or about to be), it exchanges the `refresh_token` at
+`https://auth.openai.com/oauth/token` and writes the rotated tokens back to
+`/root/.codex/auth.json` in place. Redeploys never clobber it (the seed copy is
+skipped when the file exists). You only need to re-run `codex login` and update
+the secret if the **refresh token itself** is revoked.
 
 ## Usage
 
@@ -67,7 +75,7 @@ Open TCP ports: 80, 443
 
 - `default.nix` — main server configuration (litellm + credential wiring)
 - `nginx.nix` — nginx virtual host
-- `../private/codex.nix` — secrets (master key, Codex auth.json)
+- `../private/codex.nix` — secrets (litellm master key, ACME token)
 - `../pkgs/litellm-codex-oauth-provider.nix` — the provider package
 - `../pkgs/overlay.nix` — builds `litellm-with-codex`
 

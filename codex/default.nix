@@ -30,10 +30,10 @@
       SCARF_NO_ANALYTICS = "True";
       DO_NOT_TRACK = "True";
       ANONYMIZED_TELEMETRY = "False";
-      # The provider reads Codex CLI OAuth tokens from this file. litellm runs as
-      # a DynamicUser with ProtectHome, so there is no ~/.codex; point it at the
-      # systemd credential loaded below (%d = $CREDENTIALS_DIRECTORY).
-      CODEX_AUTH_FILE = "%d/codex-auth";
+      # The provider reads -- and, on refresh, rewrites -- the Codex OAuth tokens
+      # here. It must be a writable path (the fork persists rotated tokens), so
+      # we use root's home rather than a read-only systemd credential.
+      CODEX_AUTH_FILE = "/root/.codex/auth.json";
     };
 
     settings = {
@@ -41,7 +41,7 @@
 
       # ChatGPT Plus via Codex OAuth. These are OpenAI's latest GPT-5.1 Codex
       # models, served through the user's ChatGPT plan (no API key -- the
-      # provider uses the Codex auth.json loaded as a credential below).
+      # provider uses /root/.codex/auth.json from `codex login`, run on the host).
       model_list = [
         {
           model_name = "chatgpt-plus-gpt-5.1-codex-max";
@@ -70,14 +70,21 @@
     };
   };
 
-  # Load the Codex auth.json (produced by `codex login`) as a systemd credential.
-  # LoadCredential reads it as root and exposes it read-only in the service's
-  # private credentials dir, which works with DynamicUser. Refreshing the token
-  # is a manual `codex login` + redeploy of the secret — upstream has not yet
-  # implemented automatic refresh.
-  systemd.services.litellm.serviceConfig.LoadCredential = [
-    "codex-auth:/etc/codex-auth.json"
-  ];
+  # Authenticate the proxy by running `codex login` on the host (the Codex CLI
+  # is in systemPackages below); it writes /root/.codex/auth.json, which the
+  # provider then reads and refreshes in place.
+  environment.systemPackages = [ pkgs.codex ];
+
+  # The provider rewrites auth.json on token refresh, so litellm needs write
+  # access to /root/.codex. Drop the module's DynamicUser sandbox and run as
+  # root with its home reachable.
+  systemd.services.litellm.serviceConfig = {
+    DynamicUser = lib.mkForce false;
+    User = lib.mkForce "root";
+    Group = lib.mkForce "root";
+    ProtectHome = lib.mkForce false;
+    PrivateUsers = lib.mkForce false;
+  };
 
   security.acme.distributor-server = "https://acme.plan.ai";
 

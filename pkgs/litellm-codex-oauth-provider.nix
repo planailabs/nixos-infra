@@ -9,15 +9,16 @@
 
 buildPythonPackage {
   pname = "litellm-codex-oauth-provider";
-  # Upstream has no tagged releases; _version.py reports 0.1.0. Pin the commit.
-  version = "0.1.0-unstable-2025-12-11";
+  # Fork of jslorrma/litellm-codex-oauth-provider that implements OAuth access
+  # token refresh (upstream only stubs it). No tagged releases, so pin the commit.
+  version = "0.2.0-unstable-2026-06-25";
   pyproject = true;
 
   src = fetchFromGitHub {
-    owner = "jslorrma";
+    owner = "mkg20001";
     repo = "litellm-codex-oauth-provider";
-    rev = "4390c73f3e6a13e423cbc5633c8e35455f728ae9";
-    hash = "sha256-977jP1uHooXv0tCUlak+CHvHY5YK0j2w8ke22Z20D3M=";
+    rev = "925bbf578dd1221fa981f19a02bb1fbe5dcaf82f";
+    hash = "sha256-NUgnb6+BTIgNRoGtXbo//7T5PxEE/hUbJFipyAjfZMo=";
   };
 
   build-system = [ hatchling ];
@@ -45,8 +46,8 @@ buildPythonPackage {
   # against the bundled environment instead (pkgs/overlay.nix `litellm-with-codex`).
 
   meta = {
-    description = "LiteLLM custom provider bridging Codex CLI OAuth to OpenAI-compatible APIs";
-    homepage = "https://github.com/jslorrma/litellm-codex-oauth-provider";
+    description = "LiteLLM custom provider bridging Codex CLI OAuth to OpenAI-compatible APIs (fork with token refresh)";
+    homepage = "https://github.com/mkg20001/litellm-codex-oauth-provider";
     # Upstream ships no LICENSE file, so treat it as unfree (all rights reserved).
     license = lib.licenses.unfree;
   };
