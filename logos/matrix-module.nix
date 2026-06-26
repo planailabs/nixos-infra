@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixdeploy, ... }:
+{ config, lib, pkgs, ... }:
 
 with lib;
 
@@ -108,13 +108,8 @@ in
     services.matrix-synapse = {
       withJemalloc = true;
 
-      settings.registration_shared_secret = let
-        sec = (nixdeploy.loadPriv "matrix.toml");
-      in
-        if sec ? ${config.networking.hostName} then
-          sec.${config.networking.hostName}.registration_shared_secret
-        else
-          null;
+      # secret lives in the private submodule (private/<host>.nix)
+      settings.registration_shared_secret = cfg.registrationSharedSecret;
 
       settings.public_baseurl = "https://${cfg.backend_domain}/";
 
@@ -189,6 +184,12 @@ in
         type = types.str;
         description = "Identity server";
         default = "vector.im";
+      };
+
+      registrationSharedSecret = mkOption {
+        type = types.nullOr types.str;
+        default = null;
+        description = "Matrix registration shared secret (set in the private submodule)";
       };
 
       sso = {
