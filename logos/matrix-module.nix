@@ -143,7 +143,10 @@ in
         }
       ];
 
-      # server_name = config.networking.domain;
+      # the federated identity domain; defaults to the host name (logos)
+      # otherwise, so pin it to the public domain
+      settings.server_name = "plan.ai";
+
       settings.listeners = [
         {
           port = 8008;
