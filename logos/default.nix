@@ -6,6 +6,8 @@
     ./nginx.nix
     ./hedgedoc.nix
     ./zitadel.nix
+    ./matrix.nix
+    ./matrix-module.nix
   ];
 
   system.stateVersion = "26.11";
