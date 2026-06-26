@@ -127,9 +127,9 @@ in
           issuer = "https://accounts.google.com/";
           discover = true;
 
-          # TODO: replace with real Google OAuth credentials
-          client_id = "000000000000-fakefakefakefakefakefakefake.apps.googleusercontent.com";
-          client_secret = "FAKE-google-client-secret-replace-me";
+          # credentials live in the private submodule (private/<host>.nix)
+          client_id = cfg.sso.clientId;
+          client_secret = cfg.sso.clientSecret;
 
           scopes = [
             "openid"
@@ -189,6 +189,18 @@ in
         type = types.str;
         description = "Identity server";
         default = "vector.im";
+      };
+
+      sso = {
+        clientId = mkOption {
+          type = types.str;
+          description = "Google OAuth client ID for Matrix SSO (set in the private submodule)";
+        };
+
+        clientSecret = mkOption {
+          type = types.str;
+          description = "Google OAuth client secret for Matrix SSO (set in the private submodule)";
+        };
       };
     };
   };
