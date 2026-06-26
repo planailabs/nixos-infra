@@ -136,11 +136,11 @@ in
       # secret lives in the private submodule (private/<host>.nix)
       settings.registration_shared_secret = cfg.registrationSharedSecret;
 
-      # no username/password login and no password registration; accounts are
-      # only created/authenticated through the Google OIDC provider below.
-      # (SSO auto-provisions users regardless of enable_registration.)
+      # password login is allowed alongside Google OIDC, but open registration
+      # stays off; new accounts come via SSO (auto-provisioned) or admin
+      # creation through the registration shared secret.
       settings.enable_registration = false;
-      settings.password_config.enabled = false;
+      settings.password_config.enabled = true;
 
       settings.public_baseurl = "https://${cfg.backend_domain}/";
 
