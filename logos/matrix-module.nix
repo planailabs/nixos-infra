@@ -31,6 +31,20 @@ let
   ];
 
   wellKnownDir = "/srv/matrix";
+
+  # FluffyChat web, pinned to our homeserver. presetHomeserver locks the
+  # backend so the user can't pick a different server.
+  fluffychatConfig = pkgs.writeText "fluffychat-config.json" (builtins.toJSON {
+    applicationName = "plan.ai Chat";
+    defaultHomeserver = cfg.backend_domain;
+    presetHomeserver = cfg.backend_domain;
+  });
+
+  fluffychatWeb = pkgs.runCommand "fluffychat-web-planai" { } ''
+    cp -r ${pkgs.fluffychat-web} $out
+    chmod -R u+w $out
+    cp ${fluffychatConfig} $out/config.json
+  '';
 in
 {
   config = mkIf (cfg.enable) {
@@ -103,6 +117,17 @@ in
           })}/";
         };
       };
+
+      # FluffyChat web client, hard-wired to our homeserver
+      ${cfg.fluffy_domain} = {
+        enableACME = true;
+        forceSSL = true;
+
+        root = "${fluffychatWeb}";
+
+        # Flutter web is a SPA; route unknown paths back to index.html
+        locations."/".tryFiles = "$uri $uri/ /index.html";
+      };
     };
 
     services.matrix-synapse = {
@@ -110,6 +135,12 @@ in
 
       # secret lives in the private submodule (private/<host>.nix)
       settings.registration_shared_secret = cfg.registrationSharedSecret;
+
+      # no username/password login and no password registration; accounts are
+      # only created/authenticated through the Google OIDC provider below.
+      # (SSO auto-provisions users regardless of enable_registration.)
+      settings.enable_registration = false;
+      settings.password_config.enabled = false;
 
       settings.public_baseurl = "https://${cfg.backend_domain}/";
 
@@ -181,6 +212,12 @@ in
         type = types.str;
         description = "Frontend serivces (element) domain for matrix";
         default = "matrix.plan.ai";
+      };
+
+      fluffy_domain = mkOption {
+        type = types.str;
+        description = "FluffyChat web client domain for matrix";
+        default = "fluffy.plan.ai";
       };
 
       identity_server = mkOption {
