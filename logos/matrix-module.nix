@@ -4,9 +4,41 @@ with lib;
 
 let
   cfg = config.services.matrix-synapse;
+
+  # well-known payloads, materialized as static files on the rootfs instead of
+  # being generated inline by nginx `return 200` blocks.
+  wellKnownServer = {
+    # use 443 instead of the default 8448 port to unite
+    # the client-server and server-server port for simplicity
+    "m.server" = "${cfg.backend_domain}:443";
+  };
+  wellKnownClient = {
+    "m.homeserver" = { "base_url" = "https://${cfg.backend_domain}"; };
+    "m.identity_server" = { "base_url" = "https://${cfg.identity_server}"; };
+  };
+
+  # document root laid out so requests to /.well-known/matrix/{server,client}
+  # map straight onto files on disk.
+  wellKnownRoot = pkgs.linkFarm "matrix-well-known" [
+    {
+      name = ".well-known/matrix/server";
+      path = pkgs.writeText "matrix-well-known-server" (builtins.toJSON wellKnownServer);
+    }
+    {
+      name = ".well-known/matrix/client";
+      path = pkgs.writeText "matrix-well-known-client" (builtins.toJSON wellKnownClient);
+    }
+  ];
+
+  wellKnownDir = "/srv/matrix";
 in
 {
   config = mkIf (cfg.enable) {
+    # create the well-known folder on the rootfs at ${wellKnownDir}; symlinked
+    # to the nix store so it tracks config changes declaratively.
+    systemd.tmpfiles.rules = [
+      "L+ ${wellKnownDir} - - - - ${wellKnownRoot}"
+    ];
     # we explicitly need LC_COLLATE/LC_CTYPE to be C and ensureDatabases doesn't give a damn
     services.postgresql = {
       enable = true;
@@ -26,38 +58,6 @@ in
     ];
 
     services.nginx.virtualHosts = {
-      # This host section can be placed on a different host than the rest,
-      # i.e. to delegate from the host being accessible as ${config.networking.domain}
-      # to another host actually running the Matrix homeserver.
-      "REPLACE_ME" = {
-        enableACME = true;
-        forceSSL = true;
-
-        locations."= /.well-known/matrix/server".extraConfig =
-          let
-            # use 443 instead of the default 8448 port to unite
-            # the client-server and server-server port for simplicity
-            server = {
-              "m.server" = "${cfg.backend_domain}:443";
-            };
-          in ''
-            add_header Content-Type application/json;
-            return 200 '${builtins.toJSON server}';
-          '';
-        locations."= /.well-known/matrix/client".extraConfig =
-          let
-            client = {
-              "m.homeserver" =  { "base_url" = "https://${cfg.backend_domain}"; };
-              "m.identity_server" =  { "base_url" = "https://${cfg.identity_server}"; };
-            };
-          # ACAO required to allow element-web on any URL to request this json file
-          in ''
-            add_header Content-Type application/json;
-            add_header Access-Control-Allow-Origin *;
-            return 200 '${builtins.toJSON client}';
-          '';
-      };
-
       # Reverse proxy for Matrix client-server and server-server communication
       ${cfg.backend_domain} = {
         enableACME = true;
