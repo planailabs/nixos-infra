@@ -118,28 +118,35 @@ in
 
       settings.public_baseurl = "https://${cfg.backend_domain}/";
 
-      settings.oidc_config = mkIf (cfg.sso.enable) {
-        enabled = true;
+      settings.oidc_providers = [
+        {
+          idp_id = "google";
+          idp_name = "Google";
+          idp_brand = "google";
 
-        issuer = cfg.sso.resourceUrl;
-        discover = true;
+          issuer = "https://accounts.google.com/";
+          discover = true;
 
-        client_id = cfg.sso.clientId;
-        client_secret = cfg.sso.clientSecret;
+          # TODO: replace with real Google OAuth credentials
+          client_id = "000000000000-fakefakefakefakefakefakefake.apps.googleusercontent.com";
+          client_secret = "FAKE-google-client-secret-replace-me";
 
-        scopes = [
-          "openid"
-          "profile"
-          "email"
-        ];
+          scopes = [
+            "openid"
+            "profile"
+            "email"
+          ];
 
-        user_mapping_provider = {
-          config = {
-            localpart_template = "{{ user.preferred_username }}";
-            display_name_template = "{{ user.name }}";
+          user_mapping_provider = {
+            config = {
+              # Google does not provide preferred_username; derive it from email
+              localpart_template = "{{ user.email.split('@')[0] }}";
+              display_name_template = "{{ user.name }}";
+              email_template = "{{ user.email }}";
+            };
           };
-        };
-      };
+        }
+      ];
 
       # server_name = config.networking.domain;
       settings.listeners = [
