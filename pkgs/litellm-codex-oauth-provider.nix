@@ -18,8 +18,8 @@ buildPythonPackage {
   src = fetchFromGitHub {
     owner = "mkg20001";
     repo = "litellm-codex-oauth-provider";
-    rev = "2d25b2e93fd220c8021e0e3b73b21a7b2b4a5048";
-    hash = "sha256-yPqGHQ0irJV43528KhFh6iiFZ3vULjDXz3/84nEMPHw=";
+    rev = "2a7661796d475ff9d147fcd67fb21ba4a18868cb";
+    hash = "sha256-rrLIx07y03WNkszRff1f/IBQegJy95/+C42CG1pxEPQ=";
   };
 
   build-system = [ hatchling ];
