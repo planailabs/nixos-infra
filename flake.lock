@@ -343,11 +343,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1782419596,
-        "narHash": "sha256-0EgyInVpWhFSWAjI4nzCGhRuHAw/4eWMGvTBi61DwEw=",
+        "lastModified": 1782514358,
+        "narHash": "sha256-loISJkC1BPnexlrGENILIHUr4Dv7BFZbJ1y81nW8DcQ=",
         "ref": "refs/heads/trunk",
-        "rev": "b75cd2a24d89ee80ce4c5581869f0758b155468c",
-        "revCount": 2297,
+        "rev": "e49941f2f1bdce0e27c66aae8f6d3a342df1eb08",
+        "revCount": 2300,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -377,11 +377,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782406464,
-        "narHash": "sha256-HXT/ksEc6Hmk664CDeIw4ONWzBrACKbLEoTBGwmGjK4=",
+        "lastModified": 1782513874,
+        "narHash": "sha256-9qVcoz6n81CvzwL6fBtfaauymuII5gz2fGZSHI5sNlQ=",
         "ref": "refs/heads/trunk",
-        "rev": "afa79f36f8972b72e80c1a926257e244eccd4d39",
-        "revCount": 672,
+        "rev": "bcadce7ae89caf61ab9d0e8b5747f7cc58e3f7a7",
+        "revCount": 674,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -603,8 +603,8 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1779888198,
-        "narHash": "sha256-N/ktRFfw5jeQFUuJiphnvW3ZSzDvFdzNFjAEOZqYZus=",
+        "lastModified": 1782504034,
+        "narHash": "sha256-EAxyFIS8geBJFpQ+RPAsEuHcrYxhuW54DRVSaaktfyk=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
