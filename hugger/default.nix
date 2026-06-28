@@ -24,7 +24,7 @@
     port = 7860;
     # Served over TLS by nginx (see ./nginx.nix), so send HSTS and pin the host.
     httpsOnly = true;
-    allowedHosts = [ "hugger.plan.ai" ];
+    allowedHosts = [ "hugger-omen.plan.ai" ];
     # HUGGER_PASSWORD / HF_TOKEN live outside the repo.
     environmentFile = "/etc/hugger.env";
   };
