@@ -8,6 +8,7 @@ NixOS infrastructure configuration for plan.ai servers, managed via Nix flakes.
 |--------|----------|----------|------|
 | **chronos** | `chronos` | x86_64-linux (LXC) | GitLab, Docker workloads |
 | **logos** | `logos` | x86_64-linux (LXC) | Nginx reverse proxy, ACME distributor, xzar |
+| **hugger** | `hugger` | x86_64-linux (LXC) | HuggingFace model archiver (hugger.plan.ai) |
 | **relay** | `relay` | x86_64-linux (LXC) | Dedicated plan.ai mac-mgmt relay |
 | **peira-relay** | `peira-relay` | x86_64-linux (LXC) | Dedicated peira mac-mgmt relay |
 | **home-pi** | `home-pi` | Raspberry Pi | Home server, Incus VMs (currently commented out in flake) |

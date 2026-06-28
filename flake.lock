@@ -329,6 +329,29 @@
         "type": "github"
       }
     },
+    "hugger": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1782668803,
+        "narHash": "sha256-7HN5qiP9+Ukj0Nh/5qL7Fo7tBtH3pNlqZ0i25r/7KZw=",
+        "ref": "refs/heads/trunk",
+        "rev": "1ba049072d5cf4718547ddf2591c7e3eb52f934b",
+        "revCount": 11,
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/hugger"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.plan.ai/plan-ai/hugger"
+      }
+    },
     "mac-mgmt": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -660,6 +683,7 @@
         "gitlab-nix-ci": "gitlab-nix-ci",
         "hardware": "hardware",
         "home-manager": "home-manager",
+        "hugger": "hugger",
         "mac-mgmt": "mac-mgmt",
         "memvault": "memvault",
         "mkg-mod": "mkg-mod",

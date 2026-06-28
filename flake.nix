@@ -21,6 +21,9 @@
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
+    hugger.url = "git+https://git.plan.ai/plan-ai/hugger";
+    hugger.inputs.nixpkgs.follows = "nixpkgs";
+    hugger.inputs.flake-utils.follows = "flake-utils";
     supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
     supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
     memvault.url = "git+https://git.plan.ai/plan-ai/memvault?submodules=1";
@@ -200,6 +203,21 @@
             plan-ai-chat.overlays.default
             mac-mgmt.overlays.default
             memvault.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      hugger = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          inputs.hugger.nixosModules.default
+          ./hugger
+          { nixpkgs.overlays = [
+            acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
