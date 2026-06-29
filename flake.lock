@@ -315,11 +315,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782522538,
-        "narHash": "sha256-CvOaUvJ+mXlxU3m2cPWKcOAhtKETsPUYhq+Xa5ewBp4=",
+        "lastModified": 1782657028,
+        "narHash": "sha256-PHTCpYZCMzJYS3phhywqRAZphKVr2zjvlGYa+H20ZZ4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "8d8a6cc50ddc60748791a14ee1163c865ec57635",
+        "rev": "4ad9aaae70c9aaab504127f926c0fa9cfbc2b365",
         "type": "github"
       },
       "original": {
@@ -339,11 +339,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782668803,
-        "narHash": "sha256-7HN5qiP9+Ukj0Nh/5qL7Fo7tBtH3pNlqZ0i25r/7KZw=",
+        "lastModified": 1782684149,
+        "narHash": "sha256-R8urI9m33EvyMweWKHv14lJYwItrOTRE26VDKpP5+wA=",
         "ref": "refs/heads/trunk",
-        "rev": "1ba049072d5cf4718547ddf2591c7e3eb52f934b",
-        "revCount": 11,
+        "rev": "9641cc7f6aae332464b2479ff0364f55b1bbaa88",
+        "revCount": 25,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -366,11 +366,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1782574570,
-        "narHash": "sha256-g2zF8CEIODRu8tcw2LOZ1eCzjG2rGoulfEaJjMOzLxY=",
+        "lastModified": 1782603770,
+        "narHash": "sha256-Ho5DV1Y5RwlNxQDN2uRlrrns056r44UQMOQcnA8M5X0=",
         "ref": "refs/heads/trunk",
-        "rev": "bc09d569dcfb1e04ac7d5b4f0ab5f14d45a3a2dc",
-        "revCount": 2302,
+        "rev": "3dbcfc68f4273a87dd7f8e6cc3b0277163ba2c65",
+        "revCount": 2303,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -745,11 +745,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782530211,
-        "narHash": "sha256-Zn5H2VVMaP79C+bvaUQD+SBXSKoTnURMZGiUrG00zII=",
+        "lastModified": 1782616745,
+        "narHash": "sha256-NN5B1cKBXF6h1Ec681gMGZ2o/99d7vKXAAfFNEvyOKA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "06ba695dfefc4afc513b49dfc41c4bf0dd2eaeb1",
+        "rev": "b916d014dc57eb555f84e51172a82f7f6fb560d7",
         "type": "github"
       },
       "original": {
