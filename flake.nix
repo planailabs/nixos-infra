@@ -238,6 +238,21 @@
         ];
       };
 
+      hugger-hetzner = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          inputs.hugger.nixosModules.default
+          ./hugger-hetzner
+          { nixpkgs.overlays = [
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       codex = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
