@@ -3,6 +3,7 @@
     ../modules/common.nix
     inputs.common.nixosModules.hcloud_base
     ./nginx.nix
+    ./uptime-kuma.nix
   ];
 
   # replace this address with the one assigned to your instance
