@@ -38,5 +38,8 @@ with lib;
   systemd.services.hugger = {
     after = [ "srv-models.mount" ];
     requires = [ "srv-models.mount" ];
+    # The hugger unit is sandboxed (ProtectSystem), so the sshfs mount must be
+    # explicitly allowed for writes.
+    serviceConfig.ReadWritePaths = [ "/srv/models" ];
   };
 }
