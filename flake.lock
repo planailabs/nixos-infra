@@ -348,11 +348,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782749631,
-        "narHash": "sha256-slFTUgDy0KTPA4LBAmC/9SngDq8GCPdX+ZR0yQHHN1E=",
+        "lastModified": 1782839684,
+        "narHash": "sha256-vzs4SBgPsK4aNzlJR2PpFwtARazXMOxZonQnDz0YHxk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "5d72a29fc36ac21adae6ae35568fe5ee6700850f",
+        "rev": "2a37d71bbe69e1522ddabf03a4cea0374958bdbe",
         "type": "github"
       },
       "original": {
@@ -377,11 +377,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1782774995,
-        "narHash": "sha256-9rbKKTF4W2GSfDEECA8O1grZpmogvXAEpERu0Vl/BlU=",
+        "lastModified": 1782853262,
+        "narHash": "sha256-7aDe4e7A1UlwlrINpqJegLaSkUr9Cg0g6uJFZ0grKbs=",
         "ref": "refs/heads/trunk",
-        "rev": "19b22a6ede6eb3372c09b94c0d33565d76c79e7b",
-        "revCount": 56,
+        "rev": "9465ea572d3ccbe8e6bc9bf432dfd8c324cb64a8",
+        "revCount": 76,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -855,11 +855,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782703273,
-        "narHash": "sha256-WJPfr9EAWVIuTMyb/ilHKUYlg/RNa0xrNiWR+p1iHUg=",
+        "lastModified": 1782789458,
+        "narHash": "sha256-CR55gKCChD9ffN1Ag5az20Z3RD4tylHlcM1SSohkMA8=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "5106a604b3d67cffe8eb51a8bd9f04e607f0d31d",
+        "rev": "067959ef838c440558ca519cf08ca87f43c3db3a",
         "type": "github"
       },
       "original": {
