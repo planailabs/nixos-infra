@@ -18,6 +18,7 @@
   nixpkgs.config.permittedInsecurePackages = [
     "nodejs-20.20.2"
     "nodejs-slim-20.20.2"
+    "pnpm-9.15.9"
   ];
 
   # The logos-local kanbn build currently pulls in nodejs-slim_20. When a
