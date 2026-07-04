@@ -348,11 +348,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783024095,
-        "narHash": "sha256-oE+TNK98Pl7nHW4VU1oBvUKD5JR45U+py/NJmLoTNHI=",
+        "lastModified": 1783099620,
+        "narHash": "sha256-prQSM9PGnrfSaqknJOZ3DCQKbpMiXAWLVC5SHbjLcJ4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a4d410db95a6416d1008049330bd86b85b5db45a",
+        "rev": "b2e4390ff35319c52935d6a700b615da4c0f204d",
         "type": "github"
       },
       "original": {
@@ -377,11 +377,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1782918027,
-        "narHash": "sha256-22HPZbrqHRHMrKUgCeL0snImvsSJj14gV9sCGlBioc8=",
+        "lastModified": 1783092489,
+        "narHash": "sha256-FWDwsh5nVZUQhkhwWw99pKC/G0kYoQ8b+3ATQ4G79oA=",
         "ref": "refs/heads/trunk",
-        "rev": "1637a7d7ff346d3a1486ec4d4ea35624374047c5",
-        "revCount": 77,
+        "rev": "3777667c264b9c0036f5ec9967349653d32bdf84",
+        "revCount": 78,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -404,11 +404,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1782947066,
-        "narHash": "sha256-6T8UKIZjjVEl7tdo6TqbONJg6jCHkRhYLOHBf1vIaII=",
+        "lastModified": 1783105053,
+        "narHash": "sha256-gyKkIIh+DrL9hZix0VJBBHowtL9CaYUzwxYtIiQrFkw=",
         "ref": "refs/heads/trunk",
-        "rev": "9eecb24c2e789e838f681bc8018c26b5bad1e6d2",
-        "revCount": 2336,
+        "rev": "0a73595e7859b300d314e8578267270ff24fdecd",
+        "revCount": 2338,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -855,11 +855,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782962170,
-        "narHash": "sha256-HsaK9yDDypMB2TPxAYz0mPKtmYhgNwFQa72b3Ko6kRE=",
+        "lastModified": 1783058364,
+        "narHash": "sha256-felUcVUtcdI15evRNkVfLq3opwceShhbrJt6hDlZvrk=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "e3fa5cf86b93914b8f312b2a1ca14fbb139c655c",
+        "rev": "e7a078c7feb51f37955a832b22a96de5fccb1f7a",
         "type": "github"
       },
       "original": {
