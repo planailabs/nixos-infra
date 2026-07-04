@@ -268,11 +268,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783190685,
-        "narHash": "sha256-bkeq30YsoFs04w2b9GeYpTNQ/FLjk8Q7U2+Ng5SMNu0=",
+        "lastModified": 1783197779,
+        "narHash": "sha256-WLxI8ef7FBivQnaJZ3Crro76H4IRjp/4LzRTvrVyVPM=",
         "ref": "refs/heads/trunk",
-        "rev": "dfe9a7c5744ac1ee7aa93c62a200354b93294bdd",
-        "revCount": 6,
+        "rev": "bbeb62025f90af0a660831cee2928add474fbdb9",
+        "revCount": 8,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/ghgl-sync"
       },

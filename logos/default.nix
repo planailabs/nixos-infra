@@ -489,6 +489,7 @@
       listen = "127.0.0.1:8877";
       gitlab = { url = "https://git.plan.ai"; group = "plan-ai"; };
       github.org = "planailabs";
+      exclude = [ "nixpkgs" "nixpkgs-1" ];
     };
     # Tokens live outside the store — see /etc/daemon-github-sync.env in private/logos.nix.
     environmentFile = "/etc/daemon-github-sync.env";
