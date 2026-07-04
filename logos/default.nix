@@ -405,6 +405,7 @@
     nginx.domain = "login.plan.ai";
     nginx.virtualHosts."prometheus.plan.ai" = { };
     nginx.virtualHosts."runner.plan.ai" = { };
+    nginx.virtualHosts."ghgl.plan.ai" = { };
     nginx.virtualHosts."memvault.plan.ai" = { };
   };
 
@@ -479,6 +480,18 @@
     openFirewall = true;
     allowedOrigins = [ "https://memvault.plan.ai" ];
     extraArgs = [ "--kad-server" ];
+  };
+
+  services.daemon-github-sync = {
+    enable = true;
+    settings = {
+      interval = "5m";
+      listen = "127.0.0.1:8877";
+      gitlab = { url = "https://git.plan.ai"; group = "plan-ai"; };
+      github.org = "planailabs";
+    };
+    # Tokens live outside the store — see /etc/daemon-github-sync.env in private/logos.nix.
+    environmentFile = "/etc/daemon-github-sync.env";
   };
 
   services.supabase-self-service-consent = {

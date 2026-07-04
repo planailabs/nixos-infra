@@ -126,6 +126,13 @@ in
       };
     };
 
+    "ghgl.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8877/";
+        proxyWebsockets = true;
+      };
+    };
+
     "auth.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3636/";

@@ -32,6 +32,10 @@
     memvault.inputs.flake-utils.follows = "flake-utils";
     memvault.inputs.xzar.follows = "xzar";
     memvault.inputs.gitlab-incus-image.follows = "gitlab-incus-image";
+    ghgl-sync.url = "git+ssh://git@git.plan.ai/plan-ai/ghgl-sync";
+    ghgl-sync.inputs.nixpkgs.follows = "nixpkgs";
+    ghgl-sync.inputs.flake-utils.follows = "flake-utils";
+    ghgl-sync.inputs.rust-overlay.follows = "rust-overlay";
     common.url = "github:mgit-at/nixos-common";
     common.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/master";
@@ -195,6 +199,7 @@
           plan-ai-chat.nixosModules.default
           supabase-self-service-consent.nixosModules.default
           memvault.nixosModules.default
+          inputs.ghgl-sync.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default

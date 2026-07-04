@@ -255,6 +255,32 @@
         "type": "github"
       }
     },
+    "ghgl-sync": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783190685,
+        "narHash": "sha256-bkeq30YsoFs04w2b9GeYpTNQ/FLjk8Q7U2+Ng5SMNu0=",
+        "ref": "refs/heads/trunk",
+        "rev": "dfe9a7c5744ac1ee7aa93c62a200354b93294bdd",
+        "revCount": 6,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/ghgl-sync"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/ghgl-sync"
+      }
+    },
     "gitlab-incus-image": {
       "locked": {
         "lastModified": 1753527178,
@@ -767,6 +793,7 @@
         "common": "common",
         "disko": "disko_2",
         "flake-utils": "flake-utils_2",
+        "ghgl-sync": "ghgl-sync",
         "gitlab-incus-image": "gitlab-incus-image",
         "gitlab-nix-ci": "gitlab-nix-ci",
         "hardware": "hardware",
