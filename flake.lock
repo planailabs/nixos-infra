@@ -268,11 +268,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783197779,
-        "narHash": "sha256-WLxI8ef7FBivQnaJZ3Crro76H4IRjp/4LzRTvrVyVPM=",
+        "lastModified": 1783202446,
+        "narHash": "sha256-hdzVwDUSSFmpTLsyyvgwILQd8ksorCdhmLOAPhCjrNY=",
         "ref": "refs/heads/trunk",
-        "rev": "bbeb62025f90af0a660831cee2928add474fbdb9",
-        "revCount": 8,
+        "rev": "156c8f4aabc1e67fd66db39b536f0d51e3632844",
+        "revCount": 9,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/ghgl-sync"
       },
@@ -403,11 +403,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1783092489,
-        "narHash": "sha256-FWDwsh5nVZUQhkhwWw99pKC/G0kYoQ8b+3ATQ4G79oA=",
+        "lastModified": 1783199153,
+        "narHash": "sha256-jNG87EBpJ5OzEKi1WH8KVvjDehpgOkKUKdrYmMZdpPo=",
         "ref": "refs/heads/trunk",
-        "rev": "3777667c264b9c0036f5ec9967349653d32bdf84",
-        "revCount": 78,
+        "rev": "44f318381e524024715b687fedff63167f79c229",
+        "revCount": 79,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -430,11 +430,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1783188521,
-        "narHash": "sha256-F/YC1k5+ukSXJGd+owMy4vF81cgTVo0mOz0B5UeIMAI=",
+        "lastModified": 1783206079,
+        "narHash": "sha256-ttdHSriIDRCGqOt+M3Yv0cds8R6PyUe3TfBy9/HXkcs=",
         "ref": "refs/heads/trunk",
-        "rev": "600447cde9de7498d9f7c2a070497fc05a2c7f7e",
-        "revCount": 2352,
+        "rev": "ba3eac5e3d768f380de7b18f5ac247e00a2799b7",
+        "revCount": 2359,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -464,11 +464,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782564967,
-        "narHash": "sha256-g2gY2eWPJkE2mME42txwnjKCzQfMfqxq1lrIEYy5ZXU=",
+        "lastModified": 1783189957,
+        "narHash": "sha256-uTCbYR/R8OodrJrW+Jo9oOqrSu8kupDHypo4toCNRzE=",
         "ref": "refs/heads/trunk",
-        "rev": "8f1759ed3f1bef26b018e01b7b49dbe2f57d2a8d",
-        "revCount": 675,
+        "rev": "52c41d3905685581b8b708982e7ca788f7210add",
+        "revCount": 676,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
