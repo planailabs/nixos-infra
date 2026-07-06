@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, ... }: with lib; {
+{ inputs, lib, pkgs, config, ... }: with lib; {
   # services.mmrcd comes from mac-mgmt.nixosModules.mmrcd, imported in the
   # flake's nixosConfigurations entry (like the relay/runner hosts).
   imports = [
@@ -42,4 +42,36 @@
 
   # mmr-causality provides both `mmrcd` and the `mmrc` CLI on PATH.
   environment.systemPackages = [ pkgs.mmr-causality ];
+
+  # Drop a ready-to-use mmrc CLI config for root so `mmrc` works on the host
+  # with no manual setup (e.g. `MMRC_ENV=antithesis mmrc up`). The bearer token
+  # is read at runtime from the same secret file the daemon uses -- it never
+  # enters the Nix store -- and the file is regenerated on every switch. Points
+  # at the loopback daemon, so no TLS/nginx round-trip for on-host use.
+  systemd.services.mmrc-config = {
+    description = "Generate root's mmrc CLI config from the mmrcd token";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "mmrcd.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    script = ''
+      set -eu
+      # The token is provisioned out of band; skip cleanly if it isn't there yet.
+      if [ ! -r ${config.services.mmrcd.tokenFile} ]; then
+        echo "mmrcd token ${config.services.mmrcd.tokenFile} not present; skipping mmrc config" >&2
+        exit 0
+      fi
+      install -d -m 0700 /root/.config/mmrc
+      umask 077
+      # printf %s keeps the token literal (no glob/escape interpretation); the
+      # command substitution strips the file's trailing newline, matching how the
+      # daemon itself reads the token.
+      printf '# Managed by NixOS (mmrcd host); regenerated on switch. Do not edit.\ndefault_env = "antithesis"\n\n[env.antithesis]\nmmrcd_url   = "http://%s"\nmmrcd_token = "%s"\n' \
+        '${config.services.mmrcd.settings.listen}' "$(cat ${config.services.mmrcd.tokenFile})" \
+        > /root/.config/mmrc/config.toml
+      chmod 0600 /root/.config/mmrc/config.toml
+    '';
+  };
 }
