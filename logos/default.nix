@@ -468,7 +468,7 @@
       };
     }).overrideAttrs (old: {
       pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
-        outputHash = "sha256-WXxAqyzP2V3tQ7BFXRvb9uNFKP9WEb6jwlkO3kUc9wQ=";
+        outputHash = "sha256-dm69tZmhxxI4cIX7lry/cdLxROmT/BDds8PNRdPKPAg=";
       });
     });
     environmentFile = "/etc/plan-ai-chat.env";
