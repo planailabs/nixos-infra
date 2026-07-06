@@ -430,11 +430,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1783297231,
-        "narHash": "sha256-GRkvyXHZdRVHbDm3LxrvFk2EwtqiAdFvGEsLHRF8sgo=",
+        "lastModified": 1783366960,
+        "narHash": "sha256-DajAxs+jymWE/eS7Op2TLlH5zkYosba0axgitv9TdMs=",
         "ref": "refs/heads/trunk",
-        "rev": "8f133d87063f1add39fea26c5dd1c56623c99ce1",
-        "revCount": 2369,
+        "rev": "d73f2d3e978319461820ab3bfde7f3ec9c38b48b",
+        "revCount": 2380,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
