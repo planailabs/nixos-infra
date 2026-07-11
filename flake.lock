@@ -403,11 +403,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1783729992,
-        "narHash": "sha256-N6bxHTTwrM9p0g8F/Wyyk+zuIa69IOMa4vB5GrxNU0A=",
+        "lastModified": 1783738933,
+        "narHash": "sha256-r15ieHKQoFv4s/XYs7XaP4K95JyeHJwGZkyjNgG2gG0=",
         "ref": "refs/heads/trunk",
-        "rev": "b8e5f37e9847d8c6452e500828b9b02434fe2b7c",
-        "revCount": 100,
+        "rev": "3735c217a88e10d9400d803968e4b8c457af4203",
+        "revCount": 107,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
