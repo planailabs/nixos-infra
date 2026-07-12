@@ -8,9 +8,12 @@ let
   # pull newer builds.
   litellmImage = "ghcr.io/berriai/litellm-database:main-stable";
 
-  # Reported to the Codex models endpoint (it requires a client_version); track
-  # the codex CLI package so it stays current. Used by both the config generator
-  # and the provider's runtime discovery.
+  # Fallback client_version for the Codex models endpoint (it requires one).
+  # The endpoint hides models newer than the reported version and the nixpkgs
+  # codex package lags upstream releases, so genLitellmConfig resolves the
+  # latest release tag from GitHub at each start and only falls back to the
+  # packaged version if that lookup fails. The resolved version is shared with
+  # the provider's runtime discovery via ${configDir}/client-version.env.
   codexClientVersion = pkgs.codex.version;
 
   # Where the assembled config dir lives on the host (bind-mounted into /config).
@@ -64,7 +67,7 @@ let
     OUT = "${configDir}"
     AUTH = os.environ.get("CODEX_AUTH_FILE", "/root/.codex/auth.json")
     CLIENT_VERSION = os.environ.get("CODEX_CLIENT_VERSION", "${codexClientVersion}")
-    FALLBACK = ["gpt-5.5", "gpt-5.4", "gpt-5.4-mini"]
+    FALLBACK = ["gpt-5.6-sol", "gpt-5.6-terra", "gpt-5.6-luna", "gpt-5.5"]
     PRICING_URL = "https://developers.openai.com/api/docs/pricing"
 
     os.makedirs(OUT, exist_ok=True)
@@ -76,6 +79,30 @@ let
             shutil.copytree(src, dst)
         else:
             shutil.copyfile(src, dst)
+
+
+    def resolve_client_version():
+        # /releases/latest redirects to the latest stable tag (rust-vX.Y.Z);
+        # no API call, so no rate limit. Prereleases are never "latest".
+        try:
+            req = urllib.request.Request(
+                "https://github.com/openai/codex/releases/latest",
+                headers={"User-Agent": "Mozilla/5.0"},
+            )
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                tag = resp.geturl().rstrip("/").rsplit("/", 1)[-1]
+            m = re.match(r"rust-v([0-9][A-Za-z0-9.\-]*)$", tag)
+            if m:
+                return m.group(1)
+            sys.stderr.write("unexpected codex release tag %r; using %s\n" % (tag, CLIENT_VERSION))
+        except Exception as exc:  # noqa: BLE001
+            sys.stderr.write("codex release lookup failed (%s); using %s\n" % (exc, CLIENT_VERSION))
+        return CLIENT_VERSION
+
+    CLIENT_VERSION = resolve_client_version()
+    sys.stderr.write("codex client_version: %s\n" % CLIENT_VERSION)
+    with open(os.path.join(OUT, "client-version.env"), "w") as fh:
+        fh.write("CODEX_CLIENT_VERSION=%s\n" % CLIENT_VERSION)
 
 
     def discover():
@@ -113,8 +140,11 @@ let
     def fetch_pricing():
         # The Codex models endpoint has no pricing (subscription), so scrape the
         # public OpenAI pricing page. Prices are embedded as encoded rows shaped
-        # like [0,"<model> (...)"],[0,<input>],[0,<cached>],[0,<output>] (per 1M
-        # tokens); the first table is Standard pricing. Best-effort: {} on failure.
+        # like [0,"<model> (...)"],[0,<input>],[0,<cached>],[0,<cache-write>],
+        # [0,<output>] (per 1M tokens); a cell is a number or "-" when a model
+        # lacks that price. The cache-write column is new with gpt-5.6 -- older
+        # rows may have only 3 cells, so accept 3 or 4 and read output from the
+        # last. The first table is Standard pricing. Best-effort: {} on failure.
         try:
             req = urllib.request.Request(PRICING_URL, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=20) as resp:
@@ -122,14 +152,21 @@ let
         except Exception as exc:  # noqa: BLE001
             sys.stderr.write("codex pricing fetch failed (%s)\n" % exc)
             return {}
-        pat = re.compile(
-            r'\[0,"([a-zA-Z0-9.\-]+)[^"]*"\],\[0,([\d.]+)\],\[0,([\d.]+)\],\[0,([\d.]+)\]'
+        row_pat = re.compile(
+            r'\[0,"([a-zA-Z0-9.\-]+)[^"]*"\]((?:,\[0,(?:[\d.]+|"[^"]*")\]){3,4})'
         )
+        cell_pat = re.compile(r'\[0,(?:([\d.]+)|"[^"]*")\]')
         prices = {}
-        for m in pat.finditer(raw):
+        for m in row_pat.finditer(raw):
             name = m.group(1)
-            if name not in prices:  # keep the first (Standard) table
-                prices[name] = (float(m.group(2)), float(m.group(3)), float(m.group(4)))
+            if name in prices:  # keep the first (Standard) table
+                continue
+            cells = [float(c.group(1)) if c.group(1) else None for c in cell_pat.finditer(m.group(2))]
+            inp, cached, outp = cells[0], cells[1], cells[-1]
+            cache_write = cells[2] if len(cells) == 4 else None
+            if inp is None or outp is None:
+                continue
+            prices[name] = (inp, cached, cache_write, outp)
         return prices
 
     try:
@@ -144,10 +181,13 @@ let
         out = {"model": "codex/" + slug}
         price = prices.get(slug)
         if price:
-            inp, cached, outp = price
+            inp, cached, cache_write, outp = price
             out["input_cost_per_token"] = inp / 1_000_000
             out["output_cost_per_token"] = outp / 1_000_000
-            out["cache_read_input_token_cost"] = cached / 1_000_000
+            if cached is not None:
+                out["cache_read_input_token_cost"] = cached / 1_000_000
+            if cache_write is not None:
+                out["cache_creation_input_token_cost"] = cache_write / 1_000_000
         return out
 
     config = {
@@ -230,12 +270,13 @@ in
       extraOptions = [ "--network=host" ];
       cmd = [ "--config" "/config/config.yaml" "--host" "127.0.0.1" "--port" "8080" ];
       # LITELLM_MASTER_KEY comes from the secret file; the rest are non-secret.
-      environmentFiles = [ "/etc/litellm.env" ];
+      # client-version.env carries the CODEX_CLIENT_VERSION genLitellmConfig
+      # resolved (written before the container starts -- see the config service).
+      environmentFiles = [ "/etc/litellm.env" "${configDir}/client-version.env" ];
       environment = {
         DATABASE_URL = "postgresql://litellm@127.0.0.1:5432/litellm";
         PYTHONPATH = "/config";
         CODEX_AUTH_FILE = "/root/.codex/auth.json";
-        CODEX_CLIENT_VERSION = codexClientVersion;
         SCARF_NO_ANALYTICS = "True";
         DO_NOT_TRACK = "True";
         ANONYMIZED_TELEMETRY = "False";
