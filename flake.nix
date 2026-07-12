@@ -19,6 +19,9 @@
     mac-mgmt.url = "git+ssh://git@git.plan.ai/plan-ai/mac-mgmt";
     mac-mgmt.inputs.nixpkgs.follows = "nixpkgs";
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
+    web-agency.url = "git+ssh://git@git.plan.ai/plan-ai/web-agency";
+    web-agency.inputs.nixpkgs.follows = "nixpkgs";
+    web-agency.inputs.rust-overlay.follows = "rust-overlay";
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
     hugger.url = "git+https://git.plan.ai/plan-ai/hugger";
@@ -57,6 +60,7 @@
     xzar,
     rust-overlay,
     mac-mgmt,
+    web-agency,
     plan-ai-chat,
     supabase-self-service-consent,
     memvault,
@@ -329,12 +333,12 @@
         modules = [
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
-          mac-mgmt.nixosModules.web-agency
+          web-agency.nixosModules.web-agency
           ./agency
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
             acme-distributor.overlays.default
-            mac-mgmt.overlays.default
+            web-agency.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];

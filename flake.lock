@@ -2,7 +2,7 @@
   "nodes": {
     "acme": {
       "inputs": {
-        "flake-utils": "flake-utils_7",
+        "flake-utils": "flake-utils_8",
         "nixpkgs": [
           "xnix",
           "nixpkgs"
@@ -240,6 +240,24 @@
     "flake-utils_8": {
       "inputs": {
         "systems": "systems_8"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_9": {
+      "inputs": {
+        "systems": "systems_9"
       },
       "locked": {
         "lastModified": 1731533236,
@@ -806,6 +824,7 @@
         "plan-ai-chat": "plan-ai-chat",
         "rust-overlay": "rust-overlay_4",
         "supabase-self-service-consent": "supabase-self-service-consent",
+        "web-agency": "web-agency",
         "xnix": "xnix",
         "xzar": "xzar_3"
       }
@@ -1078,6 +1097,21 @@
         "type": "github"
       }
     },
+    "systems_9": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "uv2nix": {
       "inputs": {
         "nixpkgs": [
@@ -1101,6 +1135,31 @@
         "owner": "pyproject-nix",
         "repo": "uv2nix",
         "type": "github"
+      }
+    },
+    "web-agency": {
+      "inputs": {
+        "flake-utils": "flake-utils_7",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ]
+      },
+      "locked": {
+        "lastModified": 1783884991,
+        "narHash": "sha256-kX9x9l0Md9JfiNUoTAXO5xGxPoj53rt+Wi8npbLBnpA=",
+        "ref": "refs/heads/trunk",
+        "rev": "51863965e67b440c6b4028095138594276b402e9",
+        "revCount": 223,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
       }
     },
     "xnix": {
@@ -1220,7 +1279,7 @@
     },
     "xzar_3": {
       "inputs": {
-        "flake-utils": "flake-utils_8",
+        "flake-utils": "flake-utils_9",
         "nixpkgs": [
           "nixpkgs"
         ],
