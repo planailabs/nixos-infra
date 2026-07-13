@@ -51,6 +51,7 @@ with lib;
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICTSrNdtjar9uZ8BPHQ0DFU4GVfrvZQJnVduLgE0ATfT mac-mgmt@deploy"
         # loreno
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEnF5ZgwSXvWSz116RYt5otf2TNVeCKrBMn+/DtWbQKl loreno@plan.ai"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILHfeMXlLMTKKaOxFUiHOVPt2ouXeX92p6NeBk77HEQg"
       ];
     };
   };
