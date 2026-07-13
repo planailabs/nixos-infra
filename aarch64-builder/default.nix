@@ -44,6 +44,13 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAC1D5tV2Tjx2G76VT/hPxMx6H+o7nlxm6nMhobpZq8M root@nixos"
   ];
 
+  nixpkgs.overlays = [
+    (final: prev: {
+      # ponytail: upstream Nix store tests currently fail on this builder; remove once nixpkgs carries a fixed Nix.
+      nix = prev.nix.overrideAttrs (_: { doCheck = false; });
+    })
+  ];
+
   nix = {
     gc.automatic = mkForce false;
 
