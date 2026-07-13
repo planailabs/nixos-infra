@@ -392,11 +392,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783814254,
-        "narHash": "sha256-bsqgm3shjBFaLJ8kzQxhPtc3ftqMeTSVBeCTg7ELA3k=",
+        "lastModified": 1783823409,
+        "narHash": "sha256-OI4IkRjRXa1e7hYmCGJDPDq5H/kPwhsyoS80cNUF9fI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "e473bdcd8786928b35061bc281568d91d752a2e6",
+        "rev": "7566825d4652a1b885bd4ce65bd9e8def432fec9",
         "type": "github"
       },
       "original": {
@@ -448,11 +448,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1783810326,
-        "narHash": "sha256-Bb/Y7pe6Ve3CIDWfpsaDvPD0MFmW67vgARQmRTzhe/A=",
+        "lastModified": 1783891470,
+        "narHash": "sha256-yEr1NzA3KyFV9iW7r1rjkM5oXZzePRSXKmdPF3kKQ/g=",
         "ref": "refs/heads/trunk",
-        "rev": "656c819d2ad571864820105527d05b674eb7ae96",
-        "revCount": 2421,
+        "rev": "895ec73fa16c6d7b9aa7826c7b1c902c5b2a5624",
+        "revCount": 2431,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -482,11 +482,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783812528,
-        "narHash": "sha256-iejVPJQzlbF9JKthWjVangr6RSR4R8cJKtIes04sEnQ=",
+        "lastModified": 1783883832,
+        "narHash": "sha256-gH6A9emP6/O1cZBhPQ5jBgrsEnOD8H8i04pQ3YoFLA8=",
         "ref": "refs/heads/trunk",
-        "rev": "efe5f9f7039a93adac23ca1c992c119a0d54b3ba",
-        "revCount": 693,
+        "rev": "db78e5a9fe2f89e9ab65536bdd47b7916d8029f8",
+        "revCount": 694,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -901,11 +901,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783747106,
-        "narHash": "sha256-KlepQu/O5m11lAjcJ4ER5bc6bIzyX2UMPDARzMzQfIw=",
+        "lastModified": 1783834461,
+        "narHash": "sha256-FCmrs1StAghJDKfqy56KM96KZtxpYzgeq6zM3QO8wjA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "e598b37857b895b81020a65a802ef55f5bbed72f",
+        "rev": "a286e5b998e852297a403786f063fb2c9fe7f57a",
         "type": "github"
       },
       "original": {
@@ -1148,11 +1148,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783884991,
-        "narHash": "sha256-kX9x9l0Md9JfiNUoTAXO5xGxPoj53rt+Wi8npbLBnpA=",
+        "lastModified": 1783891467,
+        "narHash": "sha256-JhfnP5nqnlgtbeuqTrDhGAqomE/MDeHP2fTNHjy/F24=",
         "ref": "refs/heads/trunk",
-        "rev": "51863965e67b440c6b4028095138594276b402e9",
-        "revCount": 223,
+        "rev": "0e6e1034f8034b8417059bccf6747ef8c910d5d7",
+        "revCount": 230,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
