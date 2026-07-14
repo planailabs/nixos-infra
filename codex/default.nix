@@ -106,6 +106,8 @@ let
 
 
     def discover():
+        # Returns the full model descriptors (not just slugs): input_modalities
+        # and context_window feed each entry's model_info below.
         with open(AUTH) as fh:
             data = json.load(fh)
         tok = data.get("tokens") or data.get("chatgpt") or data
@@ -129,7 +131,7 @@ let
         with urllib.request.urlopen(req, timeout=20) as resp:
             models = json.load(resp).get("models", [])
         return [
-            m["slug"]
+            m
             for m in models
             if m.get("slug")
             and m.get("supported_in_api", True)
@@ -170,12 +172,27 @@ let
         return prices
 
     try:
-        slugs = discover() or FALLBACK
+        discovered = discover()
     except Exception as exc:  # noqa: BLE001
         sys.stderr.write("codex model discovery failed (%s); using fallback\n" % exc)
-        slugs = FALLBACK
+        discovered = []
+    slugs = [m["slug"] for m in discovered] or FALLBACK
+    caps = {m["slug"]: m for m in discovered}
 
     prices = fetch_pricing()
+
+    def model_info(slug):
+        # Advertise capabilities from the discovery payload. Without
+        # supports_vision here, litellm reports the model as text-only on
+        # /model/info and capability-checking clients refuse to attach images
+        # (the wire path itself handles them fine).
+        info = {"mode": "chat", "supports_function_calling": True}
+        m = caps.get(slug)
+        if m:
+            info["supports_vision"] = "image" in (m.get("input_modalities") or [])
+            if m.get("context_window"):
+                info["max_input_tokens"] = m["context_window"]
+        return info
 
     def params(slug):
         out = {"model": "codex/" + slug}
@@ -199,7 +216,7 @@ let
             ]
         },
         "model_list": (
-            [{"model_name": s, "litellm_params": params(s)} for s in slugs]
+            [{"model_name": s, "litellm_params": params(s), "model_info": model_info(s)} for s in slugs]
             # Sakana AI -- OpenAI-compatible passthrough. `sakana/*` -> `openai/*`
             # forwards the model name after `sakana/` straight to the endpoint.
             + [

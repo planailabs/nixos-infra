@@ -12,14 +12,14 @@ buildPythonPackage {
   # Fork of jslorrma/litellm-codex-oauth-provider: implements OAuth access-token
   # refresh and live model discovery (upstream stubs refresh and hard-codes stale
   # model names). No tagged releases, so pin the commit.
-  version = "0.3.1-unstable-2026-07-13";
+  version = "0.3.1-unstable-2026-07-14";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "mkg20001";
     repo = "litellm-codex-oauth-provider";
-    rev = "b092096f46a8b098dc677f760caaa27584c34b00";
-    hash = "sha256-uYUe7TZNyJh/yw2zqL4elc3fg7WgWwZWBynJAV+WNPY=";
+    rev = "1f369dbb2ed6dc17593d2b65838bc23dcb6eb2cf";
+    hash = "sha256-ln8UWxfhMfa8saBD8lMzrUROgLj7/5EkQwaTOnGx5uU=";
   };
 
   build-system = [ hatchling ];
