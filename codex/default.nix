@@ -35,6 +35,28 @@ let
                 litellm.open_ai_chat_completion_models.remove(_m)
     except Exception:
         pass
+
+    # Image generation: litellm's get_optional_params_image_gen returns {} for
+    # custom providers (its provider-config registry is a hardcoded if/elif over
+    # built-in providers), silently dropping the standard n/quality/size/style
+    # params before they reach the custom handler. Re-attach them for codex.
+    # images/main.py imports the function into its own namespace, so patch the
+    # binding there.
+    try:
+        import litellm.images.main as _img_main
+        _orig_img_params = _img_main.get_optional_params_image_gen
+
+        def _codex_img_params(*args, **kwargs):
+            out = _orig_img_params(*args, **kwargs)
+            if kwargs.get("custom_llm_provider") == "codex":
+                for _k in ("n", "quality", "size", "style", "response_format"):
+                    if kwargs.get(_k) is not None:
+                        out.setdefault(_k, kwargs[_k])
+            return out
+
+        _img_main.get_optional_params_image_gen = _codex_img_params
+    except Exception:
+        pass
   '';
 
   # Static files mounted into the container (handler shim + pure-Python provider
@@ -217,6 +239,20 @@ let
         },
         "model_list": (
             [{"model_name": s, "litellm_params": params(s), "model_info": model_info(s)} for s in slugs]
+            # Image generation: the Codex backend has no dedicated image models
+            # -- the provider fork drives the hosted image_generation tool on a
+            # regular codex model (see provider.py:aimage_generation). Expose
+            # that under the standard OpenAI image-model names so any image
+            # client finds a deployment; all route to the top-priority (first)
+            # slug.
+            + [
+                {
+                    "model_name": alias,
+                    "litellm_params": {"model": "codex/" + slugs[0]},
+                    "model_info": {"mode": "image_generation"},
+                }
+                for alias in ["gpt-image-2", "gpt-image-1.5", "gpt-image-1", "dall-e-3"]
+            ]
             # Sakana AI -- OpenAI-compatible passthrough. `sakana/*` -> `openai/*`
             # forwards the model name after `sakana/` straight to the endpoint.
             + [
