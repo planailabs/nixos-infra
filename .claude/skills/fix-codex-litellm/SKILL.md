@@ -57,7 +57,11 @@ Run all repo commands from the `nixos-infra` root. The git/gh account here is
 - Handler shim (`codexHandlerPy` in `codex/default.nix`) — re-exports the
   provider instance AND removes discovered model slugs from
   `litellm.open_ai_chat_completion_models` so litellm's dispatch doesn't route
-  codex models to its built-in OpenAI handler.
+  codex models to its built-in OpenAI handler. Also patches
+  `litellm.images.main.get_optional_params_image_gen`: for custom providers
+  litellm returns `{}` there (its provider-config registry is a hardcoded
+  if/elif over built-ins), silently dropping standard image params
+  (`n`/`quality`/`size`/`style`) before they reach the custom handler.
 
 ## Step 1: Capture the error
 
@@ -126,9 +130,18 @@ ssh root@codex.plan.ai 'journalctl -u litellm-codex-config --no-pager -n 80'
 - **Image generation.** `/v1/images/generations` is served by
   `provider.py:aimage_generation` via the hosted `image_generation` tool on
   `/responses`. `size`/`quality`/`output_format`/`background` forward onto the
-  tool spec (`auto` is dropped). If it returns "no image data", dump the raw
+  tool spec (`auto` is dropped; DALL-E-style `standard`/`hd` map to
+  `medium`/`high`); `n` fans out into concurrent runs (capped at 4);
+  results are always `b64_json`. If it returns "no image data", dump the raw
   SSE events — the b64 lives in `response.output_item.done` items of type
   `image_generation_call`, field `result`.
+  - *"no healthy deployments" for image model names*: clients ask for standard
+    names (`gpt-image-*`, `dall-e-3`); genLitellmConfig aliases those to the
+    top-priority codex slug with `model_info.mode: image_generation`.
+  - *`n`/`quality`/`size` ignored*: they must survive litellm's
+    `get_optional_params_image_gen`, which drops them for custom providers —
+    that's what the shim patch (see Architecture map) fixes. Verify by calling
+    the provider directly in the container with `optional_params={"n": 2}`.
 
 ## Step 3: Reproduce and fix in the fork
 
