@@ -8,7 +8,7 @@ with lib;
     ./hardware-configuration.nix
     ./network-configuration.nix
     ./nginx.nix
-    ./rustnmap-api.nix
+    inputs.securitybird.nixosModules.rustnmap-api
     ../modules/common.nix
     "${inputs.self.private}/scanner.nix"
   ];
@@ -16,6 +16,21 @@ with lib;
   system.stateVersion = "26.11";
 
   nixpkgs.hostPlatform = "x86_64-linux";
+
+  # The rustnmap REST API server (the `remote` scan backend), from the
+  # securitybird flake. nginx terminates TLS for scanner.plan.ai in front of
+  # it (see nginx.nix); the stable bearer token lives in /etc/rustnmap-api.env
+  # (defined in private/scanner.nix). We build the package once via the
+  # overlay in modules/common.nix so the server and the CLI in
+  # environment.systemPackages are the same derivation.
+  services.rustnmap-api = {
+    enable = true;
+    package = pkgs.rustnmap;
+    listen = "127.0.0.1:8080";
+    apiKeysFile = "/etc/rustnmap-api.env";
+    # SYN/UDP/stealth scans need raw sockets; grant CAP_NET_RAW/CAP_NET_ADMIN.
+    rawSocketCapability = true;
+  };
 
   mkg.mod = {
     yggdrasil = {

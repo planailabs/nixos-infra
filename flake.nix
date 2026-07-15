@@ -29,11 +29,14 @@
     hugger.inputs.flake-utils.follows = "flake-utils";
     supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
     supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
-    # Source-only (flake = false): we import nix/rustnmap.nix directly and
-    # callPackage it against our nixpkgs. Single source of truth for the
-    # rustnmap package, shared with the securitybird repo.
+    # Full flake: we consume its nixosModules.rustnmap-api (the REST scan
+    # server) and its nix/rustnmap.nix package. Inputs follow ours so there's
+    # no second nixpkgs. Single source of truth for the rustnmap package and
+    # its service module, shared with the securitybird repo.
     securitybird.url = "git+ssh://git@git.plan.ai/plan-ai/securitybird";
-    securitybird.flake = false;
+    securitybird.inputs.nixpkgs.follows = "nixpkgs";
+    securitybird.inputs.rust-overlay.follows = "rust-overlay";
+    securitybird.inputs.flake-utils.follows = "flake-utils";
     memvault.url = "git+https://git.plan.ai/plan-ai/memvault?submodules=1";
     memvault.inputs.nixpkgs.follows = "nixpkgs";
     memvault.inputs.rust-overlay.follows = "rust-overlay";

@@ -14,10 +14,12 @@ with lib;
     # You can add overlays here
     overlays = [
       # rustnmap (CLI + rustnmap-api-server) is defined once, in the
-      # securitybird repo, and imported here as a `flake = false` source so the
-      # two repos never drift. It's callPackage'd against this flake's nixpkgs
-      # (no nixpkgs duplication); bumping the fork is a one-file change in
-      # securitybird plus `nix flake update securitybird` here.
+      # securitybird repo, and callPackage'd here against this flake's nixpkgs
+      # so the two repos never drift and there's no nixpkgs duplication. This
+      # is the same package the securitybird rustnmap-api module runs on the
+      # scanner host (passed in via services.rustnmap-api.package). Bumping the
+      # fork is a one-file change in securitybird plus `nix flake update
+      # securitybird` here.
       (final: prev: {
         rustnmap = prev.callPackage "${inputs.securitybird}/nix/rustnmap.nix" { };
       })
