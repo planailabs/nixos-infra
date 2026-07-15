@@ -388,6 +388,18 @@
         ];
       };
 
+      scanner = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          disko.nixosModules.disko
+          mkg-mod.nixosModules.yggdrasil
+          ./scanner
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       mmrcd = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [

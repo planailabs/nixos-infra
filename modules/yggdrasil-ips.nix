@@ -6,4 +6,5 @@
   metis = "200:e267:ed69:7bb1:c8b0:a0e9:c3f9:b83d";
   peira = "202:bf98:16:49b2:4de4:e15c:d0e3:ffac";
   pi = "200:7ef6:32c6:540a:d4:3e52:6e1c:fdd9";
+  scanner = "200:a9da:85e8:7137:6f3f:6c4c:306e:c184";
 }
