@@ -7,6 +7,7 @@ with lib;
     ./disko.nix
     ./hardware-configuration.nix
     ./network-configuration.nix
+    ./rustnmap-api.nix
     ../modules/common.nix
     "${inputs.self.private}/scanner.nix"
   ];

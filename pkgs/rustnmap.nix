@@ -1,19 +1,27 @@
-# rustnmap: the upstream network scanner CLI. GPL-3.0-or-later.
-# Provides the `rustnmap` binary. (The project's REST API server — which the
-# `remote` scan backend talks to — ships only as a crate example, not a bin,
-# so it is not packaged here; run it from a checkout with
-# `cargo run -p rustnmap-api --example server`.)
+# rustnmap: the network scanner from the planailabs fork of
+# greatwallisme/rustnmap. Provides two bins:
+#   - rustnmap             — the CLI (upstream bin)
+#   - rustnmap-api-server  — the REST API / daemon that the `remote` scan
+#                            backend talks to. Upstream ships it only as a
+#                            crate example (crates/rustnmap-api/examples/
+#                            server.rs); the fork adds one commit declaring it
+#                            as a [[bin]] so we can build it here. The server
+#                            code is unchanged: it binds 127.0.0.1:8080 and
+#                            logs auto-generated API keys at startup.
+# GPL-3.0-or-later.
 { lib, rustPlatform, fetchFromGitHub, pkg-config, openssl }:
 
 rustPlatform.buildRustPackage rec {
   pname = "rustnmap";
   version = "unstable-2026-07-15";
 
+  # planailabs fork — same tree as upstream greatwallisme/rustnmap plus one
+  # commit exposing the API server example as the rustnmap-api-server bin.
   src = fetchFromGitHub {
-    owner = "greatwallisme";
+    owner = "planailabs";
     repo = "rustnmap";
-    rev = "852ca1cc8e24ce5dd7d2cc19f9fab600981e00fb";
-    hash = "sha256-fVYSXaTM3jisePTmnisUgr9QE7ZPlbgrzk29hOYx1zs=";
+    rev = "d799cb372c148551fa0709c8de20ccb818fc71f3";
+    hash = "sha256-EzO7Nx++A/pgH1F/bbVJbRGpVh6Q3RvUBl1iCsolIOE=";
   };
 
   cargoHash = "sha256-Uyl+mq1Lomsbqw1Jrvt1d+I0T3jkwbOFpM8DLsCmqf4=";
@@ -21,17 +29,17 @@ rustPlatform.buildRustPackage rec {
   nativeBuildInputs = [ pkg-config ];
   buildInputs = [ openssl ];
 
-  # Link the CLI against system openssl (pcre2-sys/mlua still vendor their C).
+  # Link against system openssl (pcre2-sys/mlua still vendor their C).
   OPENSSL_NO_VENDOR = "1";
 
-  # Build just the CLI bin, not the whole workspace (benchmarks, api, …).
-  cargoBuildFlags = [ "--bin" "rustnmap" ];
+  # Build the two bins we ship, not the whole workspace (benchmarks, …).
+  cargoBuildFlags = [ "--bin" "rustnmap" "--bin" "rustnmap-api-server" ];
 
   # Upstream's test suite hits the network / needs raw sockets.
   doCheck = false;
 
   meta = {
-    description = "Async network scanner in Rust (nmap-like)";
+    description = "Async network scanner in Rust (nmap-like), with REST API server";
     homepage = "https://github.com/greatwallisme/rustnmap";
     license = lib.licenses.gpl3Plus;
     mainProgram = "rustnmap";

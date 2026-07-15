@@ -136,6 +136,7 @@ with lib;
     opencode
     neovim
     rsync
+    rustnmap
   ];
 
   programs.screen = {
