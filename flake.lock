@@ -988,11 +988,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784153477,
-        "narHash": "sha256-0KEuxOHzm5kxEKTbhqRhkGJHO32UiwPgJKN28mGJ/s8=",
+        "lastModified": 1784154393,
+        "narHash": "sha256-JOF+h226PSq5lD965Ttwf+9onpQlLmhxByAOkkAlctA=",
         "ref": "refs/heads/trunk",
-        "rev": "030721acd955b966294b0b03d8339dfb55b54964",
-        "revCount": 29,
+        "rev": "bda822d62fafc2d509efdee9f6c9aa73919cdb33",
+        "revCount": 30,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/securitybird"
       },
