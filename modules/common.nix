@@ -13,15 +13,14 @@ with lib;
   nixpkgs = {
     # You can add overlays here
     overlays = [
-      # If you want to use overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
+      # rustnmap (CLI + rustnmap-api-server) is defined once, in the
+      # securitybird repo, and imported here as a `flake = false` source so the
+      # two repos never drift. It's callPackage'd against this flake's nixpkgs
+      # (no nixpkgs duplication); bumping the fork is a one-file change in
+      # securitybird plus `nix flake update securitybird` here.
+      (final: prev: {
+        rustnmap = prev.callPackage "${inputs.securitybird}/nix/rustnmap.nix" { };
+      })
     ];
     # Configure your nixpkgs instance
     config = {

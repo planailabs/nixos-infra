@@ -12,7 +12,6 @@ final: prev: {
   obsidian-mcp-server = prev.callPackage ./obsidian-mcp-server { };
   obsidian-local-rest-api-plugin = prev.callPackage ./obsidian-local-rest-api-plugin.nix { };
   cozempic = prev.callPackage ./cozempic.nix { };
-  rustnmap = prev.callPackage ./rustnmap.nix { };
 
   # Codex OAuth custom provider (pure-Python source). The codex host mounts this
   # package's source into the official litellm container; litellm is provided by

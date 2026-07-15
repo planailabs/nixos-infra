@@ -840,6 +840,7 @@
         "nixpkgs": "nixpkgs_2",
         "plan-ai-chat": "plan-ai-chat",
         "rust-overlay": "rust-overlay_4",
+        "securitybird": "securitybird",
         "supabase-self-service-consent": "supabase-self-service-consent",
         "web-agency": "web-agency",
         "xnix": "xnix",
@@ -972,6 +973,22 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "securitybird": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784138763,
+        "narHash": "sha256-JeLNoH2bSXn8USPEl/mTbXZ4O/x79jclErVuyLYk6HA=",
+        "ref": "refs/heads/trunk",
+        "rev": "6960be6b7fe0e611cadb6df99b932d80120ace52",
+        "revCount": 17,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/securitybird"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/securitybird"
       }
     },
     "supabase-self-service-consent": {

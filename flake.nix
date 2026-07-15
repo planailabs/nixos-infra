@@ -29,6 +29,11 @@
     hugger.inputs.flake-utils.follows = "flake-utils";
     supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
     supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
+    # Source-only (flake = false): we import nix/rustnmap.nix directly and
+    # callPackage it against our nixpkgs. Single source of truth for the
+    # rustnmap package, shared with the securitybird repo.
+    securitybird.url = "git+ssh://git@git.plan.ai/plan-ai/securitybird";
+    securitybird.flake = false;
     memvault.url = "git+https://git.plan.ai/plan-ai/memvault?submodules=1";
     memvault.inputs.nixpkgs.follows = "nixpkgs";
     memvault.inputs.rust-overlay.follows = "rust-overlay";
@@ -393,8 +398,10 @@
         modules = [
           disko.nixosModules.disko
           mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
           ./scanner
           { nixpkgs.overlays = [
+            acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
