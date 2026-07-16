@@ -372,11 +372,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1783792734,
-        "narHash": "sha256-50rvY9GdFvpYDcMLcD/4cWSi0hVxArT5wsGlVsHy8eY=",
+        "lastModified": 1784100666,
+        "narHash": "sha256-HF/mrw5NYQfKFZgkfV2h1UL5/E3ccfsE2XJ1AbbLLJ0=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "8efb4337e857949f4cfac86d12ef1066f417f31f",
+        "rev": "fccfa9031a85b78a437f2f153c1f6449f3bc3185",
         "type": "github"
       },
       "original": {
@@ -392,11 +392,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783963347,
-        "narHash": "sha256-r376E2XpakiXwModDHIxlvB6qLq4iFVEq730vxOO4JY=",
+        "lastModified": 1784129366,
+        "narHash": "sha256-N5JiyICSeQF14x+OQebNyPpYowOT9Rs1iKyeCylSzOA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a45a7c451455a51ae740ec3bce4024b312809c29",
+        "rev": "165228b0efefc3e635e5174020c40ea64271dc25",
         "type": "github"
       },
       "original": {
@@ -449,11 +449,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1784076042,
-        "narHash": "sha256-xQo6/e4to2uI2uWeFNrxQGBX+51u4rY0chMKm06JrDw=",
+        "lastModified": 1784155699,
+        "narHash": "sha256-lAPG9CsNlVP/k2EjYd8JKQcdt8PUs0qi4ZoQp2z3ZDg=",
         "ref": "refs/heads/trunk",
-        "rev": "0a135580727a74b7b87c18f87f9a4ae311c5e202",
-        "revCount": 2474,
+        "rev": "934d522dc3661c1f55994fd4357e45191c6c197f",
+        "revCount": 2492,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -483,11 +483,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784075485,
-        "narHash": "sha256-4e+oDU4A1a9AFLE3OJ0uvbJhmHkspMieNmBkVEY7YhQ=",
+        "lastModified": 1784156646,
+        "narHash": "sha256-dfqD6eqbpaVw7SzAkTB04qWQP9tNERnrljpeAu5o44U=",
         "ref": "refs/heads/trunk",
-        "rev": "8222105e34548dc22c5bc240349ef035c628a5ff",
-        "revCount": 696,
+        "rev": "4ebf9b6500a0c71b6ed579a1f617ae3658119918",
+        "revCount": 699,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -919,11 +919,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784004965,
-        "narHash": "sha256-5Dk8H/H9fqjr7kS4MKqdBOzVsTK5r1/PMjC6eQuXd54=",
+        "lastModified": 1784091390,
+        "narHash": "sha256-aILAwrBQPhKldL98N8lmsbfst3OPtbMM4vT2VXn40/Y=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "a794b72f1297136a654424de0348d32e76a9f14e",
+        "rev": "a7887636a3959168bd1ba7ef24a8a70b168dcb56",
         "type": "github"
       },
       "original": {
@@ -1192,11 +1192,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784078481,
-        "narHash": "sha256-sR/Me9QILl5IbGtjfHXGT2963WjjKDkYjsbCqsAkzhE=",
+        "lastModified": 1784159649,
+        "narHash": "sha256-gxmp0qw6xdIQSrmSRa9lmAZCCjqMOp6Yx6P4hmD1Hao=",
         "ref": "refs/heads/trunk",
-        "rev": "04cb68277e5cc3eab964346476ebfe69ea26bf17",
-        "revCount": 233,
+        "rev": "7f6f3d0c857a0be4c4e595fb59c26613ec9d63fc",
+        "revCount": 243,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
