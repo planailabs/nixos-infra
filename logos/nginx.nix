@@ -91,6 +91,13 @@ in
       '';
     };
 
+    "vpn.plan.ai" = h {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8091/";
+        proxyWebsockets = true;
+      };
+    };
+
     "mgmt.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://localhost:7377/";
