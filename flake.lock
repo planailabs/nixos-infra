@@ -1226,11 +1226,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784767652,
-        "narHash": "sha256-F3EUnCnYjRtUBEYbqR0ZS7CKz/mJl7Ez56MSdtm/lDg=",
+        "lastModified": 1784809633,
+        "narHash": "sha256-KoBBPvBliZyKYdeKJJcVs5OD8OtZKG4IXJ9Z/oPgOVA=",
         "ref": "refs/heads/trunk",
-        "rev": "b7329535f7c16d200cce4c80c8c1090e662d25a1",
-        "revCount": 19,
+        "rev": "acba4d8eb96981ecced51ddcefdf1edbdcb938a5",
+        "revCount": 21,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/wg-vpng"
