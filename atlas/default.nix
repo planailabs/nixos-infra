@@ -65,4 +65,14 @@ with lib;
   };
 
   services.fwupd.enable = true;
+
+  # wg-vpng node: a dumb WireGuard switch the wg-vpng server (logos) drives over
+  # HTTP to create interfaces here. Provision the bearer key out-of-band at
+  # /etc/wg-vpng-node.key (matching the key set on the interface in the admin UI).
+  services.wg-vpng-node = {
+    enable = true;
+    openFirewall = true;
+    settings.backend = "self-managed";
+    apiKeyFile = "/etc/wg-vpng-node.key";
+  };
 }

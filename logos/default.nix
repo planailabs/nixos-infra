@@ -421,6 +421,17 @@
     enable = true;
   };
 
+  # wg-vpng server: WireGuard VPN generator. It offloads interfaces to remote
+  # nodes (e.g. the wg-vpng-node on atlas) chosen per-interface in the admin UI.
+  # The app reads all config (OIDC providers, secrets.encryption_key, database)
+  # from its CONFIG_PATH TOML, so provision that out-of-band and point the
+  # service at it via /etc/wg-vpng.env (e.g. `CONFIG_PATH=/etc/wg-vpng/config.toml`).
+  services.wg-vpng-server = {
+    enable = true;
+    environmentFile = "/etc/wg-vpng.env";
+    settings.web.port = 8091;
+  };
+
   services.mac-mgmt-runner = {
     enable = true;
   };

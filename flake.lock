@@ -843,6 +843,7 @@
         "securitybird": "securitybird",
         "supabase-self-service-consent": "supabase-self-service-consent",
         "web-agency": "web-agency",
+        "wg-vpng": "wg-vpng",
         "xnix": "xnix",
         "xzar": "xzar_3"
       }
@@ -1204,6 +1205,39 @@
       "original": {
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
+      }
+    },
+    "wg-vpng": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "gitlab-incus-image": [
+          "gitlab-incus-image"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": [
+          "rust-overlay"
+        ],
+        "xzar": [
+          "xzar"
+        ]
+      },
+      "locked": {
+        "lastModified": 1784767652,
+        "narHash": "sha256-F3EUnCnYjRtUBEYbqR0ZS7CKz/mJl7Ez56MSdtm/lDg=",
+        "ref": "refs/heads/trunk",
+        "rev": "b7329535f7c16d200cce4c80c8c1090e662d25a1",
+        "revCount": 19,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/wg-vpng"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/wg-vpng"
       }
     },
     "xnix": {

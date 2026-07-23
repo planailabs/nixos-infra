@@ -47,6 +47,12 @@
     ghgl-sync.inputs.nixpkgs.follows = "nixpkgs";
     ghgl-sync.inputs.flake-utils.follows = "flake-utils";
     ghgl-sync.inputs.rust-overlay.follows = "rust-overlay";
+    wg-vpng.url = "git+ssh://git@git.plan.ai/plan-ai/wg-vpng";
+    wg-vpng.inputs.nixpkgs.follows = "nixpkgs";
+    wg-vpng.inputs.rust-overlay.follows = "rust-overlay";
+    wg-vpng.inputs.flake-utils.follows = "flake-utils";
+    wg-vpng.inputs.xzar.follows = "xzar";
+    wg-vpng.inputs.gitlab-incus-image.follows = "gitlab-incus-image";
     common.url = "github:mgit-at/nixos-common";
     common.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager/master";
@@ -135,8 +141,10 @@
           disko.nixosModules.disko
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
+          inputs.wg-vpng.nixosModules.wg-vpng-node
           ./atlas
           { nixpkgs.overlays = [
+            inputs.wg-vpng.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
@@ -212,6 +220,7 @@
           supabase-self-service-consent.nixosModules.default
           memvault.nixosModules.default
           inputs.ghgl-sync.nixosModules.default
+          inputs.wg-vpng.nixosModules.default
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
@@ -220,6 +229,7 @@
             plan-ai-chat.overlays.default
             mac-mgmt.overlays.default
             memvault.overlays.default
+            inputs.wg-vpng.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
