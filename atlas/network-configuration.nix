@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ lib, pkgs, ... }: {
   systemd.network = {
     enable = true;
     networks."40-eth0" = {
@@ -39,4 +39,13 @@
     { from = 1120; to = 1129; }
   ];
   networking.firewall.allowedTCPPorts = [ 8787 ];
+
+  systemd.services.ndp-proxy = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      Restart = "always";
+      ExecStart = "${pkgs.callPackage ./ndp {}}/bin/ndp-proxy -i eth0 -m 56 -n 2a01:4f9:1a:2700::";
+    };
+  };
 }
