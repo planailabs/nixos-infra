@@ -7,7 +7,7 @@
       };
       gateway = [ "fe80::1" "65.108.140.193" ];
       networkConfig = {
-        Address = [ "2a01:4f9:1a:90eb::2/128" ];
+        Address = [ "2a01:4f9:1a:90eb::2/128" "2a01:4f9:1a:2700::1/56" ];
       };
       addresses = [
         { Address = "65.108.140.241/26"; Peer = "65.108.140.193"; }
@@ -34,5 +34,9 @@
   networking.useDHCP = false;
   networking.useNetworkd = lib.mkForce true;
   services.udev.extraRules = ''ATTR{address}=="04:42:1a:23:db:9d", NAME="eth0"'';
-}
 
+  networking.firewall.allowedUDPPortRanges = [
+    { from = 1120; to = 1129; }
+  ];
+  networking.firewall.allowedTCPPorts = [ 8787 ];
+}
