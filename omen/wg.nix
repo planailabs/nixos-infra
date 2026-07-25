@@ -43,7 +43,7 @@
           publicKey = "1wyhHlaR3bmKW68fBS8ibC8pu0/VZrIvIUkadB97ETI=";
           allowedIPs = [ "10.44.0.0/24" "::/0" ];
           endpoint = "168.119.72.237:1122"; # sodium
-          persistentKeepalive = 25;
+          persistentKeepalive = 1;
         }
       ];
     };
