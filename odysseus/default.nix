@@ -55,7 +55,7 @@ with lib;
   virtualisation.incus.softDaemonRestart = true;
   virtualisation.incus.ui.enable = true;
 
-  networking.hostName = "omen";
+  networking.hostName = "odysseus";
   networking.firewall.allowedTCPPorts = [ 8443 ];
   networking.firewall.trustedInterfaces = [ "incusbr0" ];
   networking.firewall.extraInputRules = ''

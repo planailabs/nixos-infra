@@ -117,7 +117,7 @@
         ];
       };
 
-      omen = nixpkgs.lib.nixosSystem {
+      odysseus = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
         modules = [
@@ -126,7 +126,7 @@
           acme-distributor.nixosModules.acme-shim
           mac-mgmt.nixosModules.daemon
           mac-mgmt.nixosModules.nix-driver-sync
-          ./omen
+          ./odysseus
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
             mac-mgmt.overlays.default
