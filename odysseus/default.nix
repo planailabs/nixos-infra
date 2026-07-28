@@ -5,7 +5,7 @@ with lib;
 {
   imports = [
     ./disko.nix
-    "${inputs.self.private}/omen.nix"
+    "${inputs.self.private}/odysseus.nix"
     ({
       _module.args.disks = [ "/dev/disk/by-id/ata-Samsung_SSD_850_PRO_512GB_S250NWAG831361V" "/dev/disk/by-id/ata-TOSHIBA_DT01ACA300_895D82NAS" "/dev/disk/by-id/ata-WDC_WD40EFAX-68JH4N1_WD-WX22D917F7AC" ];
     })
