@@ -214,10 +214,28 @@ let
             info["supports_vision"] = "image" in (m.get("input_modalities") or [])
             if m.get("context_window"):
                 info["max_input_tokens"] = m["context_window"]
+            # Same reasoning as supports_vision: clients that check
+            # /model/info won't send reasoning_effort unless it's advertised.
+            levels = [
+                lvl.get("effort")
+                for lvl in (m.get("supported_reasoning_levels") or [])
+                if isinstance(lvl, dict)
+            ]
+            if levels:
+                info["supports_reasoning"] = True
+                for effort in ["none", "minimal", "low", "xhigh", "max"]:
+                    if effort in levels:
+                        info["supports_%s_reasoning_effort" % effort] = True
         return info
 
     def params(slug):
-        out = {"model": "codex/" + slug}
+        # allowed_openai_params: `codex` is a custom provider, so litellm maps
+        # params through OpenAILikeChatConfig, whose supported-param list has
+        # neither reasoning_effort nor verbosity -- both are dropped before the
+        # custom handler is called. Opting in explicitly is the only way to get
+        # them through to the provider (which forwards them to `reasoning`/
+        # `text` on the Codex /responses payload).
+        out = {"model": "codex/" + slug, "allowed_openai_params": ["reasoning_effort", "verbosity"]}
         price = prices.get(slug)
         if price:
             inp, cached, cache_write, outp = price
