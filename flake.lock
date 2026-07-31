@@ -449,11 +449,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1785365351,
-        "narHash": "sha256-xKwCWZY2hQZFdPb9Ws7ltq5/1iffNSYGFJt+sWUTHDk=",
+        "lastModified": 1785451440,
+        "narHash": "sha256-Kp/0aAYR7Kg8dKrvM210DHnIeeuYH/AAAgdcTC96Fqs=",
         "ref": "refs/heads/trunk",
-        "rev": "8d5a72f19d635ad1fced451a9d026358078b0b61",
-        "revCount": 2506,
+        "rev": "5da9859918816c7b6a63ab30540321e81ec9a767",
+        "revCount": 2507,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -483,11 +483,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785367053,
-        "narHash": "sha256-yVI1/efUGGcg7aQkVSsfR/V+fvzLlh3sn0ffaJPvbKE=",
+        "lastModified": 1785453299,
+        "narHash": "sha256-AbhSUW1yt7Trhu+BqSQKuruXXMkpNg1vCRCzzHrs3CM=",
         "ref": "refs/heads/trunk",
-        "rev": "695002c938125043864d2bb18ee583a101e1492e",
-        "revCount": 712,
+        "rev": "bbb71e3d99a955f580a929b6a5d5b6eaed28480f",
+        "revCount": 713,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -920,11 +920,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785302874,
-        "narHash": "sha256-fpKEww3TJoo1ANHO2q918ei+ayOrp0YEQAO1DuBLOB4=",
+        "lastModified": 1785388444,
+        "narHash": "sha256-6gtZiMMyfgr1CHA5g6fXoIYkTngQWMm1wtp3gNtuqJU=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "b99d48435bc3e34309d2c7ae6f7d45e77a156c38",
+        "rev": "c5b112f74bdbf91c5afd2d3779d12989818c9e8c",
         "type": "github"
       },
       "original": {
@@ -1193,11 +1193,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785369368,
-        "narHash": "sha256-OL1LVV2+S6cwkB8XlNq2JQnTkVgs6wAuSDCZMhLeagE=",
+        "lastModified": 1785455451,
+        "narHash": "sha256-yN3Hs4UgjjA7nGD9rMBKcVFr8srDK7PHCoM+v3ResLU=",
         "ref": "refs/heads/trunk",
-        "rev": "ecf287caa2c6ee3c56d1c599e826b6523d49539a",
-        "revCount": 259,
+        "rev": "16c1dcd86280fd6554b4e1b9f448e6fd5092282b",
+        "revCount": 260,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
