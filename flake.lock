@@ -1193,11 +1193,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785948207,
-        "narHash": "sha256-ZA9RC+U6D1wuXimtuJBA9aA2OgC/0xBo79JlgbMuMtk=",
+        "lastModified": 1785953083,
+        "narHash": "sha256-wSXrcZA0p0HF30BKHU/KAcd06zOTqkKc4GLDWSazaQI=",
         "ref": "refs/heads/trunk",
-        "rev": "967fdf3b0988c06d8f60b5769c06fb6095887cb3",
-        "revCount": 265,
+        "rev": "565934df0f6eb22ce74ef42a5e8bc9c216c72467",
+        "revCount": 266,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
