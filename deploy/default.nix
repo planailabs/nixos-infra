@@ -81,7 +81,7 @@ in
         supportedFeatures = [ "nixos-test" "big-parallel" ];
       }
       {
-        hostName = "neon.i.xeredo.it";
+        hostName = "strontium.i.mkg20001.io";
         systems = [ "x86_64-linux" "i686-linux" ];
         maxJobs = 8;
         supportedFeatures = [ "nixos-test" "big-parallel" ];
