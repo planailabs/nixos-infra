@@ -354,11 +354,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778853030,
-        "narHash": "sha256-nnmC45ZHKW22RB342BkIxa0JvlkpBvguQjP0qROIU5k=",
+        "lastModified": 1786232687,
+        "narHash": "sha256-IR2HPZA8+JD0pKyIrJ/dkl05WdKEf6WVTEx8aKO9Y2w=",
         "ref": "refs/heads/master",
-        "rev": "1d7f52f3c6f07e52ae137fedff8d94a9f0edafe1",
-        "revCount": 29,
+        "rev": "4ef41b0394fe6da6510c9a7e63ade0a1ef14af50",
+        "revCount": 43,
         "type": "git",
         "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
       },
@@ -421,11 +421,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1785367585,
-        "narHash": "sha256-N6Njjtw/aZtazw9vUANm4p7PU0B7KuFMsC7uy7S/njQ=",
+        "lastModified": 1786237817,
+        "narHash": "sha256-Nj2z008jeXlLx342RZpM8OiMPFhyITF3bTndaI1S2jw=",
         "ref": "refs/heads/trunk",
-        "rev": "18bfd01a3aa2a5ac31ee82332ac3dbc097fa550e",
-        "revCount": 116,
+        "rev": "a5080e2f3bf45a569e8aafcd9e86187c39d23e80",
+        "revCount": 118,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -483,11 +483,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785453299,
-        "narHash": "sha256-AbhSUW1yt7Trhu+BqSQKuruXXMkpNg1vCRCzzHrs3CM=",
+        "lastModified": 1786237074,
+        "narHash": "sha256-lnJUE5fADUEagjUvLWMdB5XhufS4cn1c0EaZKBpkbpU=",
         "ref": "refs/heads/trunk",
-        "rev": "bbb71e3d99a955f580a929b6a5d5b6eaed28480f",
-        "revCount": 713,
+        "rev": "c7c5c75e752452bbc1be3072b9af27c5b87f397d",
+        "revCount": 714,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -681,11 +681,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1778802548,
-        "narHash": "sha256-TnhaqfRnzyFqcuUZ88obeLk/3BnJlkvFhSOnQsJEp/o=",
+        "lastModified": 1786220203,
+        "narHash": "sha256-6gYms92VQVpBtjdEBXuramAPkjh2FA0Wp+MbVQBi7dU=",
         "ref": "refs/heads/trunk",
-        "rev": "27dca9bcfc12e9a0e46248cd55d9ce51413ad05c",
-        "revCount": 12,
+        "rev": "8ad9b74e85a2198a6afbc56dc89a5dc78e496230",
+        "revCount": 17,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/nixos2docker"
       },
@@ -788,11 +788,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785115949,
-        "narHash": "sha256-8AM37BfyGaL2v/SZyg4PupRxJ01Y4htvM+WrTjWrPpo=",
+        "lastModified": 1785730568,
+        "narHash": "sha256-NjSPsgjJ7MSpBtTkUcmNhRe6AFZ96+zsca2M8YuQi8Y=",
         "owner": "pyproject-nix",
         "repo": "build-system-pkgs",
-        "rev": "62c0d86027edb1c4f39a5facc09876348144f7c9",
+        "rev": "90fde00db3687922d39d95fc591475fd0bbbcd72",
         "type": "github"
       },
       "original": {
@@ -809,11 +809,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784591072,
-        "narHash": "sha256-zP/WaDxrRu8GANZM61+V2LT/7ycEEdoyLWn7M6WzU7M=",
+        "lastModified": 1786031528,
+        "narHash": "sha256-cROiHKO3UbIKqF5FG5NikvydzlfIj4EcR1Cty9qOVt4=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "e3b599ca2e7fcf93d4edf65d7f19bbf6491724f3",
+        "rev": "1b1485546d85f6f6c7aadb10c4923dbc09633263",
         "type": "github"
       },
       "original": {
@@ -920,11 +920,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786076960,
-        "narHash": "sha256-jfR6OhwurCKn1tREyfOcK/Omxf1Q/DzDDFbnEr1mBLs=",
+        "lastModified": 1786160316,
+        "narHash": "sha256-oLoc3ZLg1LX/S5Jb3v6MrF415AzDyC4vgeWy9UcYTQk=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "57a23bfaf4f7017267294b161175db1e32eb1c85",
+        "rev": "4e1c940c96560ceab7c547f89642231371a66646",
         "type": "github"
       },
       "original": {
@@ -1169,11 +1169,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785277507,
-        "narHash": "sha256-9Tq3UDX2hD/aveW/HvkBlAmEwJTOlY5HQXJM+L5BGmE=",
+        "lastModified": 1786026603,
+        "narHash": "sha256-payw8w/aqR/Vr7LvDp14jxa5egFrZN7g8INsPzn7rN0=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "5a836d395cbf5fc22670eb98dd4aa4fc4d406977",
+        "rev": "0dfa8388dc855b1774f509725d8ea6806291571d",
         "type": "github"
       },
       "original": {
