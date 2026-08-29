@@ -32,11 +32,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1783906382,
-        "narHash": "sha256-3iVJ3BvLZSQ9IAVvjh9F5apdG7izAtvdLs2fYxsNzjY=",
+        "lastModified": 1787950712,
+        "narHash": "sha256-3GZP6+ibjD2R36RCsbB6c8YV+Y1cRHlz2TGLLDmN69s=",
         "owner": "mkg20001",
         "repo": "acme-distributor",
-        "rev": "7eac957cb63ce581fca58da8c9252aff355d49b9",
+        "rev": "b965370629f605cbece094aa5d5dfa14928d935e",
         "type": "github"
       },
       "original": {
@@ -920,11 +920,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787834454,
-        "narHash": "sha256-jXSvqn04IOecJCvSvl8+g3PsbDVNP6qKs6dKUs/b16k=",
+        "lastModified": 1787926460,
+        "narHash": "sha256-Rf2+5+ACRsI0xBicCraxsBtfSaQ93Br0Nr22nWimkS4=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "dc2fd1acc537f3583744e1373597a5731ff7a6e3",
+        "rev": "04ceec130b3a935d01584d4b1a68a366919674a9",
         "type": "github"
       },
       "original": {
