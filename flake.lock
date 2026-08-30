@@ -372,11 +372,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1787144466,
-        "narHash": "sha256-HHfv2/HkNSKbbSyU9iD/g8lbP6r4tl33sSw1W4rXCk0=",
+        "lastModified": 1788044418,
+        "narHash": "sha256-cmOd3iGoE140M2GidgQMQbyxHZ4dT7C0QZq2+CrXQyA=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "0471accf8d0a8210b31d947497d179ecc99e0021",
+        "rev": "dc3f0cfde2050172abf6c3cdb684f735c15a57c5",
         "type": "github"
       },
       "original": {
@@ -421,11 +421,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1786680292,
-        "narHash": "sha256-LhRHq9kwa7PO76OaaSIvqMQuNb7s28HFneg1JUGTDtY=",
+        "lastModified": 1788043316,
+        "narHash": "sha256-9veUmigtqFQaYCTpwUqfQquuweFDileAr8FpLG57A58=",
         "ref": "refs/heads/trunk",
-        "rev": "784398bd55f85e3d71f8c805a36de883b08fd7aa",
-        "revCount": 120,
+        "rev": "6f620aeded9d183a87475fe653e5bd25c3ff6ca6",
+        "revCount": 121,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -483,11 +483,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786837046,
-        "narHash": "sha256-qnDih+ZaIXUFKVF/vaCL+auX/NPM4YcGkYXQFKOZRz4=",
+        "lastModified": 1788042659,
+        "narHash": "sha256-hnSr666pP4bWyOgtcq/Bj33r9tgvc1QWQZyKVmgPTqI=",
         "ref": "refs/heads/trunk",
-        "rev": "afec47a2de6fa3c30bdf7a438ccc1f5c6e4aa97d",
-        "revCount": 719,
+        "rev": "4dc4188c8ae5ce13ad4b2c7e4acc8205ffeabcb4",
+        "revCount": 720,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -788,11 +788,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785730568,
-        "narHash": "sha256-NjSPsgjJ7MSpBtTkUcmNhRe6AFZ96+zsca2M8YuQi8Y=",
+        "lastModified": 1786936886,
+        "narHash": "sha256-8SFyOdmcG6Nsh/JzlH812lTI/v+ur06fpQhj/acNn8k=",
         "owner": "pyproject-nix",
         "repo": "build-system-pkgs",
-        "rev": "90fde00db3687922d39d95fc591475fd0bbbcd72",
+        "rev": "90ffdeee1a4929b231913df067448cd9803d3e07",
         "type": "github"
       },
       "original": {
@@ -920,11 +920,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1787926460,
-        "narHash": "sha256-Rf2+5+ACRsI0xBicCraxsBtfSaQ93Br0Nr22nWimkS4=",
+        "lastModified": 1787993548,
+        "narHash": "sha256-+IAEnmmx5YIhUWo0lp15jLLHchnXo5yKgWsi6C6Cf+0=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "04ceec130b3a935d01584d4b1a68a366919674a9",
+        "rev": "996e9b0b019a4a9eb9e9a5641aefa06d801b5895",
         "type": "github"
       },
       "original": {
@@ -1169,11 +1169,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786615403,
-        "narHash": "sha256-U++y7nM/6xiEcWI7q4fQoPZjPvRaTwkSqzBOVoEBjUE=",
+        "lastModified": 1788001239,
+        "narHash": "sha256-AELmsXPI546MhbC/ZXC7WRUkCz7d4rqKTHUmliIgPpI=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "4b59abb2ae1896d2a0e1abfc47fbc9bf985ea730",
+        "rev": "7f9c6b613d2e749e54854b1d60ab6a2192db889e",
         "type": "github"
       },
       "original": {
