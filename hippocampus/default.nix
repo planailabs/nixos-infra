@@ -51,6 +51,24 @@ in
 
   networking.hostName = "hippocampus";
 
+  # The additional Hetzner IPv4, on a macvlan NIC bound to the virtual MAC
+  # Hetzner assigned to it (set on the incus device, not here). Routed rather
+  # than on-link, hence the /26 with an explicit peer -- same shape as logos.
+  # Without it this container is IPv6-only: atlas has one IPv4 and no DNAT, so
+  # anything that resolves only A records (Claude's MCP connector, for one)
+  # cannot reach it at all.
+  systemd.network = {
+    networks."40-public0" = {
+      matchConfig = {
+        Name = "public0";
+      };
+      gateway = [ "65.108.140.193" ];
+      addresses = [
+        { Address = "65.108.140.198/26"; Peer = "65.108.140.193"; }
+      ];
+    };
+  };
+
   mkg.mod = {
     yggdrasil = {
       enable = true;
