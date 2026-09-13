@@ -385,6 +385,28 @@
         "type": "github"
       }
     },
+    "hippocampus": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1789330665,
+        "lfs": true,
+        "narHash": "sha256-bZz9DsQkZvTtcZGFjn2fdcpc5sM26foyWIit1oAwfOE=",
+        "ref": "refs/heads/trunk",
+        "rev": "f3a226e3a978a7babd04044e8e712db7fe625eb4",
+        "revCount": 174,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/hippocampus"
+      },
+      "original": {
+        "lfs": true,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/hippocampus"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -725,6 +747,22 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1786384358,
+        "narHash": "sha256-RzPPiWeUtuvymnpuEWsdtzli5w4kjZs49FqEs3/1u+I=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "2fcb964de67fcf60b43471c55d5d99e61a9ccb5a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1783414425,
         "narHash": "sha256-IUdkgxpmThffVSAyUdjmGze4r8OtcvdycPuYzyOqBz0=",
         "type": "tarball",
@@ -832,12 +870,13 @@
         "gitlab-incus-image": "gitlab-incus-image",
         "gitlab-nix-ci": "gitlab-nix-ci",
         "hardware": "hardware",
+        "hippocampus": "hippocampus",
         "home-manager": "home-manager",
         "hugger": "hugger",
         "mac-mgmt": "mac-mgmt",
         "memvault": "memvault",
         "mkg-mod": "mkg-mod",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "plan-ai-chat": "plan-ai-chat",
         "rust-overlay": "rust-overlay_4",
         "securitybird": "securitybird",

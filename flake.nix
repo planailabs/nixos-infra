@@ -43,6 +43,12 @@
     memvault.inputs.flake-utils.follows = "flake-utils";
     memvault.inputs.xzar.follows = "xzar";
     memvault.inputs.gitlab-incus-image.follows = "gitlab-incus-image";
+    # Deliberately NOT following our nixpkgs. hippocampus builds its generating
+    # backend against torch, and only the nixpkgs it pins has that closure on
+    # cache.nixos.org -- following ours would mean compiling torch (and magma,
+    # triton, nccl) on the deploy host. ?submodules=1 because the flake's
+    # `datasets` output is the data/ submodule.
+    hippocampus.url = "git+ssh://git@git.plan.ai/plan-ai/hippocampus?submodules=1&lfs=1";
     ghgl-sync.url = "git+ssh://git@git.plan.ai/plan-ai/ghgl-sync";
     ghgl-sync.inputs.nixpkgs.follows = "nixpkgs";
     ghgl-sync.inputs.flake-utils.follows = "flake-utils";
@@ -289,6 +295,21 @@
           ./codex
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      hippocampus = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        # > Our main nixos configuration file <
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          inputs.hippocampus.nixosModules.default
+          ./hippocampus
+          { nixpkgs.overlays = [
             acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }

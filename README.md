@@ -8,6 +8,7 @@ NixOS infrastructure configuration for plan.ai servers, managed via Nix flakes.
 |--------|----------|----------|------|
 | **chronos** | `chronos` | x86_64-linux (LXC) | GitLab, Docker workloads |
 | **logos** | `logos` | x86_64-linux (LXC) | Nginx reverse proxy, ACME distributor, xzar |
+| **hippocampus** | `hippocampus` | x86_64-linux (LXC) | Knowledge-graph adapter server (hippocampus.plan.ai) |
 | **hugger** | `hugger` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-omen.plan.ai) |
 | **hugger-amo** | `hugger-amo` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-amo.plan.ai) |
 | **hugger-hetzner** | `hugger-hetzner` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-hetzner.plan.ai) |
@@ -64,6 +65,7 @@ For Raspberry Pi initial setup:
 flake.nix          # Flake entrypoint, defines all nixosConfigurations
 chronos/           # chronos server config
 logos/             # logos server config
+hippocampus/       # hippocampus server config
 relay/             # plan.ai relay server config
 peira-relay/       # peira relay server config
 pi/                # home-pi server config
