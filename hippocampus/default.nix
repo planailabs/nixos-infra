@@ -96,6 +96,15 @@ in
       # and without this the FIRST account to arrive would be handed admin.
       # Naming the admins closes that: everyone else lands as a plain user.
       ADMIN_EMAILS = "maciej@plan.ai";
+      # Document extraction and question answering both call one
+      # OpenAI-compatible chat/completions endpoint; DeepSeek serves that
+      # shape, so no gateway in between. No /v1 on the base URL: the app
+      # appends it unless the URL already ends in /v1. OPENAI_API_KEY is the
+      # secret half and lives in private/hippocampus.nix, which the same
+      # EnvironmentFile carries. OPENAI_REASONING_EFFORT is left unset:
+      # extraction already defaults it to "low" and questions send none.
+      OPENAI_BASE_URL = "https://api.deepseek.com";
+      OPENAI_MODEL = "deepseek-flash";
     };
   };
 
