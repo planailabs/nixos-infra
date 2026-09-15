@@ -109,13 +109,13 @@ in
   };
 
   # The generating backend, on CPU. Slow by construction -- this is a
-  # container, not a GPU host -- so it serves the 1.7B adapter only; the 8B and
+  # container, not a GPU host -- so it serves the 1.7B adapters only; the 8B and
   # 9B Qwen adapters want a card. A GPU generator elsewhere can register
   # against the same frontend and will simply be preferred for its own models.
   services.hippocampus.generator = {
     enable = true;
     package = hippocampus-generator-cpu;
-    adapters = [ "${hip.datasets}/data/artifacts/smollm2-1.7b-adapter.pt" ];
+    adapters = [ "${hip.datasets}/data/artifacts/smollm2-1.7b-adapter.pt" "${hip.datasets}/data/artifacts/smollm2-1.7b-scientific.pt" ];
     deviceMap = "cpu";
     host = "127.0.0.1";
     port = 8100;
