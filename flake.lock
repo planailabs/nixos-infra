@@ -428,12 +428,12 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1789461583,
+        "lastModified": 1789462498,
         "lfs": true,
-        "narHash": "sha256-maDtaGO92ZqzpK5mQVVVXxzWxnRtfx7cD5fObSikmyk=",
+        "narHash": "sha256-9cJLKwT0pR1YbIZ2PiNo9M8akmvYml7a30Yqz4x2GSY=",
         "ref": "refs/heads/trunk",
-        "rev": "7e8a73cc9c84e6bcb2e718a553b787f89c5c1e63",
-        "revCount": 212,
+        "rev": "fbfa5b09abca4c2fcd76abc8bb04a13e07ea95cf",
+        "revCount": 213,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/hippocampus"
