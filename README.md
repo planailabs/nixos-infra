@@ -13,10 +13,11 @@ NixOS infrastructure configuration for plan.ai servers, managed via Nix flakes.
 | **hugger-amo** | `hugger-amo` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-amo.plan.ai) |
 | **hugger-hetzner** | `hugger-hetzner` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-hetzner.plan.ai) |
 | **relay** | `relay` | x86_64-linux (LXC) | Dedicated plan.ai mac-mgmt relay |
+| **charon** | `charon` | x86_64-linux (Hetzner Cloud) | Transmission BitTorrent daemon, data on the u624368 Storage Box at /storage |
 | **peira-relay** | `peira-relay` | x86_64-linux (LXC) | Dedicated peira mac-mgmt relay |
 | **home-pi** | `home-pi` | Raspberry Pi | Home server, Incus VMs (currently commented out in flake) |
 
-All servers run as LXC containers (except home-pi) with networkd, nftables, and Yggdrasil mesh networking.
+All servers run as LXC containers (except home-pi, and charon which is a Hetzner Cloud VM) with networkd, nftables, and Yggdrasil mesh networking.
 
 ## Deploying
 
@@ -66,6 +67,7 @@ flake.nix          # Flake entrypoint, defines all nixosConfigurations
 chronos/           # chronos server config
 logos/             # logos server config
 hippocampus/       # hippocampus server config
+charon/            # charon server config (transmission + storagebox)
 relay/             # plan.ai relay server config
 peira-relay/       # peira relay server config
 pi/                # home-pi server config
