@@ -97,13 +97,17 @@ in
       # Naming the admins closes that: everyone else lands as a plain user.
       ADMIN_EMAILS = "maciej@plan.ai";
       # Document extraction and question answering both call one
-      # OpenAI-compatible chat/completions endpoint; DeepSeek serves that
-      # shape, so no gateway in between. No /v1 on the base URL: the app
-      # appends it unless the URL already ends in /v1. OPENAI_API_KEY is the
-      # secret half and lives in private/hippocampus.nix, which the same
-      # EnvironmentFile carries. OPENAI_REASONING_EFFORT is left unset:
+      # OpenAI-compatible chat/completions endpoint. That used to be
+      # api.deepseek.com directly; it now goes through the litellm proxy on
+      # codex.plan.ai, which fronts the same DeepSeek model -- so the calls
+      # land in one place for spend tracking and the upstream provider key
+      # lives only on the codex host. No /v1 on the base URL: the app appends
+      # it unless the URL already ends in /v1. OPENAI_API_KEY is the secret
+      # half and lives in private/hippocampus.nix, which the same
+      # EnvironmentFile carries; it is a litellm virtual key scoped to this
+      # one model, not a DeepSeek key. OPENAI_REASONING_EFFORT is left unset:
       # extraction already defaults it to "low" and questions send none.
-      OPENAI_BASE_URL = "https://api.deepseek.com";
+      OPENAI_BASE_URL = "https://codex.plan.ai";
       OPENAI_MODEL = "deepseek-flash";
     };
   };
