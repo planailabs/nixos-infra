@@ -11,9 +11,13 @@ with lib;
     # this file over the generated settings.json on every start.
     credentialsFile = "/etc/transmission/credentials.json";
 
-    # Inbound BitTorrent peers need to reach us, so open the peer port. The RPC
-    # port is deliberately NOT opened here -- see the yggdrasil-only rule below.
-    openPeerPorts = true;
+    # Both false on purpose. Transmission lives in the Mullvad namespace (see
+    # ./vpn.nix), so nothing reaches it through charon's own firewall: the peer
+    # port is only meaningful on the tunnel, and Mullvad has not offered port
+    # forwarding since 2023, so inbound peers are impossible either way and
+    # opening 51413 on the host would do nothing but widen the surface. The RPC
+    # port is served by a proxy socket instead (rule further down).
+    openPeerPorts = false;
     openRPCPort = false;
 
     settings = {
@@ -34,9 +38,10 @@ with lib;
       preallocation = 0;
 
       rpc-port = 9091;
-      # Listen on all addresses; reachability is constrained by nftables to the
-      # yggdrasil mesh only (below).
-      rpc-bind-address = "::";
+      # The namespace loopback only. Binding "::" here would also expose the
+      # RPC to the Mullvad tunnel, where the relay's other clients sit.
+      # systemd-socket-proxyd (./vpn.nix) is what carries the mesh traffic in.
+      rpc-bind-address = "127.0.0.1";
       rpc-authentication-required = true;
       # Transmission's whitelists match on literal globs and can't express an
       # IPv6 prefix like 200::/7, so the mesh restriction is enforced in the
@@ -61,7 +66,8 @@ with lib;
 
   # Web UI / RPC is reachable only over the yggdrasil mesh (0200::/7), like the
   # other internal services here. Nothing is exposed publicly and there is no
-  # nginx/ACME vhost for this host.
+  # nginx/ACME vhost for this host. The listener on this port belongs to
+  # transmission-rpc-proxy.socket (./vpn.nix), not to transmission itself.
   networking.firewall.extraInputRules = ''
     ip6 saddr 200::/7 tcp dport 9091 accept
   '';
@@ -69,7 +75,7 @@ with lib;
   # The download dirs are on the SSHFS mount, and the unit bind-mounts them into
   # its RootDirectory=, so it cannot start before /storage is there. If the box
   # is unreachable transmission stays down rather than silently filling the
-  # 38G root disk.
+  # 38G root disk. (./vpn.nix adds the matching dependency on the tunnel.)
   systemd.services.transmission = {
     after = [ "storage.mount" ];
     requires = [ "storage.mount" ];
