@@ -288,6 +288,18 @@ let
                     },
                 }
             ]
+            # DeepSeek -- native litellm provider, so the api_base and the
+            # request shape come from litellm. Only the one model we use is
+            # exposed (no wildcard), keyed from the same env file.
+            + [
+                {
+                    "model_name": "deepseek-flash",
+                    "litellm_params": {
+                        "model": "deepseek/deepseek-flash",
+                        "api_key": "os.environ/DEEPSEEK_API_KEY",
+                    },
+                }
+            ]
         ),
     }
     priced = [s for s in slugs if s in prices]
