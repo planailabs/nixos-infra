@@ -24,6 +24,11 @@
     web-agency.inputs.rust-overlay.follows = "rust-overlay";
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
     plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
+    # The cloud console, for the fleet's image registry — cloud-images serves
+    # the simplestreams tree the regions pull from.
+    plan-ai-cloud.url = "git+ssh://git@git.plan.ai/plan-ai/cloud?submodules=1";
+    plan-ai-cloud.inputs.nixpkgs.follows = "nixpkgs";
+    plan-ai-cloud.inputs.rust-overlay.follows = "rust-overlay";
     hugger.url = "git+https://git.plan.ai/plan-ai/hugger";
     hugger.inputs.nixpkgs.follows = "nixpkgs";
     hugger.inputs.flake-utils.follows = "flake-utils";
@@ -432,6 +437,17 @@
         modules = [
           mkg-mod.nixosModules.yggdrasil
           ./uptime
+          { nixpkgs.overlays = [
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      cloud-images = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          ./cloud-images
           { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
           ]; }
