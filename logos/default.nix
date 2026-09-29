@@ -4,6 +4,7 @@
     ../modules/container.nix
     "${inputs.self.private}/logos.nix"
     ./nginx.nix
+    ./cloud.nix
     ./hedgedoc.nix
     ./zitadel.nix
     ./matrix.nix

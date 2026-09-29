@@ -232,6 +232,7 @@
           memvault.nixosModules.default
           inputs.ghgl-sync.nixosModules.default
           inputs.wg-vpng.nixosModules.default
+          inputs.plan-ai-cloud.nixosModules.plan-ai-cloud
           ./logos
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
@@ -241,6 +242,7 @@
             mac-mgmt.overlays.default
             memvault.overlays.default
             inputs.wg-vpng.overlays.default
+            inputs.plan-ai-cloud.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
