@@ -14,10 +14,6 @@
     enable = true;
     # PLAN_AI_IMAGES_ADMIN_TOKEN — the console mints and revokes credentials
     # PLAN_AI_IMAGES_PUBLISH_TOKEN — CI adds images
-    environmentFile = "/var/keys/plan-ai-images.env";
+    environmentFile = "/etc/plan-ai-images.env";
   };
-
-  # The tree is the one thing here worth keeping: rebuilding an image is
-  # cheap, but a region pulling one that has gone is not.
-  systemd.tmpfiles.rules = [ "d /var/lib/plan-ai-images 0700 root root -" ];
 }

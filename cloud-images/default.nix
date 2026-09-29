@@ -1,19 +1,25 @@
 { inputs, lib, pkgs, ... }: with lib; {
   imports = [
     ../modules/common.nix
-    inputs.common.nixosModules.hcloud_base
+    ../modules/container.nix
+    "${inputs.self.private}/cloud-images.nix"
     ./nginx.nix
     ./images.nix
   ];
-
-  # replace this address with the one assigned to the instance
-  mgit.hcloud.auto-network = "2a01:4f8:0000:0000::2/64";
 
   system.stateVersion = "26.11";
 
   nixpkgs.hostPlatform = "x86_64-linux";
 
-  networking.hostName = "cloud-images";
+  mkg.mod = {
+    yggdrasil = {
+      enable = true;
+      port = 14466;
+      peers = [ "tcp://ygg.mkg20001.io:80" "tls://ygg.mkg20001.io:443" ];
+    };
+  };
 
-  security.acme.acceptTerms = true;
+  security.acme.distributor-server = "https://acme.plan.ai";
+
+  networking.hostName = "cloud-images";
 }

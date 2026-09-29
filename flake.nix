@@ -447,8 +447,11 @@
         specialArgs = {inherit inputs outputs;};
         modules = [
           mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
           ./cloud-images
           { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
