@@ -1,0 +1,28 @@
+#!/bin/sh
+# Litellm encodes upstream failures into its own exceptions, so match on the
+# provider name and the Codex endpoint rather than the raw message.
+# Prints one JSON line per new failure event; the framework dedupes on "key".
+#
+# NOTE: this must run OUTSIDE the project's nix dev shell -- the nixos-infra
+# flake has no default devShell, so a `nix develop` wrapper fails before the
+# script starts. TRIGGER.md carries `devshell: false` for that.
+set -eu
+STATE="${REAGENT_STATE:-/tmp}"
+since="${REAGENT_LAST_RUN:-}"
+[ -n "$since" ] || since="1 hour ago"
+mkdir -p "$STATE" 2>/dev/null || true
+state_file="$STATE/seen-until"
+log=$(ssh -o BatchMode=yes -o ConnectTimeout=15 root@codex.plan.ai \
+  "journalctl -u podman-litellm --since \"$since\" --no-pager -o cat" 2>/dev/null) || exit 0
+# One event per *distinct* failure shape in the window (numbers stripped, so a
+# change of request id or size is not a new shape). Reporting only the last line
+# would hide the other shapes until they recur.
+printf '%s\n' "$log" | grep -Ei 'CodexException|codex/responses|backend-api/codex' \
+  | grep -Ei 'error|exception|400|401|404|429|5[0-9][0-9]' \
+  | awk '!seen[gensub(/[0-9]{4,}/,"","g")]++' | while IFS= read -r line; do
+  [ -n "$line" ] || continue
+  key=$(printf '%s' "$line" | sed -E 's/[0-9]{4,}//g' | cksum | cut -d' ' -f1)
+  printf '{"key":"%s","to":"new","title":"codex.plan.ai is failing upstream","message":%s}\n' \
+    "$key" "$(printf '%s' "$line" | python3 -c 'import json,sys;print(json.dumps(sys.stdin.read().strip()))')"
+done
+printf '%s' "$(date -Is)" > "$state_file"
