@@ -2,3 +2,5 @@ result*
 *.qcow2
 .idea
 .claude
+.reagent
+.gcroots
