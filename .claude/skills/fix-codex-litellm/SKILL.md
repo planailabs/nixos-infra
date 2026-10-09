@@ -30,6 +30,11 @@ Run all repo commands from the `nixos-infra` root. The git/gh account here is
 `mkg20001`, which has **ADMIN** on the fork — fixes go directly to the fork's
 `main`.
 
+For a **check** rather than a repair — is the proxy serving right now, and which
+layer is down — use the `codex-healthcheck` skill first; it probes
+`/v1/models` + one tiny chat completion and only sends you here for the deep
+layer. Come back to this skill for the diagnosis, the fork fix and the redeploy.
+
 ## Architecture map
 
 - `codex/default.nix` — the host. Builds the litellm config dir at each start
@@ -74,6 +79,16 @@ container logs from the host:
 ssh root@codex.plan.ai 'journalctl -u podman-litellm --no-pager -n 200'
 ssh root@codex.plan.ai 'journalctl -u litellm-codex-config --no-pager -n 80'
 ```
+
+When you drive this from **reagent** (rather than an interactive terminal) on
+this project: run shell tasks with `devshell: false` — the flake has no default
+devshell and reagent's automatic `nix develop` wrapper fails there. Run
+`ssh-keyscan codex.plan.ai >> ~/.ssh/known_hosts` once (and for any other host
+you deploy to) before the first ssh, or the host key prompt eats the command.
+
+`private/` is a git submodule and `private/*.nix` (e.g. `private/codex.nix`) is
+read from it — run `git submodule update --init` on a fresh checkout, or the
+build fails (see Step 6).
 
 ## Step 2: Classify the failure
 
@@ -229,6 +244,21 @@ git add pkgs/litellm-codex-oauth-provider.nix   # flakes only see tracked files
 sh codex.sh   # nixos-rebuild switch --target-host root@codex.plan.ai (impure)
 ```
 
+The build reads `private/*.nix` **through git** (via `private.nix`,
+`"${builtins.getEnv "PWD"}/private"`), so it needs `git submodule update --init`
+first — without it evaluation fails at the host's `imports` with
+`path '/nix/store/…-source/codex' does not exist`.
+
+From **reagent**, launch the deploy detached instead of waiting on it in the
+foreground; a plain `&` from an interactive terminal gets stopped by SIGTTOU
+(`batch`) and hangs mid-copy. It takes a few minutes — poll the log:
+
+```bash
+setsid sh -c 'sh codex.sh > /tmp/deploy-codex.log 2>&1; echo EXIT=$? >> /tmp/deploy-codex.log' \
+  < /dev/null &                       # from a devshell: false exec
+tail -n 3 /tmp/deploy-codex.log       # plain `tail -3` is refused here
+```
+
 `codex.sh` regenerates the config dir (`litellm-codex-config`) and restarts the
 container on switch — but only if the container/config **unit text** changed.
 A provider-source-only bump changes the static dir the units reference, yet
@@ -301,6 +331,14 @@ Do not touch the unrelated pre-existing `flake.lock` modification unless asked.
 9. When fetching third-party URLs from the provider (e.g. image inlining),
    send a descriptive `User-Agent` — CDNs like Wikimedia 403 library-default
    UAs.
+10. When driving this from reagent, run shell commands with `devshell: false`
+   (no default devshell in this flake) and `ssh-keyscan` the host into
+   `~/.ssh/known_hosts` before the first ssh — see Step 1.
+11. Deploy from reagent with the detached `setsid sh -c 'sh codex.sh > … &'`
+   form, not a foreground `sh codex.sh` and not a plain `&` (which SIGTTOUs and
+   hangs mid-copy) — see Step 6. `private/` must be initialised
+   (`git submodule update --init`) or evaluating/building the host can't read
+   `private/*.nix`.
 
 ## Verification checklist
 
