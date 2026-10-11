@@ -98,7 +98,10 @@ with lib;
 
   nix.settings = {
     # Enable flakes and new 'nix' command
-    experimental-features = "nix-command flakes";
+    # A list: nixpkgs' `nix.settings` freeform type is `attrsOf (either atom
+    # (listOf atom))`, and stringified freeform values are written as one
+    # config key, which nix rejects until 2.35pre. Same value as before.
+    experimental-features = [ "nix-command" "flakes" ];
     # Deduplicate and optimize nix store
     auto-optimise-store = true;
     # Binary caches
