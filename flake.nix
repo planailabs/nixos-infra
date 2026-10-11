@@ -122,9 +122,11 @@
           ./pi
           /* "${xnix}/defaults/hosted/base-backup.nix"
           "${xnix}/modules/admin/backup.nix" */
-          /*{ nixpkgs.overlays = [
+          # modules/common.nix puts cozempic (and the other overlay packages) in
+          # environment.systemPackages, so this config needs the overlay too.
+          { nixpkgs.overlays = [
             (import ./pkgs/overlay.nix)
-          ]; }*/
+          ]; }
         ];
       };
 
