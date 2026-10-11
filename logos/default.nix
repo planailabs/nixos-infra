@@ -418,6 +418,12 @@
     enable = true;
   };
 
+  # The upstream module (mkg20001/acme-distributor module.nix) defines the unit
+  # without a Restart policy, so every `switch` stops it and leaves it dead --
+  # all acme-*.service renewals on this host then fail with "Connection refused"
+  # against localhost:3444. Keep it running; see the memory note.
+  systemd.services.acme-distributor.serviceConfig.Restart = lib.mkForce "always";
+
   services.mac-mgmt-server = {
     enable = true;
   };
