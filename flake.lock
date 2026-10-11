@@ -2,12 +2,12 @@
   "nodes": {
     "acme": {
       "inputs": {
-        "flake-utils": "flake-utils_17",
+        "flake-utils": "flake-utils_18",
         "nixpkgs": [
           "xnix",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_13"
+        "rust-overlay": "rust-overlay_14"
       },
       "locked": {
         "lastModified": 1773239493,
@@ -349,6 +349,24 @@
         "type": "github"
       }
     },
+    "flake-utils_19": {
+      "inputs": {
+        "systems": "systems_19"
+      },
+      "locked": {
+        "lastModified": 1731533236,
+        "narHash": "sha256-l0KFg5HjrsfsO/JpG+r7fRrqm12kzFHyUHqHCVpMMbI=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "11707dc2f618dd54ca8739b309ec4fc024de578b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
     "flake-utils_2": {
       "inputs": {
         "systems": "systems_2"
@@ -520,6 +538,21 @@
       }
     },
     "gitlab-incus-image": {
+      "locked": {
+        "lastModified": 1753527178,
+        "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
+        "ref": "refs/heads/master",
+        "rev": "6e4ac068f63b1149c4c3ec8d5aee4436ccaaaae6",
+        "revCount": 28,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
+      }
+    },
+    "gitlab-incus-image_10": {
       "locked": {
         "lastModified": 1753527178,
         "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
@@ -756,11 +789,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791569574,
-        "narHash": "sha256-5sViLmjhTCtBTvhjSXXvd5LDrAFMydFFKZQisjE8Vds=",
+        "lastModified": 1791642191,
+        "narHash": "sha256-0bK0A59rVUn1SRZzo4cNi4VSqAe7vR1gL2/MZl53Frw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6b88c12cc6d234de4888f5d21076fb11199d0844",
+        "rev": "c58f54c733a7894d84fa2fdff26cc12088c4b78c",
         "type": "github"
       },
       "original": {
@@ -785,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1791596045,
-        "narHash": "sha256-lUUmhCmJVyN2/vCPjhjUpTzITVW6Pxvd8tzQIlhVtNo=",
+        "lastModified": 1791678705,
+        "narHash": "sha256-R9oIhH9wpzVhRmlZZYqz8XXHe3ZT0iQJO0PTJPsq7Eg=",
         "ref": "refs/heads/trunk",
-        "rev": "ee82dde2e929c9730636409aaadfa35c6d1a3cd9",
-        "revCount": 122,
+        "rev": "9f4cacbc6966c00693af745aaa4b5c287978416a",
+        "revCount": 124,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -812,11 +845,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1791590353,
-        "narHash": "sha256-5C22M5KgQ1A7shdhSWiIVltlx2vEvT0Xvur4mmxhCc0=",
+        "lastModified": 1791674408,
+        "narHash": "sha256-vAtwS3aRPoG6xy2uHrAJvIJPDvkOJemxt9ThCjOLNX0=",
         "ref": "refs/heads/trunk",
-        "rev": "524a160f2940a78db2adaf8ef5e02b9d3ea45d37",
-        "revCount": 2536,
+        "rev": "730e08ab1c283c2937f8193b8a7dd65e71d04a62",
+        "revCount": 2541,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -874,11 +907,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791594660,
-        "narHash": "sha256-9s+NvW/QU4oBL6pjFA2BMGBrX1svG0xDHxMjoRRE9YE=",
+        "lastModified": 1791677365,
+        "narHash": "sha256-aTP5PjHlQf+1M1vBJ6WrvSkgVyQtszwrn5yzbb6IY7U=",
         "ref": "refs/heads/trunk",
-        "rev": "51ca9b70e13be2be991648e1e6bae32d1de862f1",
-        "revCount": 764,
+        "rev": "b5d7ff54306d1cb080d743bbe450e865d74f3d54",
+        "revCount": 765,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1203,8 +1236,8 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1783414425,
-        "narHash": "sha256-IUdkgxpmThffVSAyUdjmGze4r8OtcvdycPuYzyOqBz0=",
+        "lastModified": 1791626621,
+        "narHash": "sha256-ptIa/aqZV3hCV0fSkBWYcZVSPYF9g+pRLsyoMN6JnIM=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -1449,11 +1482,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1788394333,
-        "narHash": "sha256-xYOP0Xym1eVGUaHFx+eJEaycFGoiCbst3fZf0xFHP78=",
+        "lastModified": 1791657700,
+        "narHash": "sha256-vcCAvhtA7hG+/gOge29hYHy7I/dLkIsr5nLx4sFEQic=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "6a8a7881d75b6f98967e7b8069f4ead331384301",
+        "rev": "ddc400a6883b042646d0940e65971bb7f7e96107",
         "type": "github"
       },
       "original": {
@@ -1509,7 +1542,7 @@
         "web-agency": "web-agency",
         "wg-vpng": "wg-vpng",
         "xnix": "xnix",
-        "xzar": "xzar_9"
+        "xzar": "xzar_10"
       }
     },
     "rust-overlay": {
@@ -1585,11 +1618,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791535654,
-        "narHash": "sha256-QFgGi6Wgh7AgqPFdAXEmkTgnR0B5M0omheIHvo/02dU=",
+        "lastModified": 1791620365,
+        "narHash": "sha256-CVZXIDNw7HEwyD8X6q9Ln370Sc0ZqRlTzDRwOZ1hJMY=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "4ca2963243427cb86bd6b4d9ca6010db0162a619",
+        "rev": "e90fafa71b440fabcd52dd7fb017ab2da81c781a",
         "type": "github"
       },
       "original": {
@@ -1599,6 +1632,28 @@
       }
     },
     "rust-overlay_13": {
+      "inputs": {
+        "nixpkgs": [
+          "web-agency",
+          "xzar",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1778815121,
+        "narHash": "sha256-xlhD+1NVJbhrUUM2usRHW6iKWTXP2uw2Fo6sWJmLg8g=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "017351829a9356423afd2cca0dde9b63346c8ab3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "rust-overlay_14": {
       "inputs": {
         "nixpkgs": [
           "xnix",
@@ -1620,7 +1675,7 @@
         "type": "github"
       }
     },
-    "rust-overlay_14": {
+    "rust-overlay_15": {
       "inputs": {
         "nixpkgs": [
           "xzar",
@@ -2016,6 +2071,21 @@
         "type": "github"
       }
     },
+    "systems_19": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
+        "type": "github"
+      }
+    },
     "systems_2": {
       "locked": {
         "lastModified": 1681028828,
@@ -2173,11 +2243,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791593997,
-        "narHash": "sha256-+PDPo9ZEgLo2cH0oBOBTzVp47qzRT8dCm0KvvWaC/LQ=",
+        "lastModified": 1791656763,
+        "narHash": "sha256-2mFllBdFGB4zNogzx02b8O5JObd7LeAGsndk+ZB5XvI=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "ee223531ba79d2522b2e549acf9243886157fbf3",
+        "rev": "ddca81d752e29c063eaa914e040c3ec56ed39558",
         "type": "github"
       },
       "original": {
@@ -2216,19 +2286,21 @@
     "web-agency": {
       "inputs": {
         "flake-utils": "flake-utils_16",
+        "gitlab-incus-image": "gitlab-incus-image_10",
         "nixpkgs": [
           "nixpkgs"
         ],
         "rust-overlay": [
           "rust-overlay"
-        ]
+        ],
+        "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1789886316,
-        "narHash": "sha256-jwg++vAVGzPH/mLtQavMiPRzqx5WIBxOq5wh9qM1qic=",
+        "lastModified": 1791683496,
+        "narHash": "sha256-/t31UNPKp2HmgKxidPBLwmJaRUBENnC0//Hw8rb55xg=",
         "ref": "refs/heads/trunk",
-        "rev": "f626e64ea0152601f821e11c504c121fcf202cab",
-        "revCount": 267,
+        "rev": "41faefe8cee8d0614e492b1c094d66781e10f51a",
+        "revCount": 268,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
@@ -2361,6 +2433,28 @@
       "original": {
         "type": "git",
         "url": "https://git.xeredo.it/xeredo/xzar/xzar-client"
+      }
+    },
+    "xzar_10": {
+      "inputs": {
+        "flake-utils": "flake-utils_19",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "rust-overlay": "rust-overlay_15"
+      },
+      "locked": {
+        "lastModified": 1778871970,
+        "narHash": "sha256-pe2RQESspfhvYtX3VbjOI9Dc/x4erZU/he3s6hvVOP8=",
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "rev": "dca77eb94036679a8d02eb55c092e6d4e3aaab02",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mkg20001",
+        "repo": "xzar",
+        "type": "github"
       }
     },
     "xzar_2": {
@@ -2530,11 +2624,12 @@
     },
     "xzar_9": {
       "inputs": {
-        "flake-utils": "flake-utils_18",
+        "flake-utils": "flake-utils_17",
         "nixpkgs": [
+          "web-agency",
           "nixpkgs"
         ],
-        "rust-overlay": "rust-overlay_14"
+        "rust-overlay": "rust-overlay_13"
       },
       "locked": {
         "lastModified": 1778871970,
