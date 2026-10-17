@@ -1,5 +1,6 @@
 { inputs, lib, pkgs, ... }: with lib; {
   imports = [
+    ../modules/postgres-pin.nix
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/metis.nix"
