@@ -789,11 +789,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792098797,
-        "narHash": "sha256-u4DIIZgznEGzByxXrxWCXK19VcMtTBmi/M9gZ7Jk9bM=",
+        "lastModified": 1792421589,
+        "narHash": "sha256-kd1uAerzkPNEBTh+Bl5wdfVqP2MPpxTRvcWtfbIP1kI=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "640725978b99076e18e069f6e7d2959124584f8f",
+        "rev": "94c556362d7ef878175d2f0eb3045565d1685b0c",
         "type": "github"
       },
       "original": {
@@ -818,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1792286559,
-        "narHash": "sha256-TLGTpQ6Zf+lV64OmwGJ59ki1bscf4xHcIpCK3ISsbJU=",
+        "lastModified": 1792369580,
+        "narHash": "sha256-HqdUAiCQg0bHrAkLrkltJ89WLsoHfmcnF39asaD35Fw=",
         "ref": "refs/heads/trunk",
-        "rev": "9fc20b65fcba1d9d504769e360c61b650ea97a2b",
-        "revCount": 127,
+        "rev": "2e14a2259fa1a3c672b5ef16b197ec150e8e2645",
+        "revCount": 128,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -845,11 +845,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1792282412,
-        "narHash": "sha256-G/3yYWQ0AnbUUUStypaEVpBsuAliNWeRhUNcaE20QZM=",
+        "lastModified": 1792366222,
+        "narHash": "sha256-P+DZ8Gb1ovn8+vb/wJpGuudFT00nn4HFd6iIXBv5Ikc=",
         "ref": "refs/heads/trunk",
-        "rev": "bc93cdd8f0edfe0f1d21e2e6fe95344954363428",
-        "revCount": 2561,
+        "rev": "ca5cbb9429a7290126f76dd2ba4efcde926324f6",
+        "revCount": 2562,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -906,11 +906,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792284990,
-        "narHash": "sha256-PcSj8tub2pkDmbLQQffDI9IPyCLFrSTjsFxV3iGIyh0=",
+        "lastModified": 1792368553,
+        "narHash": "sha256-ljKg3YiwaE6A6k1Dx8Ck1/+Nh2mNiPXtikafcFZTEIo=",
         "ref": "refs/heads/trunk",
-        "rev": "562957cc63e125df3250979c4f47106d2059a05f",
-        "revCount": 768,
+        "rev": "fab15796368809cf502f1e6f1e0dd81ed79c420c",
+        "revCount": 769,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1601,11 +1601,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792219666,
-        "narHash": "sha256-RMO08tKD+hFIL5ryWi85VY4aHE5oIpdV1h4kVFctOkw=",
+        "lastModified": 1792395246,
+        "narHash": "sha256-SfVFE7TKuByeQRwhVbaVrvTV/lI41AYK9CYSfB+pIis=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "a110337465cfb76e3806b81b9db3094c3e6e770a",
+        "rev": "550547cefc67e01a6fd11a09e4096a3c844ca840",
         "type": "github"
       },
       "original": {
@@ -2279,11 +2279,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1792203802,
-        "narHash": "sha256-0Dh4a4UIsr4qK8lyrcDKYjWdS4RJ2mubptgXjhZ0M/k=",
+        "lastModified": 1792373686,
+        "narHash": "sha256-he3WIGrjDbJCG1242FfNiBjk1oIc+o34mxfGVAZXS5c=",
         "ref": "refs/heads/trunk",
-        "rev": "558cd5cc1548a5f1e970476d876d4c1b6c2e81d5",
-        "revCount": 275,
+        "rev": "b434281f068ddc12357f0f895b885771e65d0395",
+        "revCount": 277,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
