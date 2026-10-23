@@ -221,6 +221,10 @@ in
 
     environment = {
       MCP_TRANSPORT_TYPE = "http";
+      # The endpoint is internet-reachable, so it requires a bearer token like
+      # the rest of the estate's MCP servers. The shared secret comes from
+      # /etc/obsidian/mcp.env (private submodule).
+      MCP_AUTH_MODE = "jwt";
       MCP_HTTP_HOST = mcpHost;
       MCP_HTTP_PORT = toString mcpPort;
       MCP_HTTP_ENDPOINT_PATH = "/mcp";

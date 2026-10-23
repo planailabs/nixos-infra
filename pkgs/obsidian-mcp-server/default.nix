@@ -13,8 +13,16 @@ buildNpmPackage rec {
 
   # Upstream ships a bun.lock; we vendor an npm-generated package-lock.json
   # so buildNpmPackage can use its standard fixed-output deps fetcher.
+  #
+  # The landing page (GET /) otherwise publishes the whole tool/resource
+  # inventory to anyone. requireAuth serves the hero-only variant unless the
+  # caller presents a valid bearer token — the same check /mcp enforces.
   postPatch = ''
     cp ${./package-lock.json} package-lock.json
+    substituteInPlace src/index.ts \
+      --replace-fail "  prompts: allPromptDefinitions," \
+      "  prompts: allPromptDefinitions,
+  landing: { requireAuth: true },"
   '';
 
   npmDepsHash = "sha256-YyE272lc7pqqik1ni4YDy8cDetZSAPdHfGTTgvBoPNg=";
