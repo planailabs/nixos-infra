@@ -9,6 +9,8 @@ let
   };
 in
 {
+  imports = [ ../modules/nginx-security-headers.nix ];
+
   services.nginx.enable = true;
 
   services.nginx.enableReload = true;

@@ -9,6 +9,8 @@ let
   };
 in
 {
+  imports = [ ../modules/nginx-security-headers.nix ];
+
   services.nginx.enable = true;
 
   services.nginx.enableReload = true;
@@ -60,6 +62,9 @@ in
         proxyPass = "http://127.0.0.1:3434/";
         proxyWebsockets = true;
       };
+      # Anonymous /api/health publishes the exact Grafana build (13.2.3) for
+      # free CVE matching.
+      locations."= /api/health".return = "404";
     };
 
     "prometheus.plan.ai" = h {
@@ -78,7 +83,12 @@ in
       '';
     };
 
-    "login.plan.ai" = h { };
+    "login.plan.ai" = h {
+      # oauth2-proxy's front door: every protected host redirects here with
+      # rd= pointing back at itself. Without a location the vhost served the
+      # stock "Welcome to nginx!" page; send bare visits on to plan.ai.
+      locations."/".return = "302 https://plan.ai/";
+    };
 
     "api.plan.ai" = h {
       locations."/" = {
