@@ -26,9 +26,22 @@ import base64, hashlib, hmac, json, sys, time
 def b64(raw):
     return base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
 
+# Scopes are checked per tool and per resource, with no wildcard: a call needs
+# exactly `tool:<name>:read|write|admin`. Read-only mode publishes these four
+# tools and three resources.
+scopes = [
+    "tool:obsidian_get_note:read",
+    "tool:obsidian_list_notes:read",
+    "tool:obsidian_list_tags:read",
+    "tool:obsidian_search_notes:read",
+    "resource:obsidian-vault-note:read",
+    "resource:obsidian-tags:read",
+    "resource:obsidian-status:read",
+]
+
 signing_input = b64(json.dumps({"alg": "HS256", "typ": "JWT"}).encode()) + "." + b64(json.dumps({
     "client_id": "obsidian-operator",
-    "scope": "vault.read",
+    "scope": " ".join(scopes),
     "sub": "operator",
     "exp": int(time.time()) + 365 * 24 * 3600,
 }, separators=(",", ":")).encode())
@@ -39,7 +52,8 @@ PY
 The token carries no per-user identity — anyone holding it reads the vault, so
 treat it like the vault password and re-mint when someone leaves. Note the
 server rejects tokens without a `client_id`/`cid` and a `scope` claim, and
-`exp` must be in the future.
+`exp` must be in the future. A token with the handshake but not a tool's scope
+still answers `tools/list` and fails the call with "Insufficient permissions".
 
 Connect a client with:
 
