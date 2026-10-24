@@ -122,7 +122,6 @@ with lib;
 
   # testing future stuff
   networking.useNetworkd = true;
-  boot.initrd.systemd.enable = true;
   networking.nftables.enable = true;
 
   programs.git.enable = true;
