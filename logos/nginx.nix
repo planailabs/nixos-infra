@@ -7,6 +7,25 @@ let
     enableACME = true;
     forceSSL = true;
   };
+
+  # The xzar write plane: an upload token may publish a store path that the
+  # server signs with the key the whole fleet substitutes from, and uploads are
+  # not token-scoped, signature-verified or overwrite-protected
+  # (mkg20001/xzar@dca77eb, the pinned rev). Keep the signing path off the
+  # internet; only the nix-image CI runners reach it — incus containers on
+  # hyperion, cf. mmrcd's incus_url. Evidence: since 2026-08-15 every
+  # uploadNar/lock/check/finalizePin in /var/log/nginx/access.log* came from
+  # 2a01:4f8:c012:2caf::/64 (before that, runners on 2a01:4f8:262:494f until
+  # 2026-07-11 and ygg.mkg20001.io over IPv4 until 2026-08-14). Those two now
+  # get 403; move the runners and this prefix needs the same edit, or
+  # mac-mgmt's prebuild upload loop retries the 403 into its 6h timeout.
+  ciWriteOnly = {
+    proxyPass = "http://localhost:17788";
+    extraConfig = ''
+      allow 2a01:4f8:c012:2caf::/64;
+      deny all;
+    '';
+  };
 in
 {
   imports = [ ../modules/nginx-security-headers.nix ];
@@ -27,6 +46,12 @@ in
       locations."/" = {
         proxyPass = "http://localhost:17788/";
       };
+      locations."= /uploadNar" = ciWriteOnly;
+      locations."= /lock/request" = ciWriteOnly;
+      locations."= /lock/extend" = ciWriteOnly;
+      locations."= /lock/clear" = ciWriteOnly;
+      locations."= /finalizePin" = ciWriteOnly;
+      locations."= /check" = ciWriteOnly;
       extraConfig = ''
         client_max_body_size 10g;
         client_body_timeout 3600;
