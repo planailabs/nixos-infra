@@ -17,4 +17,19 @@ final: prev: {
   # package's source into the official litellm container; litellm is provided by
   # the image, so the package treats it as a peer dependency (see the package).
   litellm-codex-oauth-provider = final.python3Packages.callPackage ./litellm-codex-oauth-provider.nix { };
+} // prev.lib.optionalAttrs (prev ? xzar-server) {
+  # xzar-server takes the upload's `drvFull` verbatim as the storage filename
+  # (`server/src/storage.rs: file_path` joins it onto the storage root), so a
+  # write token could name a path outside it — and the cleanup/GC delete uses
+  # the same name. Upstream (mkg20001/xzar@dca77eb) has no fix and no newer
+  # release; the patch refuses any name that is not one plain file name.
+  xzar-server = prev.xzar-server.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./xzar-upload-path.patch ];
+
+    # The lib's unit tests need neither postgres nor the client binary (only
+    # the integration tests do), and they are where the storage-name check is
+    # covered. Keep them running so a bad rebase of the patch is caught here.
+    doCheck = true;
+    cargoTestFlags = [ "-p" "xzar-server" "--lib" ];
+  });
 }
