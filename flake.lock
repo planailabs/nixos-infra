@@ -2279,11 +2279,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1792477731,
-        "narHash": "sha256-KpKL/ZswcMLxyOIEnqjLnQKDm4E1qat4opRR7vMtxKw=",
+        "lastModified": 1792875241,
+        "narHash": "sha256-Ni+3uTz/y/ZqDrPDZKLkuC7WwrTc3qClarK1KI7hHgU=",
         "ref": "refs/heads/trunk",
-        "rev": "4a1979767ba7b80a91bf40ea1ef447221da34daf",
-        "revCount": 278,
+        "rev": "0fb6e0f63f9850c16158e0149bfabf435f4cc8a8",
+        "revCount": 282,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
