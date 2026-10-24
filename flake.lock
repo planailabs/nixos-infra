@@ -789,11 +789,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792703141,
-        "narHash": "sha256-3X34FaSeMJXMx8CK/BN6sZ9knwNauuiJXQhLM+bQQuI=",
+        "lastModified": 1792773325,
+        "narHash": "sha256-bvba9Lts8r8d15MdIDMwJGDxLtJiTlasKtAZyhTDzXk=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "6750249c69969d09d952efaf3fab88a2bdac7ec6",
+        "rev": "6d9655f76459099b0db2f57b13563729c7022aa7",
         "type": "github"
       },
       "original": {
@@ -818,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1792470004,
-        "narHash": "sha256-A22pRL5com7/++oMdBVJv/pvExc3IJVoKJJe852+0ms=",
+        "lastModified": 1792727817,
+        "narHash": "sha256-qXjmJJLDugl/5orQiEZa/3uLoLgMJVG15VzMchGJizc=",
         "ref": "refs/heads/trunk",
-        "rev": "f58e0e68adda54f809f69c677180d29f54b29a76",
-        "revCount": 129,
+        "rev": "1144d52d83006660bd6f7b5b0640b4dfe3a934a3",
+        "revCount": 131,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -845,11 +845,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1792631801,
-        "narHash": "sha256-b+hgpAByAdO/5OTUWIDrGJho1+RL5iAh1Y1lTFgnoKc=",
+        "lastModified": 1792722002,
+        "narHash": "sha256-ms3Pxz9egkkkSzr5+cQYlebsQRfhd0THAO5IkCz1SuA=",
         "ref": "refs/heads/trunk",
-        "rev": "e08b807023f1e501dd369604d1aca5db99edd828",
-        "revCount": 2571,
+        "rev": "6535956d73e3004e81b7acb719c353d1084bbcb5",
+        "revCount": 2573,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -906,11 +906,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792467930,
-        "narHash": "sha256-kiW7BQmI9hNc4ZXGKPnYJVLHnrBjWpCgIJLezJh0MJE=",
+        "lastModified": 1792726169,
+        "narHash": "sha256-mAhiOYvkeeofg5TgXWa0NGjEOU04l6JLfveppp9KQPo=",
         "ref": "refs/heads/trunk",
-        "rev": "238dc8774eb3631db61a04d63b71de08b02e621c",
-        "revCount": 770,
+        "rev": "56d68f7de07709cc770b27366014b5def745aeda",
+        "revCount": 771,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1219,8 +1219,8 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1791959120,
-        "narHash": "sha256-47680Jp3cS+524nhZXhdaeh6ec++abshxHknm+jLLeE=",
+        "lastModified": 1792701511,
+        "narHash": "sha256-+wtjseiEhIZC/Tj27V8ZBXbG9uO0kYEVzke4nSUpJAE=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -1391,11 +1391,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791170410,
-        "narHash": "sha256-pyru9MpuXRiyq0Bd4q0nHpL4T6HCuZT4B+alcgAYE4A=",
+        "lastModified": 1792499785,
+        "narHash": "sha256-mGOkvueuMGSRiD75ccxFzfEvSlIU9ztjFluHMKOtogY=",
         "owner": "pyproject-nix",
         "repo": "build-system-pkgs",
-        "rev": "953d35d03a51dbecaf3feb3fb679eb63e90ebeb4",
+        "rev": "a17819c85163988e063806ffc4f6d2716bc8ead8",
         "type": "github"
       },
       "original": {
@@ -1601,11 +1601,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792653800,
-        "narHash": "sha256-E8zFJilWlORqzIUJizyhZ/0WKBOizuM6s1nRSgPRomo=",
+        "lastModified": 1792739799,
+        "narHash": "sha256-M2rr/yPbTHvgAzCyZ+zHJHflFM0XU7t42Sw2skA3TQM=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "5f267b7f323a4d6df0b9c0e3eaa043cbe85386f2",
+        "rev": "b0829a2cc9f7b596583331d78a942c1e5170d8a0",
         "type": "github"
       },
       "original": {
@@ -2226,11 +2226,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792151315,
-        "narHash": "sha256-PMtgvHuGijoIAtPtrBm7kJOI6fxzX4LYPAIK+QVGY+Y=",
+        "lastModified": 1792666911,
+        "narHash": "sha256-UWo7wDPi00YXOI1Io7g4vGKuCSPJ863kHJVDzsgqtoM=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "7aba73a3d85454f1118f8cf9de97979b4d26bcac",
+        "rev": "0fdaa03ea3c3c16dbb1fe4d69108f07227a4b42d",
         "type": "github"
       },
       "original": {
