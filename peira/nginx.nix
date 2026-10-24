@@ -7,6 +7,16 @@ let
     enableACME = true;
     forceSSL = true;
   };
+
+  # The write plane signs whatever a write token uploads; keep it off the
+  # internet, CI runners only (rationale and evidence: logos/nginx.nix).
+  ciWriteOnly = {
+    proxyPass = "http://localhost:17788";
+    extraConfig = ''
+      allow 2a01:4f8:c012:2caf::/64;
+      deny all;
+    '';
+  };
 in
 {
   imports = [ ../modules/nginx-security-headers.nix ];
@@ -27,6 +37,12 @@ in
       locations."/" = {
         proxyPass = "http://localhost:17788/";
       };
+      locations."= /uploadNar" = ciWriteOnly;
+      locations."= /lock/request" = ciWriteOnly;
+      locations."= /lock/extend" = ciWriteOnly;
+      locations."= /lock/clear" = ciWriteOnly;
+      locations."= /finalizePin" = ciWriteOnly;
+      locations."= /check" = ciWriteOnly;
       extraConfig = ''
         client_max_body_size 10g;
         proxy_read_timeout 3600;
