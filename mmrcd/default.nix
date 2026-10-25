@@ -5,7 +5,7 @@
     ../modules/common.nix
     ../modules/container.nix
     ./nginx.nix
-    # Sets security.acme.distributor-token (shared distributor secret).
+    # Sets security.acme.distributor-token (this host's own credential).
     "${inputs.self.private}/mmrcd.nix"
   ];
 
