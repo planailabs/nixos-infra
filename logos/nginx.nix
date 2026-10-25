@@ -62,9 +62,51 @@ in
       '';
     };
 
+    # acme-distributor hands out certificate private keys; its guards are the
+    # token plus an allowFrom checked against the first X-Forwarded-For entry
+    # (mkg20001/acme-distributor crates/server/src/guards/auth.rs). This vhost
+    # sits behind Cloudflare, so restore the visitor address from
+    # CF-Connecting-IP (only from Cloudflare's published ranges) and *replace*
+    # X-Forwarded-For with it: otherwise the distributor sees a Cloudflare edge
+    # address, or whatever X-Forwarded-For the caller chose to send.
     "acme.plan.ai" = h {
+      extraConfig = ''
+        set_real_ip_from 173.245.48.0/20;
+        set_real_ip_from 103.21.244.0/22;
+        set_real_ip_from 103.22.200.0/22;
+        set_real_ip_from 103.31.4.0/22;
+        set_real_ip_from 141.101.64.0/18;
+        set_real_ip_from 108.162.192.0/18;
+        set_real_ip_from 190.93.240.0/20;
+        set_real_ip_from 188.114.96.0/20;
+        set_real_ip_from 197.234.240.0/22;
+        set_real_ip_from 198.41.128.0/17;
+        set_real_ip_from 162.158.0.0/15;
+        set_real_ip_from 104.16.0.0/13;
+        set_real_ip_from 104.24.0.0/14;
+        set_real_ip_from 172.64.0.0/13;
+        set_real_ip_from 131.0.72.0/22;
+        set_real_ip_from 2400:cb00::/32;
+        set_real_ip_from 2606:4700::/32;
+        set_real_ip_from 2803:f800::/32;
+        set_real_ip_from 2405:b500::/32;
+        set_real_ip_from 2405:8100::/32;
+        set_real_ip_from 2a06:98c0::/29;
+        set_real_ip_from 2c0f:f248::/32;
+        real_ip_header CF-Connecting-IP;
+      '';
       locations."/" = {
         proxyPass = "http://localhost:3444/";
+        # The default recommendedProxySettings appends $remote_addr to the
+        # caller's X-Forwarded-For; replace the set so the distributor's first
+        # entry is always the address nginx resolved.
+        recommendedProxySettings = false;
+        extraConfig = ''
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $remote_addr;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        '';
       };
     };
 
