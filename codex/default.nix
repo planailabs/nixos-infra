@@ -311,7 +311,7 @@ let
 in
 {
   imports = [
-    ../modules/postgres-pin.nix
+    ../modules/postgres-upgrade.nix
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/codex.nix"
