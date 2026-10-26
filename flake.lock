@@ -584,11 +584,11 @@
     },
     "gitlab-incus-image_3": {
       "locked": {
-        "lastModified": 1753527178,
-        "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
+        "lastModified": 1792882120,
+        "narHash": "sha256-wjoqwTly2kkLSmyai7Nibv093Ihw0T9xL4Ph39PVsuc=",
         "ref": "refs/heads/master",
-        "rev": "6e4ac068f63b1149c4c3ec8d5aee4436ccaaaae6",
-        "revCount": 28,
+        "rev": "7e0f6cde4d20ed42ab24a4bf3683f4cb2a3f77fa",
+        "revCount": 29,
         "type": "git",
         "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
       },
@@ -599,11 +599,11 @@
     },
     "gitlab-incus-image_4": {
       "locked": {
-        "lastModified": 1753527178,
-        "narHash": "sha256-7nM0eVKsPx26ROyiPbMvv5JTGX9/Gt2KmsrQvYdQkc0=",
+        "lastModified": 1792882120,
+        "narHash": "sha256-wjoqwTly2kkLSmyai7Nibv093Ihw0T9xL4Ph39PVsuc=",
         "ref": "refs/heads/master",
-        "rev": "6e4ac068f63b1149c4c3ec8d5aee4436ccaaaae6",
-        "revCount": 28,
+        "rev": "7e0f6cde4d20ed42ab24a4bf3683f4cb2a3f77fa",
+        "revCount": 29,
         "type": "git",
         "url": "https://git.mkg20001.io/mkg20001/gitlab-incus-image.git"
       },
@@ -818,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1792727817,
-        "narHash": "sha256-qXjmJJLDugl/5orQiEZa/3uLoLgMJVG15VzMchGJizc=",
+        "lastModified": 1792911395,
+        "narHash": "sha256-+ZiPtTKGvsOxx0PhYvIld+9JNG5pruqbIGvzfR7Zn/c=",
         "ref": "refs/heads/trunk",
-        "rev": "1144d52d83006660bd6f7b5b0640b4dfe3a934a3",
-        "revCount": 131,
+        "rev": "8e5abc40a275087a34b31a67911b5a609e5db349",
+        "revCount": 132,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -845,11 +845,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1792889863,
-        "narHash": "sha256-qo4ck2z4YZv8OSq7dMnEzEois47tVzOv+xhF4Yyue7I=",
+        "lastModified": 1792984088,
+        "narHash": "sha256-UI9QLevIjFCx1LQmD6zlT4AHgxRwhmBAf8CGry2h9G0=",
         "ref": "refs/heads/trunk",
-        "rev": "55457a2c8835210d38f5a116f510de9f147ae20e",
-        "revCount": 2574,
+        "rev": "d752d682f461ed082e1a5834d15fd2787bb16dc6",
+        "revCount": 2580,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -906,11 +906,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792726169,
-        "narHash": "sha256-mAhiOYvkeeofg5TgXWa0NGjEOU04l6JLfveppp9KQPo=",
+        "lastModified": 1792988809,
+        "narHash": "sha256-Kmzhd/15ejDcw+JpNnrQXzhmOUP/ATc4EyjjR1Rwu/w=",
         "ref": "refs/heads/trunk",
-        "rev": "56d68f7de07709cc770b27366014b5def745aeda",
-        "revCount": 771,
+        "rev": "5995d2e5fc0494e9f060ffcec9ef837cfe982df8",
+        "revCount": 773,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1601,11 +1601,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792825530,
-        "narHash": "sha256-aphXA2IFNd3q48++TKmfuuvDDjkrgGdJDnDIhij9684=",
+        "lastModified": 1793000331,
+        "narHash": "sha256-6sLQgHX/V/yF8VrhmsJroujeRua1GY3nDTEpnY7tHF4=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "5b9f1198b59bcb31c5c3250b332e7d77590e6306",
+        "rev": "0d0575988e4bb9ebc4cf1afb1cec1ceac0b5914e",
         "type": "github"
       },
       "original": {
@@ -2279,11 +2279,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1792956032,
-        "narHash": "sha256-GzrvHJXvPQXDt1vYw6ddvbQdSyS5z/zw5DilieKQUKw=",
+        "lastModified": 1792997875,
+        "narHash": "sha256-X8M1JmwJlj2j8kLta1rcMmjbTzoA2/umwPxjP6TiRVY=",
         "ref": "refs/heads/trunk",
-        "rev": "024cb1327334d724873d8b5907e26f7eacd30dc9",
-        "revCount": 284,
+        "rev": "a856081ce2ea4b76e04d84de50571b199db8d722",
+        "revCount": 285,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
