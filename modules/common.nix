@@ -169,5 +169,16 @@ with lib;
   networking.firewall.extraInputRules = ''
     ip6 saddr ${(import ./yggdrasil-ips.nix).logos} tcp dport 9000-9999 accept
   '';
+
+  # Every Incus host (hyperion, atlas, odysseus, deploy, pi): `incus publish` and
+  # `incus image import` leave an image behind that no alias points at, and
+  # nothing ever refers to it again — instances keep their own filesystem copy.
+  systemd.services.prune-incus-images = mkIf config.virtualisation.incus.enable {
+    description = "Delete Incus images no alias points at";
+    startAt = "hourly";
+    path = with pkgs; [ incus jq bash coreutils ];
+    serviceConfig.Type = "oneshot";
+    script = "bash ${../prune-incus-images.sh}";
+  };
 }
 
