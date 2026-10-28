@@ -789,11 +789,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793033486,
-        "narHash": "sha256-fXVURa0+CSCgaxLt8tmPNJq2U+fGYOwbk5j2YUe7kSc=",
+        "lastModified": 1793124281,
+        "narHash": "sha256-KdGTOgYXgMDA/ymTV10yLMt9tOjz9EmTgnTvaD+bhe4=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "7db163b2aee7e410e396b48aed02f646d742b9b8",
+        "rev": "1e3ebeb683d055d1675d3f64e6d2b186cb2ee504",
         "type": "github"
       },
       "original": {
@@ -845,11 +845,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1793033411,
-        "narHash": "sha256-X14YbsPiDxRz2nLqV0WuzOIuKcINKFmuWTAHUVWlP78=",
+        "lastModified": 1793143665,
+        "narHash": "sha256-T5uskzRzgTcUsNh03iU1kAS7DclLwOLbc2ypDxKU4m0=",
         "ref": "refs/heads/trunk",
-        "rev": "15f6d2c83db79891eff229f6b1f35adf293b907f",
-        "revCount": 2582,
+        "rev": "2e64d386d868a8b9a3c9e6b4d083ece0252a1016",
+        "revCount": 2594,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -1219,8 +1219,8 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1792864652,
-        "narHash": "sha256-xefwmU4qgHizfGmulg1a01xz79JKdG9sNw/pO4UooW0=",
+        "lastModified": 1793020249,
+        "narHash": "sha256-9MtqzBfD4XTqdVLsnvRyxj0ja+brWtiT7wOVoSV89yw=",
         "type": "tarball",
         "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
@@ -1601,11 +1601,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793000331,
-        "narHash": "sha256-6sLQgHX/V/yF8VrhmsJroujeRua1GY3nDTEpnY7tHF4=",
+        "lastModified": 1793086596,
+        "narHash": "sha256-ObKS44vw4IIVpQ69YJzUGjZ0IwnpWoUlwjJSY7gefdo=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "0d0575988e4bb9ebc4cf1afb1cec1ceac0b5914e",
+        "rev": "c7e9d512653a35ef4d5879c3df4d44d7b78d0e6d",
         "type": "github"
       },
       "original": {
