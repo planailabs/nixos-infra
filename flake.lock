@@ -818,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1793198429,
-        "narHash": "sha256-tnB0LQ9kJ1OdS/SAFIctLqWHv9Nt1BbuprhJuYzOQ68=",
+        "lastModified": 1793220895,
+        "narHash": "sha256-q46fFlVMhIp4FXP73QNVuGnrSzLR+V58xUX6+kovE7c=",
         "ref": "refs/heads/trunk",
-        "rev": "dc62f99f4eebd8b1f5bdec46c30876f622144341",
-        "revCount": 133,
+        "rev": "5fb948d1678fd68566278d4e93c825d2714e944a",
+        "revCount": 134,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
