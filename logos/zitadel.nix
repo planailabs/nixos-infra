@@ -17,6 +17,14 @@ in
         ExternalDomain = domain;
         ExternalPort = 443;
         ExternalSecure = true;
+        # Self-registration is not a product feature (accounts are provisioned
+        # by the cloud console), so it stays closed. This seeds the login policy
+        # of the first and of any new virtual instance; password login stays on.
+        # The live instance's policy row was set to allowRegister=false through
+        # the Admin API on 2026-10-28, since config only seeds new instances:
+        #   GET  /admin/v1/policies/login
+        #   PUT  /admin/v1/policies/login   (same body, "allowRegister": false)
+        DefaultInstance.LoginPolicy.AllowRegister = false;
         Database.postgres = {
           Host = "/run/postgresql";
           Port = 5432;
