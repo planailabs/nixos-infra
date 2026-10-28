@@ -77,11 +77,12 @@ in {
         if [ -e "$path" ]; then echo "$path"; fi
       done
     '';
-    # Restic's own cache, and the password and key it backs up with: the
-    # repository is the one place those must not end up.
+    # Restic's own cache, the password and key it backs up with, and the box
+    # password: the repository is the one place those must not end up.
     exclude = [
       "/var/cache/restic-backups-hetzner"
       "/var/lib/restic-backups"
+      "/etc/restic-backups"
     ];
 
     extraOptions = [
