@@ -5,6 +5,7 @@ with lib;
 {
   imports = [
     ./vm-fix.nix
+    ./restic-backups.nix
   ];
 
   # hack: is broken
