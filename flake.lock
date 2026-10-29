@@ -715,11 +715,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1793054847,
-        "narHash": "sha256-mhud3nRH8RoP0h9MydfkJ8mISpj+QE/S//wOt9bNgC0=",
+        "lastModified": 1793236063,
+        "narHash": "sha256-jGFe4xdrCw6xpgH2zgKwslACyt/NGuPwGILPEMFxmcQ=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "8ba09466dc929acf5c8bb3e0cc40f472a7df3630",
+        "rev": "b6754c901c21478fd8450d62101e712b2a4f0d75",
         "type": "github"
       },
       "original": {
@@ -818,11 +818,11 @@
         "xzar": "xzar_2"
       },
       "locked": {
-        "lastModified": 1793220895,
-        "narHash": "sha256-q46fFlVMhIp4FXP73QNVuGnrSzLR+V58xUX6+kovE7c=",
+        "lastModified": 1793230048,
+        "narHash": "sha256-7/ocoqmH0E/Z8xcyF9gaaaPzliyHJRhc92rYswKXkh4=",
         "ref": "refs/heads/trunk",
-        "rev": "5fb948d1678fd68566278d4e93c825d2714e944a",
-        "revCount": 134,
+        "rev": "3697b3b7b194881efcaf2253cef707a0374b313b",
+        "revCount": 135,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -906,11 +906,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792988809,
-        "narHash": "sha256-Kmzhd/15ejDcw+JpNnrQXzhmOUP/ATc4EyjjR1Rwu/w=",
+        "lastModified": 1793232471,
+        "narHash": "sha256-0cMQcivhJwEjQl4eBL+bEvqevgDkG13jFfTI12XlErM=",
         "ref": "refs/heads/trunk",
-        "rev": "5995d2e5fc0494e9f060ffcec9ef837cfe982df8",
-        "revCount": 773,
+        "rev": "930712dcf692d13f0946d65cf147f85cc1663a4a",
+        "revCount": 775,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1465,11 +1465,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1791657700,
-        "narHash": "sha256-vcCAvhtA7hG+/gOge29hYHy7I/dLkIsr5nLx4sFEQic=",
+        "lastModified": 1793200762,
+        "narHash": "sha256-oZ055iZrhdr6BemnmU825xz3AlGIoYHdPJgPKFaKXo0=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "ddc400a6883b042646d0940e65971bb7f7e96107",
+        "rev": "489adad94b0360044ae9b16f5265925f73d439f0",
         "type": "github"
       },
       "original": {
@@ -2279,11 +2279,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1792997875,
-        "narHash": "sha256-X8M1JmwJlj2j8kLta1rcMmjbTzoA2/umwPxjP6TiRVY=",
+        "lastModified": 1793236774,
+        "narHash": "sha256-/LimAdjCBkT7jDbs3Wv+RIhoINogjToOxlZRl7HUmYk=",
         "ref": "refs/heads/trunk",
-        "rev": "a856081ce2ea4b76e04d84de50571b199db8d722",
-        "revCount": 285,
+        "rev": "a84f05141295714a59eb79228ca1aa7c5c3898d5",
+        "revCount": 286,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/web-agency"
