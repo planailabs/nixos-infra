@@ -25,6 +25,35 @@ in
         #   GET  /admin/v1/policies/login
         #   PUT  /admin/v1/policies/login   (same body, "allowRegister": false)
         DefaultInstance.LoginPolicy.AllowRegister = false;
+        # chat.plan.ai's connector exchanges a signed-in user's token for an
+        # access token of that user, scoped to a target project's audience
+        # (RFC 8693, Zitadel's impersonation flavour). Two instance settings
+        # are needed, both IAM-level and both applied to the live instance on
+        # 2026-10-31 with the instance-admin PAT:
+        #   PUT /v2/features/instance  {"oidcTokenExchange": true}
+        #   PUT /v2/policies/security  {"enableImpersonation": true}
+        # Only the feature has a config key (InstanceSetup.Features), so that
+        # is the one seeded here. 2.71.7 has no security-policy config key at
+        # all; its v1 equivalent is PUT /admin/v1/policies/security, which
+        # replaces the whole policy, so GET it first and merge.
+        # Like AllowRegister above, config seeds a NEW instance only; a running
+        # instance keeps its feature and policy rows in Postgres.
+        # Verifying: GET /v2/features/instance shows oidcTokenExchange.enabled
+        # and GET /v2/settings/security shows enableImpersonation. The
+        # discovery document is no use — it never lists the token-exchange
+        # grant in 2.71.7, enabled or not, because the OIDC library only
+        # advertises it when the storage type implements its
+        # TokenExchangeStorage while Zitadel implements the exchange on its own
+        # server type. A POST to /oauth/v2/token with the grant and a bogus
+        # client_id only proves the build dispatches the grant (invalid_client
+        # rather than unsupported_grant_type); it answers invalid_client with
+        # the feature off too.
+        # The connector's OIDC app must also list the token-exchange grant type,
+        # and its service account still needs IAM_ADMIN_IMPERSONATOR (plan.ai
+        # makes every customer ORG_OWNER of their org, and the
+        # *_END_USER_IMPERSONATOR roles only cover users without memberships).
+        # That role can also impersonate instance admins: its key is root-grade.
+        DefaultInstance.Features.TokenExchange = true;
         Database.postgres = {
           Host = "/run/postgresql";
           Port = 5432;
