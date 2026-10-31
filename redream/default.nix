@@ -1,6 +1,5 @@
 { inputs, lib, pkgs, ... }: with lib; {
   imports = [
-    ../modules/postgres-upgrade.nix
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/redream.nix"
