@@ -1500,6 +1500,31 @@
         "type": "github"
       }
     },
+    "redream": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793406511,
+        "narHash": "sha256-V1DgF0bixBOqtDLs/GFmjG0ghUGnIie4jMb4HNu6g1o=",
+        "ref": "refs/heads/master",
+        "rev": "2e08f702fd7e337e2d113e2f0a3e12d1d78bda64",
+        "revCount": 6,
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/redream"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "ssh://git@git.plan.ai/plan-ai/redream"
+      }
+    },
     "root": {
       "inputs": {
         "acme-distributor": "acme-distributor",
@@ -1519,6 +1544,7 @@
         "nixpkgs": "nixpkgs_3",
         "plan-ai-chat": "plan-ai-chat",
         "plan-ai-cloud": "plan-ai-cloud",
+        "redream": "redream",
         "rust-overlay": "rust-overlay_12",
         "securitybird": "securitybird",
         "supabase-self-service-consent": "supabase-self-service-consent",

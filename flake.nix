@@ -29,6 +29,10 @@
     plan-ai-cloud.url = "git+ssh://git@git.plan.ai/plan-ai/cloud?submodules=1";
     plan-ai-cloud.inputs.nixpkgs.follows = "nixpkgs";
     plan-ai-cloud.inputs.rust-overlay.follows = "rust-overlay";
+    # iDRAC console (power, KVM, Ctrl-Alt-Del) behind plan-ai-auth.
+    redream.url = "git+ssh://git@git.plan.ai/plan-ai/redream?submodules=1";
+    redream.inputs.nixpkgs.follows = "nixpkgs";
+    redream.inputs.flake-utils.follows = "flake-utils";
     hugger.url = "git+https://git.plan.ai/plan-ai/hugger";
     hugger.inputs.nixpkgs.follows = "nixpkgs";
     hugger.inputs.flake-utils.follows = "flake-utils";
@@ -288,6 +292,20 @@
           acme-distributor.nixosModules.acme-shim
           inputs.hugger.nixosModules.default
           ./hugger-hetzner
+          { nixpkgs.overlays = [
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      redream = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          mkg-mod.nixosModules.yggdrasil
+          acme-distributor.nixosModules.acme-shim
+          inputs.redream.nixosModules.default
+          ./redream
           { nixpkgs.overlays = [
             acme-distributor.overlays.default
             (import ./pkgs/overlay.nix)
