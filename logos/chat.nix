@@ -24,7 +24,7 @@
       # private/logos-chat.nix. The hub runs ../subnet/chat.hcl of the chat repo.
       subnet = {
         url = "http://127.0.0.1:7700";
-        types = { sales = "chat-sales"; machine_config = "chat-machine-config"; };
+        agent_type = "chat";
       };
 
       # Layer 2 of the tool approval: a cheap validator model through
