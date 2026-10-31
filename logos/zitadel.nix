@@ -24,6 +24,15 @@ in
         # the Admin API on 2026-10-28, since config only seeds new instances:
         #   GET  /admin/v1/policies/login
         #   PUT  /admin/v1/policies/login   (same body, "allowRegister": false)
+        #
+        # EXPLICIT EXEMPTION: the "plan.ai" org (397597061693833352) has its own
+        # login policy with open sign-up through social logins only, for
+        # chat.plan.ai's public users (sign-in there is limited to this org).
+        # allowRegister=true, allowUsernamePassword=false, passwordless off,
+        # external IdPs on with GitHub (397597815963910280, auto-creation) as
+        # the only one. Set 2026-10-31 through the Management API (org scope):
+        #   PUT /management/v1/policies/login   (x-zitadel-orgid: 397597061693833352)
+        # Every other org, and the instance default, stay closed.
         DefaultInstance.LoginPolicy.AllowRegister = false;
         # chat.plan.ai's connector exchanges a signed-in user's token for an
         # access token of that user, scoped to a target project's audience
