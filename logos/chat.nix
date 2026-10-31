@@ -27,9 +27,31 @@
         types = { sales = "chat-sales"; machine_config = "chat-machine-config"; };
       };
 
-      # Layer 2 of the tool approval (validator model) stays off until the
-      # chat has a LiteLLM key of its own; static checks and the user decide.
-      approval = { };
+      # Layer 2 of the tool approval: a cheap validator model through
+      # LiteLLM (key "chat-prod": private/logos-chat.nix).
+      approval = {
+        validator_url = "https://codex.plan.ai/v1";
+        validator_model = "deepseek-flash";
+      };
+
+      # Acting as the user (token exchange credentials: private). mgmt.plan.ai
+      # accepts Zitadel bearers for project "mgmt.plan.ai API"; each user's
+      # deployments come from the console.
+      connector = {
+        targets = [
+          {
+            name = "mac-mgmt";
+            description = "plan.ai machine management (mgmt.plan.ai): your clusters' config, skills, bundles, MCP servers, SSH keys";
+            kind = "mac-mgmt";
+            mcp_url = "https://mgmt.plan.ai/mcp";
+            audience_project_id = "397603440676569224";
+          }
+        ];
+        console = {
+          url = "https://cloud.plan.ai";
+          audience_project_id = "397603595463164040";
+        };
+      };
 
       chat = {
         hourly_input_tokens = 100000;
