@@ -1898,10 +1898,10 @@
       },
       "locked": {
         "lastModified": 1791479715,
-        "narHash": "sha256-TuD8NfZRzRsrrriCBRym9oir7gE8jz1nqDpKxROeJUQ=",
+        "narHash": "sha256-zcThiXvACttSrD0jKmwXb0RU45ry9hARdes3gX/RCTI=",
         "ref": "refs/heads/trunk",
         "rev": "6faa0a0d6b3bb77a0e7fa20a7f1437b4e691009f",
-        "shallow": true,
+        "revCount": 43,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/securitybird"
       },
