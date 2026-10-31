@@ -27,6 +27,8 @@
       auth = {
         external_url = "https://redream.plan.ai";
         cookie_secret = "\${COOKIE_SECRET}";
+        # Admins manage users (redream.plan.ai/#/users); others can be promoted there.
+        admin_emails = [ "maciej@plan.ai" ];
         providers = [{
           slug = "google";
           name = "Google";
