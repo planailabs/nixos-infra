@@ -20,8 +20,9 @@
       };
       accounts.admin_emails = [ "maciej@plan.ai" ];
 
-      # Hub token (`subnet issue_token client chat`) and the callback secret:
-      # private/logos-chat.nix. The hub runs ../subnet/chat.hcl of the chat repo.
+      # The agents' hub runs on logos too (services.plan-ai-chat.hub: `subnet
+      # dev` with the chat package's chat.hcl). Its admin token, the callback
+      # secret and the LiteLLM key: private/logos-chat.nix.
       subnet = {
         url = "http://127.0.0.1:7700";
         agent_type = "chat";
