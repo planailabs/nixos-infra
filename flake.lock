@@ -1510,11 +1510,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793451731,
-        "narHash": "sha256-Vy/iFB1W0cj64LytXdGUHPTv+ssVx2flQ6SsH4t71E8=",
+        "lastModified": 1793458300,
+        "narHash": "sha256-Cot/SPokxLvIQNTS8J9JfG3BkA1rz9I2KT+HnJ62mHE=",
         "ref": "refs/heads/master",
-        "rev": "8675b97536e228050192a4553cb3a616264fb4a3",
-        "revCount": 9,
+        "rev": "ca10c67386e1cf7edec374f730f687a8d416adcb",
+        "revCount": 10,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/redream"
