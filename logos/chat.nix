@@ -23,7 +23,7 @@
       # Hub token (`subnet issue_token client chat`) and the callback secret:
       # private/logos-chat.nix. The hub runs ../subnet/chat.hcl of the chat repo.
       subnet = {
-        url = "http://127.0.0.1:7070";
+        url = "http://127.0.0.1:7700";
         types = { sales = "chat-sales"; machine_config = "chat-machine-config"; };
       };
 
