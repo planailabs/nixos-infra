@@ -17,8 +17,8 @@ is in `private/redream.nix`; the public key is noted there too.
 ## Secrets (`private/redream.nix`)
 
 `/etc/redream.env`: `IDRAC_PASSWORD`, `COOKIE_SECRET`, `GOOGLE_CLIENT_ID`,
-`GOOGLE_CLIENT_SECRET`. The Google client is a placeholder until a real one is
-created with the redirect URI `https://redream.plan.ai/auth/google/callback`.
+`GOOGLE_CLIENT_SECRET`. The Google client's redirect URI is
+`https://redream.plan.ai/auth/google/callback`.
 
 ## Deploy
 
