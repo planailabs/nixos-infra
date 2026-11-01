@@ -62,6 +62,18 @@ in
         # makes every customer ORG_OWNER of their org, and the
         # *_END_USER_IMPERSONATOR roles only cover users without memberships).
         # That role can also impersonate instance admins: its key is root-grade.
+        #
+        # Impersonated tokens are NOT usable on Zitadel's own APIs: every
+        # token with an actor is refused there (Errors.TokenExchange.Token.
+        # NotForAPI, by design, still so in v4). So the console's
+        # identity_request passthrough (org admins calling /management/v1 etc.
+        # in their own org) does not impersonate. Instead the console makes a
+        # machine user "plan.ai console" (username plan-ai-console) in each
+        # customer org on first use, ORG_OWNER of that org only, with a 90-day
+        # PAT it stores encrypted and rotates itself. Nothing to configure
+        # here: the console's own service user (IAM_OWNER) creates them. A
+        # trial on 2026-11-01 left nothing behind (the console's service user
+        # still holds IAM_OWNER + IAM_ORG_MANAGER only).
         DefaultInstance.Features.TokenExchange = true;
         Database.postgres = {
           Host = "/run/postgresql";
