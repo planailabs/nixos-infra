@@ -6,7 +6,7 @@
   services.plan-ai-chat = {
     enable = true;
     settings = {
-      database.url = "postgres:///plan-ai-chat?host=/run/postgresql";
+      database.url = "postgres://plan-ai-chat@localhost/plan-ai-chat?host=/run/postgresql";
       web.listen = "127.0.0.1:4321";   # nginx: chat.plan.ai -> localhost:4321
 
       # Zitadel project "plan.ai chat" in the plan.ai org; only that org's
