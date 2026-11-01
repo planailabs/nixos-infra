@@ -114,6 +114,11 @@ in
       locations."/" = {
         proxyPass = "http://localhost:4321/";
         proxyWebsockets = true;
+        # The chat's event stream (/api/v1/chat/events) is SSE: don't buffer.
+        extraConfig = ''
+          proxy_buffering off;
+          proxy_read_timeout 3600s;
+        '';
       };
     };
 

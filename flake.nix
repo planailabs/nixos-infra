@@ -22,8 +22,9 @@
     web-agency.url = "git+ssh://git@git.plan.ai/plan-ai/web-agency";
     web-agency.inputs.nixpkgs.follows = "nixpkgs";
     web-agency.inputs.rust-overlay.follows = "rust-overlay";
-    plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat";
-    plan-ai-chat.inputs.nixpkgs.follows = "nixpkgs";
+    # Its own nixpkgs (no follows): the chat UI's pnpm-deps hash only holds
+    # with the pnpm its flake pins. common/ is a submodule.
+    plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat?submodules=1";
     # The cloud console, for the fleet's image registry — cloud-images serves
     # the simplestreams tree the regions pull from.
     plan-ai-cloud.url = "git+ssh://git@git.plan.ai/plan-ai/cloud?submodules=1";

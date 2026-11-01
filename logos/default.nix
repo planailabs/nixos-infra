@@ -8,6 +8,7 @@
     ./cloud.nix
     ./hedgedoc.nix
     ./zitadel.nix
+    ./chat.nix
     ./matrix.nix
     ./matrix-module.nix
   ];
@@ -471,21 +472,6 @@
   };
 
   services.zitadel.enable = true;
-
-  services.plan-ai-chat = {
-    enable = true;
-    package = (pkgs.plan-ai-chat.override {
-      envVars = {
-        VITE_SUPABASE_URL = "https://tlssdiqdokctvxcezptr.supabase.co";
-        VITE_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0jDsNegZ46CUSePRIj5-Bw_0_UYc41b";
-      };
-    }).overrideAttrs (old: {
-      pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
-        outputHash = "sha256-dm69tZmhxxI4cIX7lry/cdLxROmT/BDds8PNRdPKPAg=";
-      });
-    });
-    environmentFile = "/etc/plan-ai-chat.env";
-  };
 
   services.memvault = {
     enable = true;

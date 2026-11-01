@@ -1,8 +1,5 @@
 # chat.plan.ai on the Rust chat server (plan-ai/chat), its agents on a
-# subagent-net hub. NOT imported yet: logos/default.nix still runs the Astro
-# chat. To switch: bump the plan-ai-chat input to the Rust version, add
-# ./chat.nix to the imports in default.nix, drop the old services.plan-ai-chat
-# block there and /etc/plan-ai-chat.env in private/logos.nix.
+# subagent-net hub run by the same module (plan-ai-chat-subnet.service).
 { inputs, ... }: {
   imports = [ "${inputs.self.private}/logos-chat.nix" ];
 
