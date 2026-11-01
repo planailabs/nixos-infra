@@ -51,11 +51,9 @@
         };
       };
 
-      chat = {
-        hourly_input_tokens = 100000;
-        hourly_output_tokens = 20000;
-        max_chars = 2048;
-      };
+      # Token budgets are plans (accounts: "standard" default, "pro" 10x of
+      # it; free, assigned per user on the admin dashboard).
+      chat.max_chars = 2048;
 
       # mac-mgmt's public catalog for the sales agent (token: private).
       catalog.url = "https://mgmt.plan.ai/daemon/";
