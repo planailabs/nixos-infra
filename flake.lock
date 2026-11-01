@@ -55,11 +55,11 @@
         "xzar": "xzar_4"
       },
       "locked": {
-        "lastModified": 1793029794,
-        "narHash": "sha256-KH2Qiacj3UCuZc1DdOecweQEM0vALREUwo8UQtBXg4c=",
+        "lastModified": 1793497411,
+        "narHash": "sha256-RjmVECtHnc3uEYMdqP5LNKCqAN4yYhq5fiCkP2jc/IA=",
         "ref": "refs/heads/trunk",
-        "rev": "1f79e6f1cd0db5f5b7b273f4c8a25efa82d969d5",
-        "revCount": 559,
+        "rev": "71d2ccbd947e990d196ef31fa5499deaf7244b07",
+        "revCount": 570,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -73,11 +73,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1792978149,
-        "narHash": "sha256-DtY8viWvn7XrmjXvRRBnldm9TUv9BxOaLSU22iiQXXs=",
+        "lastModified": 1793207435,
+        "narHash": "sha256-z0Og9yRYKCn36Nligl+TXs3xj43kHMOxjnLN8J2O6dI=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "8530c8cd1c1ac8e1e3d2962bc213a8c9025fea0a",
+        "rev": "dca2a44ef0c514384d297410fd05fd8335a4d5b5",
         "type": "github"
       },
       "original": {
@@ -1318,11 +1318,11 @@
         "subagent-net": "subagent-net"
       },
       "locked": {
-        "lastModified": 1793496891,
-        "narHash": "sha256-sKafqg4WRjKIVcOxBPBK7NzMqR7mjAC4LXhbSPP81qE=",
+        "lastModified": 1793502013,
+        "narHash": "sha256-dTCDFqHCH1eZJmdJLrtHJXkxo9qMaD2QFV6orFncn04=",
         "ref": "refs/heads/trunk",
-        "rev": "f05fca6dd8c39be52fb227c5c0828713af490d3d",
-        "revCount": 119,
+        "rev": "a8b343050f5b4586d20dd46ee60a2664f0d80dbc",
+        "revCount": 130,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
@@ -1350,11 +1350,11 @@
         "xzar": "xzar_8"
       },
       "locked": {
-        "lastModified": 1793497223,
-        "narHash": "sha256-1NAWAPkYBJUm9f9JPa7UgHDk7GISkUCZr8CXbvBIoF8=",
+        "lastModified": 1793501842,
+        "narHash": "sha256-ZmJnvgdEKI9TBY3u9gzaYadvS8KIzhEiVl+INZV1/yk=",
         "ref": "refs/heads/trunk",
-        "rev": "6329595bfd1e774c560d62351dacf1241daad324",
-        "revCount": 153,
+        "rev": "8a7128ea5b6c70669a26b23b828983dcee6006a0",
+        "revCount": 156,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
