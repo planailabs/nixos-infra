@@ -1582,7 +1582,6 @@
         "redream": "redream",
         "rust-overlay": "rust-overlay_13",
         "securitybird": "securitybird",
-        "supabase-self-service-consent": "supabase-self-service-consent",
         "web-agency": "web-agency",
         "wg-vpng": "wg-vpng",
         "xnix": "xnix",
@@ -1988,26 +1987,6 @@
       "original": {
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/subagent-net"
-      }
-    },
-    "supabase-self-service-consent": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1777246933,
-        "narHash": "sha256-n5xq9hyhTI528bckLKHdayXtQRft53AuI9s2rlEq32k=",
-        "ref": "refs/heads/trunk",
-        "rev": "3e74ccf24643d597d80a4a9847769ac6cc31e208",
-        "revCount": 21,
-        "type": "git",
-        "url": "ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent"
       }
     },
     "systems": {

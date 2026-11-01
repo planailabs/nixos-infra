@@ -37,8 +37,6 @@
     hugger.url = "git+https://git.plan.ai/plan-ai/hugger";
     hugger.inputs.nixpkgs.follows = "nixpkgs";
     hugger.inputs.flake-utils.follows = "flake-utils";
-    supabase-self-service-consent.url = "git+ssh://git@git.plan.ai/plan-ai/supabase-self-service-consent";
-    supabase-self-service-consent.inputs.nixpkgs.follows = "nixpkgs";
     # Full flake: we consume its nixosModules.rustnmap-api (the REST scan
     # server) and its nix/rustnmap.nix package. Inputs follow ours so there's
     # no second nixpkgs. Single source of truth for the rustnmap package and
@@ -92,7 +90,6 @@
     mac-mgmt,
     web-agency,
     plan-ai-chat,
-    supabase-self-service-consent,
     memvault,
     common,
     home-manager,
@@ -235,7 +232,6 @@
           mac-mgmt.nixosModules.default
           mac-mgmt.nixosModules.runner
           plan-ai-chat.nixosModules.default
-          supabase-self-service-consent.nixosModules.default
           memvault.nixosModules.default
           inputs.ghgl-sync.nixosModules.default
           inputs.wg-vpng.nixosModules.default
