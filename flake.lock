@@ -55,11 +55,11 @@
         "xzar": "xzar_4"
       },
       "locked": {
-        "lastModified": 1793497411,
-        "narHash": "sha256-RjmVECtHnc3uEYMdqP5LNKCqAN4yYhq5fiCkP2jc/IA=",
+        "lastModified": 1793511896,
+        "narHash": "sha256-aaX2lLv0AhR4zGj/aYYxszUPl8d3RrZ9Lkw0NmdsIlc=",
         "ref": "refs/heads/trunk",
-        "rev": "71d2ccbd947e990d196ef31fa5499deaf7244b07",
-        "revCount": 570,
+        "rev": "43ce401eb043d6921b940096ad3d6afd70b3e7e4",
+        "revCount": 572,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -73,11 +73,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1793207435,
-        "narHash": "sha256-z0Og9yRYKCn36Nligl+TXs3xj43kHMOxjnLN8J2O6dI=",
+        "lastModified": 1793486870,
+        "narHash": "sha256-XOeTy3BtFSCOP1wgfN3rvWKQHlEHvmISVnpxPhEzZ94=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "dca2a44ef0c514384d297410fd05fd8335a4d5b5",
+        "rev": "812d0755c1a79917aecfc76f67bc891663d1e2c3",
         "type": "github"
       },
       "original": {
@@ -1350,11 +1350,11 @@
         "xzar": "xzar_8"
       },
       "locked": {
-        "lastModified": 1793511720,
-        "narHash": "sha256-LaUCspvYjoJSLMT1q5kv2fBgH8f/PdN3jxUZBHcFxj0=",
+        "lastModified": 1793512710,
+        "narHash": "sha256-5cRNUFprHG3d0We7p8532LQUBPVVSBPI+eEh33xAwKU=",
         "ref": "refs/heads/trunk",
-        "rev": "05aed4f4c09b86d127884257717ab39473f486d4",
-        "revCount": 161,
+        "rev": "8f0c2c0e1a3c516b17584c920948b96f8c480e15",
+        "revCount": 163,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -1368,11 +1368,11 @@
     "ponytail": {
       "flake": false,
       "locked": {
-        "lastModified": 1792288514,
-        "narHash": "sha256-sVnxA4rfxa2SlS2g+2+q3odRq0VJz1z7PEVHW2QRPQI=",
+        "lastModified": 1793275171,
+        "narHash": "sha256-PhPtZbeX2wBp19GtWRy+fV93+fFYZe5S487eXPDl/us=",
         "owner": "DietrichGebert",
         "repo": "ponytail",
-        "rev": "09c434ab73ca43761c5d8b0c5d341926c2fba710",
+        "rev": "96608e078b2d5ea607c5c3b8b5a54d1c1fba6846",
         "type": "github"
       },
       "original": {
