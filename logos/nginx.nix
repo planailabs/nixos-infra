@@ -110,18 +110,10 @@ in
       };
     };
 
-    # The v1 chat (Astro, logos/chat-v1.nix).
-    "chat.plan.ai" = h {
-      locations."/" = {
-        proxyPass = "http://localhost:4321/";
-        proxyWebsockets = true;
-      };
-    };
-
     # The Rust chat (logos/chat.nix).
     "agent.plan.ai" = h {
       locations."/" = {
-        proxyPass = "http://localhost:4323/";
+        proxyPass = "http://localhost:4321/";
         proxyWebsockets = true;
         # The chat's event stream (/api/v1/chat/events) is SSE: don't buffer.
         extraConfig = ''
