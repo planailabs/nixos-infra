@@ -1318,11 +1318,11 @@
         "subagent-net": "subagent-net"
       },
       "locked": {
-        "lastModified": 1793661974,
-        "narHash": "sha256-aADfOswpSJvAeizlJiUbUrp3m1PFU+WgOSV2J9C3R8o=",
+        "lastModified": 1793663552,
+        "narHash": "sha256-LbkZPGEjhxNJZY8ywJKndYvSyN2jD4rWI8//jhefLtA=",
         "ref": "refs/heads/trunk",
-        "rev": "a2f4f97c99ec560453454164f707cdcd2bc2ec08",
-        "revCount": 146,
+        "rev": "f82099019ba9152d1dfb7940e59078677ce12895",
+        "revCount": 147,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
