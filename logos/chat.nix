@@ -1,4 +1,4 @@
-# chat.plan.ai on the Rust chat server (plan-ai/chat), its agents on a
+# agent.plan.ai on the Rust chat server (plan-ai/chat), its agents on a
 # subagent-net hub run by the same module (plan-ai-chat-subnet.service).
 { inputs, ... }: {
   imports = [ "${inputs.self.private}/logos-chat.nix" ];
@@ -7,12 +7,12 @@
     enable = true;
     settings = {
       database.url = "postgres://plan-ai-chat@localhost/plan-ai-chat?host=/run/postgresql";
-      web.listen = "127.0.0.1:4321";   # nginx: chat.plan.ai -> localhost:4321
+      web.listen = "127.0.0.1:4321";   # nginx: agent.plan.ai -> localhost:4321
 
       # Zitadel project "plan.ai chat" in the plan.ai org; only that org's
       # accounts sign in. Client secret and cookie secret: private/logos-chat.nix.
       auth = {
-        external_url = "https://chat.plan.ai";
+        external_url = "https://agent.plan.ai";
         admin_emails = [ "maciej@plan.ai" ];
       };
       accounts.admin_emails = [ "maciej@plan.ai" ];

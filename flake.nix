@@ -25,6 +25,11 @@
     # Its own nixpkgs (no follows): the chat UI's pnpm-deps hash only holds
     # with the pnpm its flake pins. common/ is a submodule.
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat?submodules=1";
+    # The v1 chat (Astro on Supabase), back on chat.plan.ai while the Rust chat
+    # above runs on agent.plan.ai. Its package only; its module would clash
+    # with the Rust chat's services.plan-ai-chat (see logos/chat-v1.nix).
+    plan-ai-chat-v1.url = "git+ssh://git@git.plan.ai/plan-ai/chat?ref=refs/tags/v1";
+    plan-ai-chat-v1.inputs.nixpkgs.follows = "nixpkgs";
     # The cloud console, for the fleet's image registry — cloud-images serves
     # the simplestreams tree the regions pull from.
     plan-ai-cloud.url = "git+ssh://git@git.plan.ai/plan-ai/cloud?submodules=1";

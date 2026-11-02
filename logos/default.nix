@@ -9,6 +9,7 @@
     ./hedgedoc.nix
     ./zitadel.nix
     ./chat.nix
+    ./chat-v1.nix
     ./matrix.nix
     ./matrix-module.nix
   ];
