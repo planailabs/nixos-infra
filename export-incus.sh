@@ -18,8 +18,10 @@ DATE="$(date +%Y-%m-%d_%H%M)"
 
 cleanup() {
   echo "Unmounting and cleaning up ${MOUNT_DIR}..."
-  fusermount -u "${MOUNT_DIR}" 2>/dev/null || true
-  rm -rf "${MOUNT_DIR}"
+  # Never rm -rf here: if the unmount failed, that would recurse into the
+  # StorageBox and delete every backup. rmdir only removes an empty dir.
+  fusermount3 -u "${MOUNT_DIR}" || fusermount -u "${MOUNT_DIR}" || umount "${MOUNT_DIR}"
+  rmdir "${MOUNT_DIR}"
 }
 trap cleanup EXIT
 
