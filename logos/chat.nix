@@ -7,7 +7,7 @@
     enable = true;
     settings = {
       database.url = "postgres://plan-ai-chat@localhost/plan-ai-chat?host=/run/postgresql";
-      web.listen = "127.0.0.1:4321";   # nginx: agent.plan.ai -> localhost:4321
+      web.listen = "127.0.0.1:4323";   # nginx: agent.plan.ai -> localhost:4323 (4321: the v1 chat)
 
       # Zitadel project "plan.ai chat" in the plan.ai org; only that org's
       # accounts sign in. Client secret and cookie secret: private/logos-chat.nix.

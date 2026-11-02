@@ -1,7 +1,7 @@
 # chat.plan.ai on the v1 chat (plan-ai/chat at tag v1: Astro, Supabase sign-in).
 # The Rust chat moved to agent.plan.ai (logos/chat.nix). v1's own NixOS module
 # declares services.plan-ai-chat too, so its unit is written out here; this is
-# that module's service under another name and port.
+# that module's service under another name.
 { inputs, pkgs, ... }:
 let
   package = (inputs.plan-ai-chat-v1.packages.${pkgs.stdenv.hostPlatform.system}.default.override {
@@ -22,11 +22,9 @@ in {
     description = "plan.ai chat (v1)";
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
-    # nginx: chat.plan.ai -> localhost:4322 (4321 is the Rust chat's).
-    environment = {
-      HOST = "127.0.0.1";
-      PORT = "4322";
-    };
+    # Listens on its default, 4321 (nginx: chat.plan.ai -> localhost:4321).
+    # No HOST/PORT here: v1's server.mjs and the Astro handler it loads both
+    # read them and both try to listen, so setting them makes it bind twice.
     serviceConfig = {
       Type = "simple";
       ExecStart = pkgs.lib.getExe package;
