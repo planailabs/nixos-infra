@@ -410,6 +410,7 @@
     nginx.virtualHosts."runner.plan.ai" = { };
     nginx.virtualHosts."ghgl.plan.ai" = { };
     nginx.virtualHosts."memvault.plan.ai" = { };
+    nginx.virtualHosts."docs.plan.ai" = { };
   };
 
   services.xzar-server = {

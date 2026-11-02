@@ -122,12 +122,12 @@ in
       };
     };
 
-    "kan.plan.ai" = h {
+    /* "kan.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3055/";
         proxyWebsockets = true;
       };
-    };
+    }; */
 
     "grafana.plan.ai" = h {
       locations."/" = {
