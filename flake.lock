@@ -756,12 +756,12 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1789929546,
+        "lastModified": 1793643410,
         "lfs": true,
-        "narHash": "sha256-BTJdfWyJboVNTCkq4sQwH++DGpwysG/hNnp2JrbiYyg=",
+        "narHash": "sha256-YAsIK++XY98ujCTug3etM2gfuk6N7RdrryV2mtJkpKo=",
         "ref": "refs/heads/trunk",
-        "rev": "451a528099d0962e9fd9081a7ee59816bb3b0dc7",
-        "revCount": 292,
+        "rev": "94fbc4c196f08da5b10c7d1cda7bd1c7dfe999e5",
+        "revCount": 293,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/hippocampus"
@@ -1240,7 +1240,7 @@
         "lastModified": 1793606290,
         "narHash": "sha256-5rSJrg24GZxv9a+dZk812bCmAsxglDDjaltdDQmH6zQ=",
         "type": "tarball",
-        "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/plan-ai/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
+        "url": "https://git.plan.ai/plan-ai/nixpkgs/-/jobs/artifacts/9e0feb7ffa0e158d52c2abe9e5f453ac4eac722a/raw/nixpkgs.tar.xz?job=build_x86_64-linux"
       },
       "original": {
         "type": "tarball",
