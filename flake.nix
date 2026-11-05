@@ -19,9 +19,9 @@
     mac-mgmt.url = "git+ssh://git@git.plan.ai/plan-ai/mac-mgmt";
     mac-mgmt.inputs.nixpkgs.follows = "nixpkgs";
     mac-mgmt.inputs.rust-overlay.follows = "rust-overlay";
-    web-agency.url = "git+ssh://git@git.plan.ai/plan-ai/web-agency";
-    web-agency.inputs.nixpkgs.follows = "nixpkgs";
-    web-agency.inputs.rust-overlay.follows = "rust-overlay";
+    harbor.url = "git+ssh://git@git.plan.ai/plan-ai/harbor";
+    harbor.inputs.nixpkgs.follows = "nixpkgs";
+    harbor.inputs.rust-overlay.follows = "rust-overlay";
     # Its own nixpkgs (no follows): the chat UI's pnpm-deps hash only holds
     # with the pnpm its flake pins. common/ is a submodule.
     plan-ai-chat.url = "git+ssh://git@git.plan.ai/plan-ai/chat?submodules=1";
@@ -88,7 +88,7 @@
     xzar,
     rust-overlay,
     mac-mgmt,
-    web-agency,
+    harbor,
     plan-ai-chat,
     memvault,
     common,
@@ -391,17 +391,17 @@
         ];
       };
 
-      agency = nixpkgs.lib.nixosSystem {
+      harbor = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
           mkg-mod.nixosModules.yggdrasil
           acme-distributor.nixosModules.acme-shim
-          web-agency.nixosModules.web-agency
-          ./agency
+          harbor.nixosModules.harbor
+          ./harbor
           { nixpkgs.overlays = [
             rust-overlay.overlays.default
             acme-distributor.overlays.default
-            web-agency.overlays.default
+            harbor.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];

@@ -3,7 +3,7 @@
     ../modules/postgres-upgrade.nix
     ../modules/common.nix
     ../modules/container.nix
-    "${inputs.self.private}/agency.nix"
+    "${inputs.self.private}/harbor.nix"
   ];
 
   systemd.network = {
@@ -30,24 +30,27 @@
     };
   };
 
-  services.web-agency-server = {
+  services.harbor-server = {
     enable = true;
     settings = {
       web.port = 7380;
       proxy = {
-        agency_domain = "agency.plan.ai";
+        domain = "harbor.plan.ai";
+        # The old name: customer domains CNAME to it, so it keeps resolving
+        # (a CNAME to harbor.plan.ai) and the app answers it with a 308.
+        redirect_domains = [ "agency.plan.ai" ];
         acme_email = "admin@plan.ai";
       };
-      local_hosting.dir = "/var/lib/web-agency-server/web";
+      local_hosting.dir = "/var/lib/harbor-server/web";
     };
   };
 
-  services.web-agency-proxy = {
+  services.harbor-proxy = {
     enable = true;
     openFirewall = true;
   };
 
   security.acme.distributor-server = "https://acme.plan.ai";
 
-  networking.hostName = "agency";
+  networking.hostName = "harbor";
 }

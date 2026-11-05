@@ -55,13 +55,13 @@
           label = { en = "Cloud"; de = "Cloud"; };
         }
         {
-          name = "web-agency";
-          description = "plan.ai Web Agency (agency.plan.ai): your organizations' domains, subdomains, webspaces, certificates, contacts, billing, change detection";
-          kind = "web-agency";
-          url = "https://agency.plan.ai";
+          name = "harbor";
+          description = "plan.ai Harbor (harbor.plan.ai): your organizations' domains, subdomains, webspaces, certificates, contacts, billing, change detection";
+          kind = "harbor";
+          url = "https://harbor.plan.ai";
           icon = "agency";
-          label = { en = "Web Agency"; de = "Webagentur"; };
-          mcp = { url = "https://agency.plan.ai/mcp"; audience_project_id = "398201705830809736"; };
+          label = { en = "Harbor"; de = "Harbor"; };
+          mcp = { url = "https://harbor.plan.ai/mcp"; audience_project_id = "398201705830809736"; };
         }
         {
           name = "mac-mgmt";

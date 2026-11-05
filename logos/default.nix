@@ -291,10 +291,10 @@
                 annotations:
                   summary: "Pending upgrade not applied: {{ $labels.service }} on {{ $labels.hostname }}"
                   description: "Service {{ $labels.service }} on {{ $labels.hostname }} ({{ $labels.cluster_name }}) has had an upgrade pending for more than 24 hours."
-          - name: web-agency-webspace
+          - name: harbor-webspace
             rules:
               - alert: WebAgencyWebspaceNotRunning
-                expr: web_agency_webspace_running == 0
+                expr: harbor_webspace_running == 0
                 for: 10m
                 labels:
                   severity: warning
@@ -302,7 +302,7 @@
                   summary: "Webspace {{ $labels.webspace }} ({{ $labels.org }}) not running"
                   description: "Webspace {{ $labels.webspace }} for org {{ $labels.org }} (hosting_type={{ $labels.hosting_type }}) has had local_status != running for more than 10 minutes."
               - alert: WebAgencyReachabilityHttpDown
-                expr: web_agency_reachability_http_ok == 0
+                expr: harbor_reachability_http_ok == 0
                 for: 10m
                 labels:
                   severity: critical
@@ -310,7 +310,7 @@
                   summary: "HTTP unreachable: {{ $labels.hostname }} ({{ $labels.org }}/{{ $labels.webspace }})"
                   description: "Reachability HTTP check has failed for {{ $labels.hostname }} (webspace {{ $labels.webspace }}, org {{ $labels.org }}) for more than 10 minutes."
               - alert: WebAgencyReachabilitySslDown
-                expr: web_agency_reachability_ssl_ok == 0
+                expr: harbor_reachability_ssl_ok == 0
                 for: 15m
                 labels:
                   severity: critical
@@ -318,7 +318,7 @@
                   summary: "SSL check failing: {{ $labels.hostname }} ({{ $labels.org }}/{{ $labels.webspace }})"
                   description: "Reachability SSL check has failed for {{ $labels.hostname }} (webspace {{ $labels.webspace }}, org {{ $labels.org }}) for more than 15 minutes."
               - alert: WebAgencyReachabilityProxyDown
-                expr: web_agency_reachability_proxy_ok == 0
+                expr: harbor_reachability_proxy_ok == 0
                 for: 10m
                 labels:
                   severity: critical
@@ -326,7 +326,7 @@
                   summary: "Proxy check failing: {{ $labels.hostname }} ({{ $labels.org }}/{{ $labels.webspace }})"
                   description: "Reachability proxy check has failed for {{ $labels.hostname }} (webspace {{ $labels.webspace }}, org {{ $labels.org }}) for more than 10 minutes."
               - alert: WebAgencyReachabilityHighLatency
-                expr: web_agency_reachability_latency_ms > 5000
+                expr: harbor_reachability_latency_ms > 5000
                 for: 15m
                 labels:
                   severity: warning
@@ -334,17 +334,17 @@
                   summary: "High latency to {{ $labels.hostname }} ({{ $labels.org }}/{{ $labels.webspace }})"
                   description: "Reachability latency for {{ $labels.hostname }} (webspace {{ $labels.webspace }}, org {{ $labels.org }}) has been above 5000ms for more than 15 minutes (currently {{ $value | printf \"%.0f\" }}ms)."
               - alert: WebAgencyReachabilityStale
-                expr: time() - web_agency_reachability_checked_at > 3600
+                expr: time() - harbor_reachability_checked_at > 3600
                 for: 10m
                 labels:
                   severity: warning
                 annotations:
                   summary: "Reachability check stale for {{ $labels.hostname }} ({{ $labels.org }}/{{ $labels.webspace }})"
                   description: "No reachability check has run for {{ $labels.hostname }} (webspace {{ $labels.webspace }}, org {{ $labels.org }}) in over an hour (last checked {{ $value | printf \"%.0f\" }}s ago)."
-          - name: web-agency-relay
+          - name: harbor-relay
             rules:
               - alert: WebAgencyRelayTokenMintFailing
-                expr: web_agency_relay_token_mint_ok == 0
+                expr: harbor_relay_token_mint_ok == 0
                 for: 10m
                 labels:
                   severity: critical
@@ -352,25 +352,25 @@
                   summary: "Relay token mint failing for {{ $labels.hostname }} ({{ $labels.org }})"
                   description: "Last relay token mint has failed for hostname {{ $labels.hostname }} (org {{ $labels.org }}) for more than 10 minutes."
               - alert: WebAgencyRelayTokenMintErrorRate
-                expr: rate(web_agency_relay_token_mint_total{status="failed"}[15m]) > 0
+                expr: rate(harbor_relay_token_mint_total{status="failed"}[15m]) > 0
                 for: 15m
                 labels:
                   severity: warning
                 annotations:
                   summary: "Relay token mint errors observed"
-                  description: "web_agency_relay_token_mint_total{status=\"failed\"} has been increasing for more than 15 minutes (current rate {{ $value | printf \"%.4f\" }}/s)."
-          - name: web-agency-admin
+                  description: "harbor_relay_token_mint_total{status=\"failed\"} has been increasing for more than 15 minutes (current rate {{ $value | printf \"%.4f\" }}/s)."
+          - name: harbor-admin
             rules:
               - alert: WebAgencySyncErrors
-                expr: web_agency_sync_last_errors > 0
+                expr: harbor_sync_last_errors > 0
                 for: 15m
                 labels:
                   severity: warning
                 annotations:
-                  summary: "web-agency sync errors ({{ $labels.sync_type }})"
+                  summary: "harbor sync errors ({{ $labels.sync_type }})"
                   description: "Last sync cycle for sync_type={{ $labels.sync_type }} reported {{ $value }} errors and has not recovered for more than 15 minutes."
               - alert: WebAgencyCertRenewalFailures
-                expr: web_agency_cert_renewal_last_results{status="failed"} > 0
+                expr: harbor_cert_renewal_last_results{status="failed"} > 0
                 for: 30m
                 labels:
                   severity: warning
@@ -378,7 +378,7 @@
                   summary: "Certificate renewal failures"
                   description: "Last cert renewal cycle reported {{ $value }} failures and has not recovered for more than 30 minutes."
               - alert: WebAgencyCertIssuanceFailures
-                expr: web_agency_cert_issuance_last_results{status="failed"} > 0
+                expr: harbor_cert_issuance_last_results{status="failed"} > 0
                 for: 30m
                 labels:
                   severity: warning
@@ -386,13 +386,13 @@
                   summary: "Certificate issuance failures"
                   description: "Last cert issuance cycle reported {{ $value }} failures and has not recovered for more than 30 minutes."
               - alert: WebAgencyDeploymentFailureRate
-                expr: rate(web_agency_deployments_total{status="failed"}[15m]) > 0
+                expr: rate(harbor_deployments_total{status="failed"}[15m]) > 0
                 for: 15m
                 labels:
                   severity: warning
                 annotations:
-                  summary: "web-agency deployment failures observed"
-                  description: "web_agency_deployments_total{status=\"failed\"} has been increasing for more than 15 minutes (current rate {{ $value | printf \"%.4f\" }}/s)."
+                  summary: "harbor deployment failures observed"
+                  description: "harbor_deployments_total{status=\"failed\"} has been increasing for more than 15 minutes (current rate {{ $value | printf \"%.4f\" }}/s)."
       ''
     ];
   };

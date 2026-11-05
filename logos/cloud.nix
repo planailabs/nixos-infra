@@ -38,7 +38,7 @@
       };
 
       web_agency = {
-        url = "https://agency.plan.ai";
+        url = "https://harbor.plan.ai";
         # Every organization's services answer under <slug>.cloud.plan.ai,
         # served by web-agency's plan.ai zone.
         shared_domain = "cloud.plan.ai";
