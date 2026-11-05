@@ -979,11 +979,11 @@
         "xzar": "xzar_8"
       },
       "locked": {
-        "lastModified": 1792988809,
-        "narHash": "sha256-Kmzhd/15ejDcw+JpNnrQXzhmOUP/ATc4EyjjR1Rwu/w=",
+        "lastModified": 1793832116,
+        "narHash": "sha256-YhRohhyxwSjko8X2loBHfL4Qzcto3PJguHRSBiVJZDQ=",
         "ref": "refs/heads/trunk",
-        "rev": "5995d2e5fc0494e9f060ffcec9ef837cfe982df8",
-        "revCount": 773,
+        "rev": "623a2e3500177b7c4cd10038fc60803891070c16",
+        "revCount": 781,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/memvault"
@@ -1220,11 +1220,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1786304504,
-        "narHash": "sha256-5Kvt9PVAOqJJ0q+wk8EYvfsj6gnZTOTHZuRkJO6i0vQ=",
+        "lastModified": 1793318060,
+        "narHash": "sha256-tMZa/E225h2zJduipssSmOapWk1t01JllE91Fxndk7Y=",
         "ref": "refs/heads/trunk",
-        "rev": "31c365bc23f16c47972cfdef5580c843ef0b1e14",
-        "revCount": 18,
+        "rev": "0f966fb84bef5a04938fe9e16e5737c788bd37a8",
+        "revCount": 19,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/nixos2docker"
       },
@@ -1377,11 +1377,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1793648888,
-        "narHash": "sha256-PDkV7k64fiwENcyCXI0IQ/09HGSc16xAp/2gH60uTQg=",
+        "lastModified": 1793846909,
+        "narHash": "sha256-WZDsIUhqsxdk71/I4UpYZp/zvBJ9VPTOOkTrPbS+6ao=",
         "ref": "refs/heads/trunk",
-        "rev": "b0d8fe20e59760464c3ca193a6f431c079485c8b",
-        "revCount": 175,
+        "rev": "a08f7f605e402040e4b1161b659575e8367878ab",
+        "revCount": 179,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -1668,11 +1668,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792913333,
-        "narHash": "sha256-wjoZGhxH/Yr+OsFRpNyV9DpMGQIdNEjjAOinfzQvadk=",
+        "lastModified": 1793697474,
+        "narHash": "sha256-KgJnMIR0ltd7pMcpDWn5q40bzmC7xtlb71clPFNUu+Y=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "fad80eb74614f7dc37c1c83df8caae64361eda22",
+        "rev": "fb3eee9d296214ebbcc53921f34e80bb4166e859",
         "type": "github"
       },
       "original": {
