@@ -56,11 +56,12 @@
         }
         {
           name = "web-agency";
-          description = "plan.ai Web Agency (agency.plan.ai)";
+          description = "plan.ai Web Agency (agency.plan.ai): your organizations' domains, subdomains, webspaces, certificates, contacts, billing, change detection";
           kind = "web-agency";
           url = "https://agency.plan.ai";
           icon = "agency";
           label = { en = "Web Agency"; de = "Webagentur"; };
+          mcp = { url = "https://agency.plan.ai/mcp"; audience_project_id = "398201705830809736"; };
         }
         {
           name = "mac-mgmt";
