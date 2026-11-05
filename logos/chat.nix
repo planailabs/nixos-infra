@@ -44,6 +44,22 @@
             mcp_url = "https://mgmt.plan.ai/mcp";
             audience_project_id = "397603440676569224";
           }
+          {
+            # Zitadel project "redream.plan.ai API".
+            name = "redream";
+            description = "redream.plan.ai: the plan.ai servers' iDRACs: power on/off/reset, status, console screenshots, display sessions";
+            kind = "redream";
+            mcp_url = "https://redream.plan.ai/mcp";
+            audience_project_id = "398195680746668168";
+          }
+          {
+            # Zitadel project "vpn.plan.ai API".
+            name = "vpn";
+            description = "vpn.plan.ai: your WireGuard devices: list, create, rename, regenerate keys, get configs";
+            kind = "wg-vpng";
+            mcp_url = "https://vpn.plan.ai/mcp";
+            audience_project_id = "398195681300316296";
+          }
         ];
         console = {
           url = "https://cloud.plan.ai";

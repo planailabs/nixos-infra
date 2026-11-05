@@ -38,6 +38,16 @@
           allowed_domains = [ "plan.ai" ];
         }];
       };
+      # The chat acting as a user (connector token exchange): Zitadel project
+      # "redream.plan.ai API" in the plan.ai org, app "redream introspection".
+      # Like the Google login, only @plan.ai addresses get a new account.
+      zitadel_bearer = {
+        issuer = "https://id.plan.ai";
+        project_id = "398195680746668168";
+        client_id = "398195681048723592";
+        client_secret = "\${ZITADEL_INTROSPECTION_SECRET}";
+        allowed_domains = [ "plan.ai" ];
+      };
       hosts = [
         { id = "main"; name = "Main server"; address = "10.88.0.112"; username = "root"; password = "\${IDRAC_PASSWORD}"; }
         { id = "build"; name = "Build server"; address = "10.88.0.113"; username = "root"; password = "\${IDRAC_PASSWORD}"; }
