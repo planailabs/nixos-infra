@@ -174,6 +174,12 @@ in
       '';
     };
 
+    # prometheus-mcp (logos/prometheus-mcp.nix); the bearer check is in
+    # private/logos.nix.
+    "prometheus-mcp.plan.ai" = h {
+      locations."/mcp".proxyPass = "http://127.0.0.1:8096";
+    };
+
     "vpn.plan.ai" = h {
       locations."/" = {
         proxyPass = "http://127.0.0.1:8091/";

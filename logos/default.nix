@@ -11,6 +11,7 @@
     ./chat.nix
     ./matrix.nix
     ./matrix-module.nix
+    ./prometheus-mcp.nix
   ];
 
   system.stateVersion = "26.11";
