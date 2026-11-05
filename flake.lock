@@ -741,11 +741,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1793893683,
-        "narHash": "sha256-/ioyTzl3ew+XNLd6/HCZQdXd3L8qKjG8rCR1bqOqKaY=",
+        "lastModified": 1793895420,
+        "narHash": "sha256-ggRGL5umStSfbgWzWkQw+ZyQ+sYYXCA9rCd5d7AJ7Og=",
         "ref": "refs/heads/trunk",
-        "rev": "e525af7121447e53f61fcd9954dbe01a7d1b19c0",
-        "revCount": 299,
+        "rev": "1189a94e702cd1ee9138b9eaa3349840f6d0018c",
+        "revCount": 300,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
@@ -890,11 +890,11 @@
         "xzar": "xzar_4"
       },
       "locked": {
-        "lastModified": 1793506018,
-        "narHash": "sha256-TRixJ50GuX+P1rr3+bQtu3fDH2kK45fhzjf/X/dLz78=",
+        "lastModified": 1793896262,
+        "narHash": "sha256-Nx7vH5Qm3xzjHf6DyLNxqyWrVK2MZzi5m3O30UdPXXE=",
         "ref": "refs/heads/trunk",
-        "rev": "4ba7f4cfb1bf1a28666d4f2a182df3649ba48acf",
-        "revCount": 2608,
+        "rev": "f511e2e98c2b552557ce67503fbed49d7e9f3966",
+        "revCount": 2613,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -1377,11 +1377,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1793846909,
-        "narHash": "sha256-WZDsIUhqsxdk71/I4UpYZp/zvBJ9VPTOOkTrPbS+6ao=",
+        "lastModified": 1793896338,
+        "narHash": "sha256-zrG8pbU5Byg4qo9OGpWuODd/bP40G1zFk041NefrMxo=",
         "ref": "refs/heads/trunk",
-        "rev": "a08f7f605e402040e4b1161b659575e8367878ab",
-        "revCount": 179,
+        "rev": "db57ea2dab0b75cad6ae8ad062cd8fbd056c9c9b",
+        "revCount": 181,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -1572,11 +1572,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793839812,
-        "narHash": "sha256-Tlk9IODX2nxc4Fg9+c2HjImcte4xGmlljbaiobJPQ9w=",
+        "lastModified": 1793895164,
+        "narHash": "sha256-4C7DffZarM21ilpG6oru5l02nv1LycY+dfp4Bj3AXDc=",
         "ref": "refs/heads/master",
-        "rev": "dc7c4a34831371f847d85bdfdbc0aa50a1dd7c65",
-        "revCount": 12,
+        "rev": "6add433344643a95ca23e23d0f8c5cf4d2472cba",
+        "revCount": 13,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/redream"
@@ -2412,11 +2412,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793839021,
-        "narHash": "sha256-QkV7JHSgnT9uDkzuOSLaMc7Xc8u8Q4CPJhCFv3YfU1M=",
+        "lastModified": 1793895139,
+        "narHash": "sha256-yqkrEz2fXAkLq5Z4Z1e+h3NpBSPFnxmIBDZCwb1CRfU=",
         "ref": "refs/heads/trunk",
-        "rev": "9d6aa3c4c2cc249cbbef1433d4d29c4b96eebcd5",
-        "revCount": 36,
+        "rev": "b9f105c22f6132ea9c400eba7d6179e947143691",
+        "revCount": 37,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/wg-vpng"
