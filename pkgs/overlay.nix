@@ -33,4 +33,13 @@ final: prev: {
     doCheck = true;
     cargoTestFlags = [ "-p" "xzar-server" "--lib" ];
   });
+} // prev.lib.optionalAttrs (prev ? dioxus-cli-patched) {
+  # dx aborts its own `cargo metadata` after ~200 s and fails the whole build
+  # with "cargo metadata took too long to respond". This workspace's crates need
+  # minutes for it on a loaded builder, so raise the bound to 30 min — the same
+  # hunk mac-mgmt already carries. harbor and plan-ai-cloud do not yet, and their
+  # server packages are what the logos/harbor systems install.
+  dioxus-cli-patched = prev.dioxus-cli-patched.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [ ./dioxus-cli-metadata-timeout.patch ];
+  });
 }
