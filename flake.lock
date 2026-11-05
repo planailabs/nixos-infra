@@ -951,11 +951,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793832116,
-        "narHash": "sha256-YhRohhyxwSjko8X2loBHfL4Qzcto3PJguHRSBiVJZDQ=",
+        "lastModified": 1793921882,
+        "narHash": "sha256-MUIhP7StsZsOpubsbCI0lWZYrd/cRZJyj+sUFeQ0RE4=",
         "ref": "refs/heads/trunk",
-        "rev": "623a2e3500177b7c4cd10038fc60803891070c16",
-        "revCount": 781,
+        "rev": "c5efb2f7d6b30754deb4f40161ea7b722c1b4822",
+        "revCount": 782,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
