@@ -12,6 +12,7 @@
     ./matrix.nix
     ./matrix-module.nix
     ./prometheus-mcp.nix
+    ./grafana-mcp.nix
   ];
 
   system.stateVersion = "26.11";
