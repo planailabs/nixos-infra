@@ -46,6 +46,37 @@
       # "<app> API" project). `emails` hides an app, in both places, from
       # everyone it doesn't match.
       apps = [
+        # Bearer MCPs (tokens: private/logos-chat.nix secrets.app_tokens).
+        {
+          name = "prometheus";
+          description = "Prometheus metrics of plan.ai's infrastructure: PromQL queries, targets, alerts, rules";
+          kind = "prometheus";
+          url = "https://prometheus.plan.ai";
+          icon = "chart";
+          label = { en = "Metrics"; de = "Metriken"; };
+          mcp = { url = "https://prometheus-mcp.plan.ai/mcp"; auth = "bearer"; };
+          emails = [ "*@plan.ai" ];
+        }
+        {
+          name = "grafana";
+          description = "Grafana (grafana.plan.ai): dashboards, datasource queries, alerting, annotations";
+          kind = "grafana";
+          url = "https://grafana.plan.ai";
+          icon = "chart";
+          label = { en = "Grafana"; de = "Grafana"; };
+          mcp = { url = "https://grafana-mcp.plan.ai/mcp"; auth = "bearer"; };
+          emails = [ "*@plan.ai" ];
+        }
+        {
+          name = "reagent";
+          description = "reagent (reagent.plan.ai): projects, tasks, agents, cron and triggers of the reagent-test instance";
+          kind = "reagent";
+          url = "https://reagent.plan.ai";
+          icon = "assistant";
+          label = { en = "reagent"; de = "reagent"; };
+          mcp = { url = "https://reagent.plan.ai/mcp"; auth = "bearer"; };
+          emails = [ "*@plan.ai" ];
+        }
         {
           name = "plan-ai-cloud";
           description = "plan.ai Cloud (cloud.plan.ai): your organizations and deployments";
