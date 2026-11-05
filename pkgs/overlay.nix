@@ -39,7 +39,14 @@ final: prev: {
   # minutes for it on a loaded builder, so raise the bound to 30 min — the same
   # hunk mac-mgmt already carries. harbor and plan-ai-cloud do not yet, and their
   # server packages are what the logos/harbor systems install.
+  #
+  # Added only when the input's own patch lacks the hunk: mac-mgmt ships it, and
+  # applying it twice fails with "Reversed (or previously applied) patch detected".
   dioxus-cli-patched = prev.dioxus-cli-patched.overrideAttrs (old: {
-    patches = (old.patches or [ ]) ++ [ ./dioxus-cli-metadata-timeout.patch ];
+    patches = (old.patches or [ ]) ++ prev.lib.optional
+      (!(prev.lib.any
+        (p: builtins.match ".*for x in 1\\.\\.=900.*" (builtins.readFile p) != null)
+        (old.patches or [ ])))
+      ./dioxus-cli-metadata-timeout.patch;
   });
 }
