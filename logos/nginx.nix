@@ -177,13 +177,23 @@ in
     # prometheus-mcp (logos/prometheus-mcp.nix); the bearer check is in
     # private/logos.nix.
     "prometheus-mcp.plan.ai" = h {
-      locations."/mcp".proxyPass = "http://127.0.0.1:8096";
+      # No recommended headers: the server's DNS-rebinding check only admits
+      # its own address as Host, so nginx sends $proxy_host (127.0.0.1:8096).
+      locations."/mcp" = {
+        proxyPass = "http://127.0.0.1:8096";
+        recommendedProxySettings = false;
+      };
     };
 
     # grafana-mcp (logos/grafana-mcp.nix); the bearer check is in
     # private/logos.nix.
     "grafana-mcp.plan.ai" = h {
-      locations."/mcp".proxyPass = "http://127.0.0.1:8097";
+      # No recommended headers: the server's DNS-rebinding check only admits
+      # its own address as Host, so nginx sends $proxy_host (127.0.0.1:8097).
+      locations."/mcp" = {
+        proxyPass = "http://127.0.0.1:8097";
+        recommendedProxySettings = false;
+      };
     };
 
     "vpn.plan.ai" = h {
