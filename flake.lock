@@ -741,11 +741,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1793845776,
-        "narHash": "sha256-8naaY0xEj3D8ER/Uku9k/nq/tvg62t8wPhqVeOoMrBM=",
+        "lastModified": 1793893426,
+        "narHash": "sha256-UGUvZe1cUxnU/l3kcjlc4H49RQ8G/it1e+iluXCox7o=",
         "ref": "refs/heads/trunk",
-        "rev": "acdea9a8504185aa5b7f04482ea7162513071a43",
-        "revCount": 297,
+        "rev": "24f3cb3901a14edf5a8da5f7d11b31f79d3c33ee",
+        "revCount": 298,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
