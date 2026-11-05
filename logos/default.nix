@@ -70,11 +70,33 @@
         root_url = "https://grafana.plan.ai";
       };
     };
+    # Prometheus' alerts show up in Grafana Alerting via this data source
+    # (Grafana's built-in Alertmanager only takes Grafana-managed alerts).
+    provision = {
+      enable = true;
+      datasources.settings.datasources = [{
+        name = "Alertmanager";
+        uid = "alertmanager";
+        type = "alertmanager";
+        url = "http://127.0.0.1:9093";
+        jsonData = { implementation = "prometheus"; handleGrafanaManagedAlerts = false; };
+      }];
+    };
   };
 
   services.prometheus = {
     enable = true;
     port = 9090;
+    alertmanagers = [{ static_configs = [{ targets = [ "127.0.0.1:9093" ]; }]; }];
+    alertmanager = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+      # ponytail: no notification receivers yet, alerts are only visible in Grafana.
+      configuration = {
+        route = { receiver = "default"; group_by = [ "alertname" "instance" ]; };
+        receivers = [{ name = "default"; }];
+      };
+    };
     scrapeConfigs = [
       {
         job_name = "node";
