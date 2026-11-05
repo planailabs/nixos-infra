@@ -32,40 +32,65 @@
         validator_model = "deepseek-flash";
       };
 
-      # Acting as the user (token exchange credentials: private). mgmt.plan.ai
-      # accepts Zitadel bearers for project "mgmt.plan.ai API"; each user's
+      # Acting as the user (token exchange credentials: private); each user's
       # deployments come from the console.
       connector = {
-        targets = [
-          {
-            name = "mac-mgmt";
-            description = "plan.ai machine management (mgmt.plan.ai): your clusters' config, skills, bundles, MCP servers, SSH keys";
-            kind = "mac-mgmt";
-            mcp_url = "https://mgmt.plan.ai/mcp";
-            audience_project_id = "397603440676569224";
-          }
-          {
-            # Zitadel project "redream.plan.ai API".
-            name = "redream";
-            description = "redream.plan.ai: the plan.ai servers' iDRACs: power on/off/reset, status, console screenshots, display sessions";
-            kind = "redream";
-            mcp_url = "https://redream.plan.ai/mcp";
-            audience_project_id = "398195680746668168";
-          }
-          {
-            # Zitadel project "vpn.plan.ai API".
-            name = "vpn";
-            description = "vpn.plan.ai: your WireGuard devices: list, create, rename, regenerate keys, get configs";
-            kind = "wg-vpng";
-            mcp_url = "https://vpn.plan.ai/mcp";
-            audience_project_id = "398195681300316296";
-          }
-        ];
         console = {
           url = "https://cloud.plan.ai";
           audience_project_id = "397603595463164040";
         };
       };
+
+      # plan.ai applications: the sidebar's links and, with `mcp`, the services
+      # the assistant acts on as the user (each takes Zitadel bearers for its
+      # "<app> API" project). `emails` hides an app, in both places, from
+      # everyone it doesn't match.
+      apps = [
+        {
+          name = "plan-ai-cloud";
+          description = "plan.ai Cloud (cloud.plan.ai): your organizations and deployments";
+          kind = "plan-ai-cloud-web";
+          url = "https://cloud.plan.ai";
+          icon = "cloud";
+          label = { en = "Cloud"; de = "Cloud"; };
+        }
+        {
+          name = "web-agency";
+          description = "plan.ai Web Agency (agency.plan.ai)";
+          kind = "web-agency";
+          url = "https://agency.plan.ai";
+          icon = "agency";
+          label = { en = "Web Agency"; de = "Webagentur"; };
+        }
+        {
+          name = "mac-mgmt";
+          description = "plan.ai machine management (mgmt.plan.ai): your clusters' config, skills, bundles, MCP servers, SSH keys";
+          kind = "mac-mgmt";
+          url = "https://mgmt.plan.ai";
+          icon = "machine";
+          label = { en = "Machine management"; de = "Maschinenverwaltung"; };
+          mcp = { url = "https://mgmt.plan.ai/mcp"; audience_project_id = "397603440676569224"; };
+        }
+        {
+          name = "vpn";
+          description = "vpn.plan.ai: your WireGuard devices: list, create, rename, regenerate keys, get configs";
+          kind = "wg-vpng";
+          url = "https://vpn.plan.ai";
+          icon = "vpn";
+          label = { en = "VPN"; de = "VPN"; };
+          mcp = { url = "https://vpn.plan.ai/mcp"; audience_project_id = "398195681300316296"; };
+        }
+        {
+          name = "redream";
+          description = "redream.plan.ai: the plan.ai servers' iDRACs: power on/off/reset, status, console screenshots, display sessions";
+          kind = "redream";
+          url = "https://redream.plan.ai";
+          icon = "server";
+          label = { en = "Servers"; de = "Server"; };
+          mcp = { url = "https://redream.plan.ai/mcp"; audience_project_id = "398195680746668168"; };
+          emails = [ "*@plan.ai" ];
+        }
+      ];
 
       # Token budgets are plans (accounts: "standard" default, "pro" 10x of
       # it; free, assigned per user on the admin dashboard).
