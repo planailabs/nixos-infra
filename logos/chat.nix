@@ -77,6 +77,18 @@
           mcp = { url = "https://reagent.plan.ai/mcp"; auth = "bearer"; };
           emails = [ "*@plan.ai" ];
         }
+        # GitLab's own MCP server; each user connects their git.plan.ai account
+        # (OAuth with dynamic client registration, scope "mcp").
+        {
+          name = "gitlab";
+          description = "GitLab (git.plan.ai): projects, issues, merge requests, pipelines, code search";
+          kind = "gitlab";
+          url = "https://git.plan.ai";
+          icon = "repo";
+          label = { en = "GitLab"; de = "GitLab"; };
+          mcp = { url = "https://git.plan.ai/api/v4/mcp"; auth = "oauth"; };
+          emails = [ "*@plan.ai" ];
+        }
         {
           name = "plan-ai-cloud";
           description = "plan.ai Cloud (cloud.plan.ai): your organizations and deployments";
