@@ -5,3 +5,14 @@ update:
     - ./update.sh
   only:
     - schedules
+
+# A push must never move the private submodule backwards (it drops secrets).
+private-pointer:
+  tags:
+  - nix
+  script:
+    - mkdir -p /root/.ssh && printf 'Host git.plan.ai\n\tStrictHostKeyChecking no\n' >> /root/.ssh/config
+    - if test -v ID_ED; then echo "$ID_ED" > /root/.ssh/id_ed25519 && chmod 400 /root/.ssh/id_ed25519; fi
+    - ./ci/check-private.sh "${CI_COMMIT_BEFORE_SHA:-HEAD~1}"
+  only:
+    - pushes
