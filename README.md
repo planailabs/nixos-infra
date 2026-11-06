@@ -4,20 +4,43 @@ NixOS infrastructure configuration for plan.ai servers, managed via Nix flakes.
 
 ## Servers
 
-| Server | Hostname | Platform | Role |
-|--------|----------|----------|------|
-| **chronos** | `chronos` | x86_64-linux (LXC) | GitLab, Docker workloads |
-| **logos** | `logos` | x86_64-linux (LXC) | Nginx reverse proxy, ACME distributor, xzar |
-| **hippocampus** | `hippocampus` | x86_64-linux (LXC) | Knowledge-graph adapter server (hippocampus.plan.ai) |
-| **hugger** | `hugger` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-omen.plan.ai) |
-| **hugger-amo** | `hugger-amo` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-amo.plan.ai) |
-| **hugger-hetzner** | `hugger-hetzner` | x86_64-linux (LXC) | HuggingFace model archiver (hugger-hetzner.plan.ai) |
-| **relay** | `relay` | x86_64-linux (LXC) | Dedicated plan.ai mac-mgmt relay |
-| **charon** | `charon` | x86_64-linux (Hetzner Cloud) | Transmission BitTorrent daemon, data on the u624368 Storage Box at /storage |
-| **peira-relay** | `peira-relay` | x86_64-linux (LXC) | Dedicated peira mac-mgmt relay |
-| **home-pi** | `home-pi` | Raspberry Pi | Home server, Incus VMs (currently commented out in flake) |
+### Incus hosts
 
-All servers run as LXC containers (except home-pi, and charon which is a Hetzner Cloud VM) with networkd, nftables, and Yggdrasil mesh networking.
+| Server | Platform | Role |
+|--------|----------|------|
+| **atlas** | x86_64 bare metal (Hetzner) | Incus host for most containers, wg-vpng node, Incus export to Storage Box |
+| **hyperion** | x86_64 bare metal (Hetzner) | Incus host, gitlab-nix-ci runners |
+| **odysseus** | x86_64 workstation (`omen.plan.ai`) | Incus host, NVIDIA, CUPS print server, mac-mgmt daemon |
+| **plan-ai-pi** | Raspberry Pi | Incus, kiosk browser, DHCPv6/radvd |
+
+### Containers (LXC)
+
+| Server | Role |
+|--------|------|
+| **logos** | Hub: nginx proxy, ACME distributor, xzar cache, plan.ai chat/cloud, mac-mgmt server + runner, wg-vpng (vpn.plan.ai), Prometheus/Alertmanager/Grafana (+MCP), oauth2-proxy, Zitadel, HedgeDoc, memvault, Matrix |
+| **chronos** | GitLab, Docker workloads |
+| **deploy** | Docker + nested Incus build/deploy box, mac-mgmt daemon |
+| **codex** | litellm proxy for the Codex OAuth provider (codex.plan.ai) |
+| **hippocampus** | Knowledge-graph adapter LM + Garage S3 (hippocampus.plan.ai) |
+| **redream** | iDRAC web console (redream.plan.ai) |
+| **obsidian** | Headless Obsidian, obsidian-mcp-server, SilverBullet (obsidian/wiki.plan.ai) |
+| **cloud-images** | Image store for plan.ai cloud (cloud-images.plan.ai) |
+| **harbor** | Domains/webspaces/certs/billing (harbor.plan.ai) |
+| **peira** / **metis** | xzar + mac-mgmt servers for peira / extra-skills |
+| **relay** / **peira-relay** | mac-mgmt relays |
+| **hugger**, **hugger-amo**, **hugger-hetzner** | HuggingFace model archivers |
+| **mmrcd** | mmrcd orchestration daemon driving a remote Incus (mmrcd.plan.ai) |
+
+### Other machines
+
+| Server | Platform | Role |
+|--------|----------|------|
+| **charon** | Hetzner Cloud VM | Transmission behind Mullvad WireGuard, Storage Box at /storage |
+| **uptime** | Hetzner Cloud VM | Uptime Kuma (uptime.plan.ai) |
+| **aarch64-builder** | Hetzner Cloud ARM | aarch64 Nix build host (aarch64.plan.ai) |
+| **scanner** | VM | rustnmap API (scanner.plan.ai) |
+
+All servers use networkd, nftables and Yggdrasil mesh networking.
 
 ## Deploying
 
@@ -36,7 +59,7 @@ Each server has a deployment script in the repository root. Run it from this dir
 # Deploy peira relay
 ./peira-relay.sh
 
-# Deploy home-pi (requires aarch64 build host)
+# Deploy plan-ai-pi (built on aarch64.plan.ai)
 ./pi.sh
 ```
 
@@ -57,23 +80,20 @@ The `update.sh` script is used by CI to automatically update and push `flake.loc
 For Raspberry Pi initial setup:
 
 ```sh
-./sd-image.sh home-pi
+./sd-image.sh plan-ai-pi
 ```
 
 ## Project structure
 
 ```
 flake.nix          # Flake entrypoint, defines all nixosConfigurations
-chronos/           # chronos server config
-logos/             # logos server config
-hippocampus/       # hippocampus server config
-charon/            # charon server config (transmission + storagebox)
-relay/             # plan.ai relay server config
-peira-relay/       # peira relay server config
-pi/                # home-pi server config
-modules/           # Shared NixOS modules (common.nix, container.nix)
+<host>/            # One directory per server (see table above)
+<host>.sh          # Deploy script per server; reinstall-<host>.sh for nixos-anywhere
+incus-image.sh     # Build + import a container image into an Incus host
+modules/           # Shared NixOS modules (common.nix, container.nix, ...)
 pkgs/              # Custom package overlays
 private/           # Private/secret configuration (not in repo)
+docs/              # Setup notes (Hetzner/Incus host setup)
 ```
 
 ## Common configuration
