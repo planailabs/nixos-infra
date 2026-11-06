@@ -1345,11 +1345,11 @@
         "subagent-net": "subagent-net"
       },
       "locked": {
-        "lastModified": 1793985821,
-        "narHash": "sha256-zvfdtjtP6CPO7sMml/BfmZaiPq3eouD46CKE44jT8Ms=",
+        "lastModified": 1793987300,
+        "narHash": "sha256-ONlHqQxGPqu2OF0UgK2jsQ4j4mbDditpGSRmtJXKU8g=",
         "ref": "refs/heads/trunk",
-        "rev": "282b87ce262ac129865558422063260a25947b3c",
-        "revCount": 166,
+        "rev": "78a8aa7bb09de64a809b1a901db4fbaad9531ebf",
+        "revCount": 170,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/chat"
@@ -2003,11 +2003,11 @@
         "rust-overlay": "rust-overlay_6"
       },
       "locked": {
-        "lastModified": 1793483279,
-        "narHash": "sha256-e26FgJdK8E7i4UelFELJhc/pRgRJiP9/DovchM6Epnc=",
+        "lastModified": 1793987252,
+        "narHash": "sha256-W6OR4S+1MyqNZ8pAVMBN/yolI5vvOYLid0lArCViqBM=",
         "ref": "refs/heads/trunk",
-        "rev": "54d4c72020ad6a1cf7cf64d9dbc29a1c83792d63",
-        "revCount": 117,
+        "rev": "823abbea6035f0e84811c3738e009a164746ee9e",
+        "revCount": 118,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/subagent-net"
       },
