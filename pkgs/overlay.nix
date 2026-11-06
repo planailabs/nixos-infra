@@ -14,6 +14,16 @@ final: prev: {
   cozempic = prev.callPackage ./cozempic.nix { };
   prometheus-mcp = prev.callPackage ./prometheus-mcp.nix { };
 
+  # nixpkgs' opencode 2.2.5 pins a node_modules hash its fetch no longer
+  # yields (hash mismatch on every host since the 2026-11-05 nixpkgs). Only
+  # while nixpkgs still carries that exact hash; its own fix takes over.
+  opencode =
+    if prev.opencode.version == "2.2.5" && prev.opencode.node_modules.outputHash == "sha256-xfOVcw1+waLVNhFDwzOtzxrUSQEogvn88YomydOlhwc="
+    then prev.opencode.overrideAttrs (old: {
+      node_modules = old.node_modules.overrideAttrs { outputHash = "sha256-prx9dX7kUvs/E3zopkaPk5LXh3xJAy5sZeum/W8L7cA="; };
+    })
+    else prev.opencode;
+
   # Codex OAuth custom provider (pure-Python source). The codex host mounts this
   # package's source into the official litellm container; litellm is provided by
   # the image, so the package treats it as a peer dependency (see the package).

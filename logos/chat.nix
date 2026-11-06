@@ -30,6 +30,18 @@
       approval = {
         validator_url = "https://codex.plan.ai/v1";
         validator_model = "deepseek-flash";
+        # Never without the user (no validator, no "approve all", not from
+        # workers or pages): reagent's writes start or steer agents that have a
+        # shell, change what they run, or hold secrets.
+        always_ask = map (t: "reagent.${t}") [
+          "task_start" "task_start_now" "task_message" "task_answer" "task_approve" "task_retry" "task_resume"
+          "task_merge" "task_raise_budget" "task_switch_profile" "task_pty_open" "task_queued_edit"
+          "cron_put" "cron_run" "trigger_add" "trigger_put" "trigger_run" "trigger_approve" "trigger_enable" "trigger_move"
+          "service_add" "service_put" "service_start" "service_restart" "service_approve" "service_move"
+          "secret_set" "mcp_server_put" "plugin_add" "plugin_update" "plugin_rules_off" "project_put"
+          "sync_put" "sync_run" "sync_set" "worktree_add" "worktree_merge" "worktree_set" "template_put"
+          "settings_set" "policy_rules_set" "channel_add" "channel_set" "job_background" "design_create" "memory_write"
+        ];
       };
 
       # Acting as the user (token exchange credentials: private); each user's
