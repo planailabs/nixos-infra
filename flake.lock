@@ -51,15 +51,16 @@
         "firecrawl": "firecrawl",
         "gitlab-incus-image": "gitlab-incus-image_6",
         "nixpkgs": "nixpkgs_6",
+        "plan-ai-llm-errors": "plan-ai-llm-errors",
         "ponytail": "ponytail",
         "xzar": "xzar_5"
       },
       "locked": {
-        "lastModified": 1793548223,
-        "narHash": "sha256-PlH2vwQaG9AeBfFp12CtfjwA0du18289cp0Uqt/74VA=",
+        "lastModified": 1793996727,
+        "narHash": "sha256-k7yxr+NZ8y7y4NtLTPnCj8Qg/UyQzj+OqicpHpKD+3Y=",
         "ref": "refs/heads/trunk",
-        "rev": "1f08c9a339b40c7b25d32d66141bf09bef588bcc",
-        "revCount": 575,
+        "rev": "b5dae4f10909fdd6d09839241a4c096cfaf6b63e",
+        "revCount": 589,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -73,11 +74,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1793486870,
-        "narHash": "sha256-XOeTy3BtFSCOP1wgfN3rvWKQHlEHvmISVnpxPhEzZ94=",
+        "lastModified": 1793741871,
+        "narHash": "sha256-sAtYUu4Zr2X2Q9viDvOEgAtalugR+fnK9wlfgH25KGM=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "812d0755c1a79917aecfc76f67bc891663d1e2c3",
+        "rev": "e0c7a1da6c067149716afad5a06f2465c114840d",
         "type": "github"
       },
       "original": {
@@ -1377,11 +1378,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1793907537,
-        "narHash": "sha256-NHbGPJXCfdFKLIfkVgIxdEES+GyJcjYzNfeZQOaiit0=",
+        "lastModified": 1794003346,
+        "narHash": "sha256-bS3DlGZsoXy5Q6QidzqWLe5DSQ8sULN+EvUqOgpsneE=",
         "ref": "refs/heads/trunk",
-        "rev": "39de9e00bc3918fbfb7dc0b81031e1f64f5c1f11",
-        "revCount": 192,
+        "rev": "0777820f43dddf47efac6e81d9864b42da52c4d6",
+        "revCount": 197,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -1390,6 +1391,19 @@
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
+      }
+    },
+    "plan-ai-llm-errors": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793906599,
+        "narHash": "sha256-dxPyNOaZTvAqKpn6/O+rQYevDoP7rhGnne9n2LfXd3g=",
+        "type": "tarball",
+        "url": "https://git.plan.ai/plan-ai/common/-/archive/ffe9942b8853d2735a9b0868e1c2b412c53b9ded/common.tar.gz?path=plan-ai-llm-errors"
+      },
+      "original": {
+        "type": "tarball",
+        "url": "https://git.plan.ai/plan-ai/common/-/archive/ffe9942b8853d2735a9b0868e1c2b412c53b9ded/common.tar.gz?path=plan-ai-llm-errors"
       }
     },
     "ponytail": {
