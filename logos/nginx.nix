@@ -121,6 +121,9 @@ in
           proxy_read_timeout 3600s;
         '';
       };
+      # The hub's callbacks (approval hooks, the chat's agent tools, the
+      # connector) come from localhost only; they're never public.
+      locations."~ ^/(hooks|agent/mcp|connector/mcp)(/|$)".return = "404";
     };
 
     /* "kan.plan.ai" = h {
