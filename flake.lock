@@ -56,11 +56,11 @@
         "xzar": "xzar_5"
       },
       "locked": {
-        "lastModified": 1794011429,
-        "narHash": "sha256-fz2Jbvr1v6ZfyXYEBLWmlarCKrhpgA3NVHQ5dppjLg0=",
+        "lastModified": 1794061536,
+        "narHash": "sha256-tEpllp2tNF6WhmnLDMz0roG1su64B1Ctjoa8RbOB+A8=",
         "ref": "refs/heads/trunk",
-        "rev": "b91acc841c0118691559a83ef79c6cd910995e5b",
-        "revCount": 594,
+        "rev": "054cd3d7f181930f25dfcb8f0d7778e5e610bd5e",
+        "revCount": 596,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -729,6 +729,31 @@
         "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
       }
     },
+    "gitlab-nix-ci_2": {
+      "inputs": {
+        "gitlab-incus-image": [
+          "plan-ai-cloud",
+          "gitlab-incus-image"
+        ],
+        "nixpkgs": [
+          "plan-ai-cloud",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794051945,
+        "narHash": "sha256-YIbo0CcEStYYS2awFom2w3UxFzpqP3Jkfzwl2yeIcAo=",
+        "ref": "refs/heads/master",
+        "rev": "db0cb52a8cb2cb9526c11373479028afb7f3b910",
+        "revCount": 44,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      }
+    },
     "harbor": {
       "inputs": {
         "flake-utils": "flake-utils_3",
@@ -1366,6 +1391,7 @@
         "cms-agent": "cms-agent",
         "flake-utils": "flake-utils_12",
         "gitlab-incus-image": "gitlab-incus-image_7",
+        "gitlab-nix-ci": "gitlab-nix-ci_2",
         "hippocampus": "hippocampus_2",
         "mac-mgmt": "mac-mgmt_2",
         "memvault": "memvault_2",
@@ -1378,11 +1404,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1794047934,
-        "narHash": "sha256-sUhZMyYisGN/X5Aun02j3CndLwRZ4VOy31jHn2jdohQ=",
+        "lastModified": 1794062019,
+        "narHash": "sha256-OcUaea6gBQAniVGSzwDzXXZjbl+qZHPbGNI5Y1XUeGI=",
         "ref": "refs/heads/trunk",
-        "rev": "e4812fe302edc8ddcb4c06b321e2c8a6da8aa746",
-        "revCount": 201,
+        "rev": "eb89024dd48dc7ac6414cdc6fca092d5572a3bd4",
+        "revCount": 208,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
