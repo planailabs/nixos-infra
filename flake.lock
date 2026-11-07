@@ -732,6 +732,31 @@
     "gitlab-nix-ci_2": {
       "inputs": {
         "gitlab-incus-image": [
+          "harbor",
+          "gitlab-incus-image"
+        ],
+        "nixpkgs": [
+          "harbor",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794051945,
+        "narHash": "sha256-YIbo0CcEStYYS2awFom2w3UxFzpqP3Jkfzwl2yeIcAo=",
+        "ref": "refs/heads/master",
+        "rev": "db0cb52a8cb2cb9526c11373479028afb7f3b910",
+        "revCount": 44,
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
+      }
+    },
+    "gitlab-nix-ci_3": {
+      "inputs": {
+        "gitlab-incus-image": [
           "plan-ai-cloud",
           "gitlab-incus-image"
         ],
@@ -758,6 +783,7 @@
       "inputs": {
         "flake-utils": "flake-utils_3",
         "gitlab-incus-image": "gitlab-incus-image_2",
+        "gitlab-nix-ci": "gitlab-nix-ci_2",
         "nixpkgs": [
           "nixpkgs"
         ],
@@ -767,11 +793,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1793924456,
-        "narHash": "sha256-rc6MUcHe0afjMODRQe9NVoY4eo8+yjAUyjT4QtVhOtU=",
+        "lastModified": 1794065652,
+        "narHash": "sha256-ibQTOdhZB9BZ+dk8iW+AX0lz/nIVcpAwm+sfEMuplsw=",
         "ref": "refs/heads/trunk",
-        "rev": "3ce382bdd1da2f70cfe261f560d281e138327229",
-        "revCount": 301,
+        "rev": "e4608814c9503194467b19f9b952e46e20edf166",
+        "revCount": 307,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
@@ -1391,7 +1417,7 @@
         "cms-agent": "cms-agent",
         "flake-utils": "flake-utils_12",
         "gitlab-incus-image": "gitlab-incus-image_7",
-        "gitlab-nix-ci": "gitlab-nix-ci_2",
+        "gitlab-nix-ci": "gitlab-nix-ci_3",
         "hippocampus": "hippocampus_2",
         "mac-mgmt": "mac-mgmt_2",
         "memvault": "memvault_2",
