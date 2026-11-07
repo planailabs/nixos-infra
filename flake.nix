@@ -281,6 +281,18 @@
         ];
       };
 
+      sccache = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          acme-distributor.nixosModules.acme-shim
+          ./sccache
+          { nixpkgs.overlays = [
+            acme-distributor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       hugger-hetzner = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         # > Our main nixos configuration file <
