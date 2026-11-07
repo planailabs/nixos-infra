@@ -742,11 +742,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1793895420,
-        "narHash": "sha256-ggRGL5umStSfbgWzWkQw+ZyQ+sYYXCA9rCd5d7AJ7Og=",
+        "lastModified": 1793924456,
+        "narHash": "sha256-rc6MUcHe0afjMODRQe9NVoY4eo8+yjAUyjT4QtVhOtU=",
         "ref": "refs/heads/trunk",
-        "rev": "1189a94e702cd1ee9138b9eaa3349840f6d0018c",
-        "revCount": 300,
+        "rev": "3ce382bdd1da2f70cfe261f560d281e138327229",
+        "revCount": 301,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
@@ -835,11 +835,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793757180,
-        "narHash": "sha256-gyV7AtCwLnOImcrfSETP4J3Ie96bz19DY47B7m7Y3HM=",
+        "lastModified": 1793979366,
+        "narHash": "sha256-7OoWDsYO9teiPxl0QdlS5lYE20Pue8/5mpscSL32FUA=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "b787c48e2ec57a9d098f5c2721882a3bc1e16f97",
+        "rev": "2c0c1f01521469cf0271180c453c79782d53c2f6",
         "type": "github"
       },
       "original": {
@@ -1747,11 +1747,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793870170,
-        "narHash": "sha256-0psEeQjs1g9oWQ6eVVGlCom+X3/uHyr6jSMyHVU57u8=",
+        "lastModified": 1793956102,
+        "narHash": "sha256-dASUovwB3DUoTm6daga0hsNZZAFCCGlUS4FPBjK0OwA=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "19e0e6c951a7a8a7d3232c64e58d26b89df44c60",
+        "rev": "74cebce67ef6671ea48fda353a5be2d229bd2920",
         "type": "github"
       },
       "original": {
