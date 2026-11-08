@@ -18,7 +18,7 @@ in
     enable = true;
     package = pkgs.garage_2;
     # GARAGE_RPC_SECRET, GARAGE_ADMIN_TOKEN, and the sccache keys used by
-    # garage-init (SCCACHE_{RW,RO}_KEY_{ID,SECRET}).
+    # garage-init (SCCACHE_{RW,RO,EXT}_KEY_{ID,SECRET}).
     environmentFile = "/etc/garage.env";
     settings = {
       replication_factor = 1;
@@ -40,8 +40,8 @@ in
     requires = [ "srv-garage.mount" ];
   };
 
-  # One node, one bucket, two keys: read-write for protected CI pipelines,
-  # read-only for everything else. Idempotent; runs after every start.
+  # One node, one bucket, three keys: read-write for protected CI pipelines,
+  # read-only for other CI jobs, read-write for use outside CI (workstations). Idempotent; runs after every start.
   systemd.services.garage-init = {
     after = [ "garage.service" ];
     requires = [ "garage.service" ];
@@ -65,7 +65,10 @@ in
         || garage key import --yes -n sccache-rw "$SCCACHE_RW_KEY_ID" "$SCCACHE_RW_KEY_SECRET"
       garage key info "$SCCACHE_RO_KEY_ID" >/dev/null 2>&1 \
         || garage key import --yes -n sccache-ro "$SCCACHE_RO_KEY_ID" "$SCCACHE_RO_KEY_SECRET"
+      garage key info "$SCCACHE_EXT_KEY_ID" >/dev/null 2>&1 \
+        || garage key import --yes -n sccache-ext "$SCCACHE_EXT_KEY_ID" "$SCCACHE_EXT_KEY_SECRET"
       garage bucket allow --read --write sccache --key "$SCCACHE_RW_KEY_ID"
+      garage bucket allow --read --write sccache --key "$SCCACHE_EXT_KEY_ID"
       garage bucket allow --read sccache --key "$SCCACHE_RO_KEY_ID"
 
       # Setting the lifecycle needs owner rights, which CI keeps no longer than that.
