@@ -61,6 +61,10 @@ in
       fi
 
       garage bucket info sccache >/dev/null 2>&1 || garage bucket create sccache
+      # Same bucket for clients outside CI: their endpoint is sccache.plan.ai,
+      # and the S3 client strips a leading "<bucket>." from the endpoint
+      # (virtual-host style), which would send bucket "sccache" to plan.ai.
+      garage bucket info cache >/dev/null 2>&1 || garage bucket alias sccache cache
       garage key info "$SCCACHE_RW_KEY_ID" >/dev/null 2>&1 \
         || garage key import --yes -n sccache-rw "$SCCACHE_RW_KEY_ID" "$SCCACHE_RW_KEY_SECRET"
       garage key info "$SCCACHE_RO_KEY_ID" >/dev/null 2>&1 \
