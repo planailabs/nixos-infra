@@ -741,11 +741,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794118770,
-        "narHash": "sha256-oE9rlbimiInRd+NzeLIkSupIcNVd0sBI09p7f1TuOZY=",
+        "lastModified": 1794152974,
+        "narHash": "sha256-+4UDzZ08evVHX0lJz3f/6Uyy3t9AOtwCra6R49uRC3U=",
         "ref": "refs/heads/master",
-        "rev": "37f638003a536d428dc2f0a8ab492429234917ab",
-        "revCount": 51,
+        "rev": "a5b5a1f523d56f464a09d29ff52c5659c48602c4",
+        "revCount": 54,
         "type": "git",
         "url": "https://git.mkg20001.io/mkg20001/gitlab-nix-ci.git"
       },
@@ -868,11 +868,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1794118840,
-        "narHash": "sha256-lHGFbofe8A19001jcWrZHUHQ23suTELmiF//EzgDYX8=",
+        "lastModified": 1794154745,
+        "narHash": "sha256-qmjDL1gLUBBQxIcACYRGJMFTqBJx2parvWXmBPE6lFE=",
         "ref": "refs/heads/trunk",
-        "rev": "8176935cee8a9c9603580cf93d9109388fd11257",
-        "revCount": 317,
+        "rev": "71edd2df81d7386666857b37b964a96201fc980e",
+        "revCount": 320,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
