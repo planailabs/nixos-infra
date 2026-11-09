@@ -4,8 +4,9 @@
   # The harbor host's config (./harbor) with its own database and tokens. An
   # incus container on atlas, IPv6 only: eth0's address is set on the incus
   # device, there is no public0. harbor-proxy issues its own certificates.
+  # No ../modules/postgres-upgrade.nix: it migrates an existing 17 cluster, and
+  # its ReadWritePaths on the missing 17 directory keeps Postgres from starting.
   imports = [
-    ../modules/postgres-upgrade.nix
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/webapp-harbor.nix"

@@ -3,8 +3,9 @@
   # (cms.webapp.agency) and chat (agent.webapp.agency), on logos' pattern.
   # Its Harbor is webapp-harbor. An incus container on atlas, IPv6 only:
   # eth0's address is set on the incus device (README), there is no public0.
+  # No ../modules/postgres-upgrade.nix: it migrates an existing 17 cluster, and
+  # its ReadWritePaths on the missing 17 directory keeps Postgres from starting.
   imports = [
-    ../modules/postgres-upgrade.nix
     ../modules/common.nix
     ../modules/container.nix
     "${inputs.self.private}/webapp.nix"
