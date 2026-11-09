@@ -5,7 +5,7 @@
     secrets.connector_encryption_key = {{ state.agent_connector_key | to_json }};
     auth = {
       cookie_secret = {{ state.agent_cookie_secret | to_json }};
-{% set host = agent_domain %}{% set login_key = 'agent_login' %}
+{% set host = agent_domain %}{% set login_key = 'agent_login' %}{% set internal = false %}
 {% include '_providers.j2' %}
     };
     subnet = {

@@ -145,6 +145,7 @@ pkgs.testers.runNixOSTest {
             machine.succeed(f"nix-instantiate --parse /tmp/private/test-{f}.nix")
         chat = machine.succeed("cat /tmp/private/test-chat.nix")
         assert '"sk-test"' in chat and "CONTEXT7_API_KEY" in chat and "FIRECRAWL" not in chat
+        assert '"Test Partner"' in chat and '"Test Internal"' not in chat, "the chat signs in through the partner org only"
         cloud = machine.succeed("cat /tmp/private/test-cloud.nix")
         assert '"Test Internal"' in cloud and '"Test Partner"' in cloud and "harbor.token" in cloud
         again = machine.succeed("${run "secrets.yml"}")

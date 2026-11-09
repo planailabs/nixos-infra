@@ -1,6 +1,7 @@
-{# The sign-in options of a service at {{ host }} (set host and login_key before including). #}
+{# The sign-in options of a service at {{ host }} (set host, login_key and, to leave out
+   the deployment's own Google sign-in as the chat does, internal = false). #}
       providers = [
-{% if state.internal_google_client_id | default('') %}
+{% if state.internal_google_client_id | default('') and internal | default(true) %}
         {
           # The deployment's own Google OAuth client; redirect
           # https://{{ host }}/auth/google/callback.
