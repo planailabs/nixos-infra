@@ -403,6 +403,37 @@
         ];
       };
 
+      # webapp.agency: Zitadel, cloud console and chat (webapp/), and its
+      # Harbor (webapp-harbor/). incus containers on atlas.
+      webapp = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          acme-distributor.nixosModules.acme-shim
+          plan-ai-chat.nixosModules.default
+          inputs.plan-ai-cloud.nixosModules.plan-ai-cloud
+          ./webapp
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            acme-distributor.overlays.default
+            plan-ai-chat.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
+      webapp-harbor = nixpkgs.lib.nixosSystem {
+        specialArgs = {inherit inputs outputs;};
+        modules = [
+          harbor.nixosModules.harbor
+          ./webapp-harbor
+          { nixpkgs.overlays = [
+            rust-overlay.overlays.default
+            harbor.overlays.default
+            (import ./pkgs/overlay.nix)
+          ]; }
+        ];
+      };
+
       harbor = nixpkgs.lib.nixosSystem {
         specialArgs = {inherit inputs outputs;};
         modules = [
