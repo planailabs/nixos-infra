@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 # id.webapp.agency, set up like id.plan.ai (logos/zitadel.nix has the why of
 # each setting). Its master key, first admin and bootstrap machine user are in
@@ -46,6 +46,10 @@ in
 
   services.postgresql = {
     enable = true;
+    # Zitadel 2.71's setup can't create a new instance on 18: migration
+    # 34_add_cache_schema makes an unlogged partitioned table, which 18
+    # refuses (SQLSTATE 0A000). Logos' instance ran it on 17 before upgrading.
+    package = pkgs.postgresql_17;
     ensureUsers = [{
       name = "zitadel";
       ensureDBOwnership = true;
