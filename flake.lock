@@ -1563,11 +1563,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1794249099,
-        "narHash": "sha256-10olT5YNmhtRziCxhynPjSIW2u28eG0Kfrp9PYjm15w=",
+        "lastModified": 1794249903,
+        "narHash": "sha256-V0lDrd7y3EeEEZza1NjLb2beM8Y87pZ5o8A8l/xQwXA=",
         "ref": "refs/heads/trunk",
-        "rev": "1c34115a3bbf1a9406fc005ee0a5ff49ce45f02e",
-        "revCount": 230,
+        "rev": "216f98f2ce89ccc92155a60cd8105dfd74a17183",
+        "revCount": 231,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"

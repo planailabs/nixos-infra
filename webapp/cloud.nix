@@ -28,6 +28,9 @@
       registry = {
         url = "https://cloud-images.plan.ai";
         channel = "stable";
+        # The registry is shared with cloud.plan.ai, whose regions' credentials
+        # are named by plain slug (de-fsn-1): ours get a prefix.
+        credential_prefix = "webapp-";
       };
 
       zitadel = {
