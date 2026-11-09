@@ -6,6 +6,7 @@ with lib;
   imports = [
     ./vm-fix.nix
     ./restic-backups.nix
+    ./ansible-host.nix
   ];
 
   # hack: is broken
