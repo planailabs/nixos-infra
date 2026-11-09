@@ -93,4 +93,7 @@ reports `changed=0`.
 - An existing social login is left as it is; to change its secret, delete it
   in Zitadel and run `setup.yml` again with the new credentials.
 - The bootstrap PAT is IAM_OWNER: once the deployment is up, remove the
-  bootstrap user's PAT (or the user) in Zitadel and delete the PatPath file.
+  bootstrap user's PAT in Zitadel and delete the PatPath file, and point
+  `zitadel_pat_command` at the console's own IAM_OWNER PAT in the state
+  (`jq -r .console_pat …/private/<deployment>-zitadel.json`), as
+  `deployments/webapp.yml` does.

@@ -6,7 +6,9 @@ deployment: webapp
 
 # Zitadel: the instance and where its bootstrap/admin PAT lives
 zitadel_url: https://id.webapp.agency
-zitadel_pat_command: ssh root@2a01:4f9:1a:90eb::a:3eb cat /var/lib/zitadel/bootstrap.pat
+# The bootstrap PAT made the first run and is gone; later runs use the console's
+# own (IAM_OWNER), from the state the first run wrote.
+zitadel_pat_command: "jq -r .console_pat {{ playbook_dir }}/../../private/webapp-zitadel.json"
 
 # The org partners sign in through, with plan.ai's org login policy (social
 # logins only, open sign-up), and the name the services show for it
