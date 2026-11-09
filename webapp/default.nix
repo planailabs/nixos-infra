@@ -10,6 +10,8 @@
     ../modules/container.nix
     "${inputs.self.private}/webapp.nix"
     ./zitadel.nix
+    ./cloud.nix
+    ./chat.nix
   ];
 
   system.stateVersion = "26.11";

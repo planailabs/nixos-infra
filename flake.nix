@@ -416,6 +416,7 @@
             rust-overlay.overlays.default
             acme-distributor.overlays.default
             plan-ai-chat.overlays.default
+            inputs.plan-ai-cloud.overlays.default
             (import ./pkgs/overlay.nix)
           ]; }
         ];
