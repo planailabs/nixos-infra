@@ -1,0 +1,82 @@
+# A machine user with an instance role and one credential: a PAT
+# (state[user.key] = token) or a JSON key (state[user.key] = the key document).
+- name: "Find machine user {{ user.name }}"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/users/_search"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { queries: [ { userNameQuery: { userName: "{{ user.name }}", method: TEXT_QUERY_METHOD_EQUALS } } ] }
+  register: found_user
+
+- name: "Make machine user {{ user.name }}"
+  when: found_user.json.result | default([]) | length == 0
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/users/machine"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { userName: "{{ user.name }}", name: "{{ user.display }}", accessTokenType: ACCESS_TOKEN_TYPE_BEARER }
+  register: new_user
+  changed_when: true
+
+- ansible.builtin.set_fact:
+    user_id: "{{ found_user.json.result[0].id if found_user.json.result | default([]) else new_user.json.userId }}"
+
+- name: "Instance roles of {{ user.name }}"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/admin/v1/members/_search"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: {}
+  register: members
+
+- ansible.builtin.set_fact:
+    member: "{{ members.json.result | default([]) | selectattr('userId', 'equalto', user_id) | first | default(None) }}"
+
+- name: "Make {{ user.name }} {{ user.role }}"
+  when: member is none or user.role not in member.roles
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/admin/v1/members{{ '' if member is none else '/' ~ user_id }}"
+    method: "{{ 'POST' if member is none else 'PUT' }}"
+    headers: "{{ zh }}"
+    body_format: json
+    body: "{{ {'userId': user_id, 'roles': ([user.role] if member is none else member.roles + [user.role])} }}"
+  changed_when: true
+
+- name: "A PAT for {{ user.name }}"
+  when: user.credential == 'pat' and not (state[user.key] | default(''))
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/users/{{ user_id }}/pats"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { expirationDate: "2099-01-01T00:00:00Z" }
+  register: new_pat
+  changed_when: true
+  no_log: true
+
+- ansible.builtin.set_fact:
+    state: "{{ state | combine({user.key: new_pat.json.token}) }}"
+  when: new_pat is not skipped
+  no_log: true
+
+- name: "A JSON key for {{ user.name }}"
+  when: user.credential == 'key' and not (state[user.key] | default(''))
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/users/{{ user_id }}/keys"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { type: KEY_TYPE_JSON, expirationDate: "2099-01-01T00:00:00Z" }
+  register: new_key
+  changed_when: true
+  no_log: true
+
+- ansible.builtin.set_fact:
+    state: "{{ state | combine({user.key: (new_key.json.keyDetails | b64decode | from_json)}) }}"
+  when: new_key is not skipped
+  no_log: true
+
+- ansible.builtin.include_tasks: save.yml

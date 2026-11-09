@@ -1,0 +1,60 @@
+# An OIDC web client in the apps project, signing in at https://<host>/auth/zitadel/callback;
+# state[app.key] = {client_id, client_secret}.
+- name: "Find client {{ app_name }}"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ state.apps_project_id }}/apps/_search"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: {}
+  register: apps
+
+- ansible.builtin.set_fact:
+    existing_app: "{{ apps.json.result | default([]) | selectattr('name', 'equalto', app_name) | first | default(None) }}"
+
+- name: "Make client {{ app_name }}"
+  when: existing_app is none
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ state.apps_project_id }}/apps/oidc"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body:
+      name: "{{ app_name }}"
+      redirectUris: ["https://{{ app.host }}/auth/zitadel/callback"]
+      postLogoutRedirectUris: ["https://{{ app.host }}/"]
+      responseTypes: [OIDC_RESPONSE_TYPE_CODE]
+      grantTypes: "{{ grants }}"
+      appType: OIDC_APP_TYPE_WEB
+      authMethodType: OIDC_AUTH_METHOD_TYPE_BASIC
+      version: OIDC_VERSION_1_0
+      accessTokenType: OIDC_TOKEN_TYPE_BEARER
+      idTokenUserinfoAssertion: true
+  register: new_app
+  changed_when: true
+  no_log: true
+
+- ansible.builtin.set_fact:
+    state: "{{ state | combine({app.key: {'client_id': new_app.json.clientId, 'client_secret': new_app.json.clientSecret}}) }}"
+  when: existing_app is none
+  no_log: true
+
+# It exists, but its secret isn't in the state: make it a new one.
+- name: "New secret for client {{ app_name }}"
+  when: existing_app is not none and not (state[app.key].client_secret | default(''))
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ state.apps_project_id }}/apps/{{ existing_app.id }}/oidc_config/_generate_client_secret"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: {}
+  register: new_secret
+  changed_when: true
+  no_log: true
+
+- ansible.builtin.set_fact:
+    state: "{{ state | combine({app.key: {'client_id': existing_app.oidcConfig.clientId, 'client_secret': new_secret.json.clientSecret}}) }}"
+  when: existing_app is not none and new_secret is not skipped
+  no_log: true
+
+- ansible.builtin.include_tasks: save.yml

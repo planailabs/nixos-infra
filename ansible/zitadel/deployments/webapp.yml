@@ -1,0 +1,36 @@
+# webapp.agency (webapp/, webapp-harbor/). Everything the playbooks take;
+# secrets come from the environment (see the skill), never from this file.
+
+# private/<deployment>-zitadel.json (state) and private/<deployment>-{cloud,chat,harbor}.nix
+deployment: webapp
+
+# Zitadel: the instance and where its bootstrap/admin PAT lives
+zitadel_url: https://id.webapp.agency
+zitadel_pat_command: ssh root@2a01:4f9:1a:90eb::a:3eb cat /var/lib/zitadel/bootstrap.pat
+
+# The org partners sign in through, with plan.ai's org login policy (social
+# logins only, open sign-up), and the name the services show for it
+partner_org_name: webapp-agency
+partner_login_name: the.webapp.agency Partner
+
+# Projects and apps
+apps_project_name: webapp.agency apps
+console_domain: cms.webapp.agency
+agent_domain: agent.webapp.agency
+harbor_domain: harbor.webapp.agency     # empty: no Harbor clients, no harbor file
+
+# Who administers the console, chat and Harbor
+admin_emails: [maciej@plan.ai]
+
+# The console's own Google sign-in ("<internal_login_name>"), optional:
+# client id/secret from INTERNAL_GOOGLE_CLIENT_ID / INTERNAL_GOOGLE_CLIENT_SECRET
+internal_login_name: the.webapp.agency Internal
+internal_allowed_domains: [plan.ai, webapp.agency]
+
+# LiteLLM (codex) for the chat's agents: master key from LITELLM_MASTER_KEY
+litellm_url: https://codex.plan.ai
+litellm_key_alias: webapp-chat
+
+# Harbor host: the console's admin token is inserted there over ssh
+harbor_ssh: root@2a01:4f9:1a:90eb::a:3eba
+harbor_database: harbor

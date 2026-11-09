@@ -1,0 +1,41 @@
+# Rendered by ansible/zitadel/secrets.yml from {{ deployment }}-zitadel.json: edit the state or the template.
+{ ... }: {
+  # {{ agent_domain }}'s secrets, in the Nix store on the host.
+  services.plan-ai-chat.settings = {
+    secrets.connector_encryption_key = {{ state.agent_connector_key | to_json }};
+    auth = {
+      cookie_secret = {{ state.agent_cookie_secret | to_json }};
+{% set host = agent_domain %}{% set login_key = 'agent_login' %}
+{% include '_providers.j2' %}
+    };
+    subnet = {
+      # Also the hub's CHAT_CALLBACK_SECRET; the hub's admin token.
+      callback_secret = {{ state.subnet_callback_secret | to_json }};
+      token = {{ state.subnet_token | to_json }};
+    };
+    # Token exchange: client "chat connector (token exchange)" in "{{ apps_project_name }}";
+    # actor machine user chat-connector, IAM_ADMIN_IMPERSONATOR, so this key is root-grade.
+    connector.exchange = {
+      issuer = {{ state.issuer | to_json }};
+      client = { method = "basic"; client_id = {{ state.agent_exchange.client_id | to_json }}; client_secret = {{ state.agent_exchange.client_secret | to_json }}; };
+      actor = {
+        method = "jwt_profile";
+        key = { type = "serviceaccount"; keyId = {{ state.agent_actor_key.keyId | to_json }}; key = {{ state.agent_actor_key.key | to_json }}; userId = {{ state.agent_actor_key.userId | to_json }}; };
+      };
+    };
+    # LiteLLM virtual key "{{ litellm_key_alias }}" (no budget cap).
+    approval.validator_api_key = {{ state.agent_litellm_key | to_json }};
+  };
+  services.plan-ai-chat.hub.litellmApiKey = {{ state.agent_litellm_key | to_json }};
+{% if state.context7_api_key | default('') or state.firecrawl_api_key | default('') %}
+  # The agents' MCP servers in chat.hcl: context7 (library docs) and firecrawl (web search).
+  services.plan-ai-chat.hub.environment = {
+{% if state.context7_api_key | default('') %}
+    CONTEXT7_API_KEY = {{ state.context7_api_key | to_json }};
+{% endif %}
+{% if state.firecrawl_api_key | default('') %}
+    FIRECRAWL_API_KEY = {{ state.firecrawl_api_key | to_json }};
+{% endif %}
+  };
+{% endif %}
+}

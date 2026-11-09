@@ -1,0 +1,48 @@
+# A social login (GitHub/Google) of the partner org, from <ENV>_CLIENT_ID and
+# <ENV>_CLIENT_SECRET, linked to its login policy. An existing one is left as
+# it is (its secret can't be read back to compare); delete it in Zitadel to
+# replace it.
+- name: "Social logins of the partner org"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/idps/templates/_search"
+    method: POST
+    headers: "{{ zho }}"
+    body_format: json
+    body: {}
+  register: templates
+
+- ansible.builtin.set_fact:
+    existing_idp: "{{ templates.json.result | default([]) | selectattr('name', 'equalto', idp.name) | selectattr('owner', 'equalto', 'IDP_OWNER_TYPE_ORG') | first | default(None) }}"
+
+- name: "Make the {{ idp.name }} login"
+  when: existing_idp is none
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/idps/{{ idp.kind }}"
+    method: POST
+    headers: "{{ zho }}"
+    body_format: json
+    body:
+      name: "{{ idp.name }}"
+      clientId: "{{ lookup('env', idp.env ~ '_CLIENT_ID') }}"
+      clientSecret: "{{ lookup('env', idp.env ~ '_CLIENT_SECRET') }}"
+      scopes: "{{ idp.scopes }}"
+      providerOptions: { isLinkingAllowed: true, isCreationAllowed: true, isAutoCreation: true, isAutoUpdate: true }
+  register: new_idp
+  changed_when: true
+  no_log: true
+
+- name: The partner org's login policy, for its links
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/policies/login"
+    headers: "{{ zho }}"
+  register: linked
+
+- name: "Offer {{ idp.name }} on the partner org's login"
+  when: idp.name not in (linked.json.policy.idps | default([]) | map(attribute='idpName') | list)
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/policies/login/idps"
+    method: POST
+    headers: "{{ zho }}"
+    body_format: json
+    body: { idpId: "{{ new_idp.json.id if existing_idp is none else existing_idp.id }}", ownerType: IDP_OWNER_TYPE_ORG }
+  changed_when: true

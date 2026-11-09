@@ -1,0 +1,32 @@
+# Rendered by ansible/zitadel/secrets.yml from {{ deployment }}-zitadel.json: edit the state or the template.
+{ ... }: {
+  # {{ console_domain }}'s console secrets, in the Nix store on the host like
+  # every other host's here.
+  services.plan-ai-cloud.settings = {
+    # Users' Zitadel tokens (the chat's connector): project "{{ console_domain }} API".
+    zitadel_bearer = {
+      issuer = {{ state.issuer | to_json }};
+      project_id = {{ state.console_api.project_id | to_json }};
+      client_id = {{ state.console_api.client_id | to_json }};
+      client_secret = {{ state.console_api.client_secret | to_json }};
+    };
+    # Encrypts region client keys in the database; losing it means re-trusting every region.
+    secrets.encryption_key = {{ state.console_encryption_key | to_json }};
+    # Machine user {{ deployment }}-console's PAT (IAM_OWNER).
+    zitadel.token = {{ state.console_pat | to_json }};
+{% if harbor_domain | default('') %}
+    # Admin token on {{ harbor_domain }} (tokens row "{{ console_domain }} console").
+    harbor.token = {{ state.harbor_admin_token | to_json }};
+{% endif %}
+    # The LiteLLM master key and the image registry's admin token (shared).
+    inference.master_key = {{ state.litellm_master_key | to_json }};
+    registry.admin_token = {{ state.registry_admin_token | to_json }};
+    auth = {
+      external_url = "https://{{ console_domain }}";
+      cookie_secret = {{ state.console_cookie_secret | to_json }};
+      admin_emails = [ {% for e in admin_emails %}{{ e | to_json }} {% endfor %}];
+{% set host = console_domain %}{% set login_key = 'console_login' %}
+{% include '_providers.j2' %}
+    };
+  };
+}

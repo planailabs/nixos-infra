@@ -1,0 +1,26 @@
+{# The sign-in options of a service at {{ host }} (set host and login_key before including). #}
+      providers = [
+{% if state.internal_google_client_id | default('') %}
+        {
+          # The deployment's own Google OAuth client; redirect
+          # https://{{ host }}/auth/google/callback.
+          slug = "google";
+          name = {{ internal_login_name | to_json }};
+          issuer = "https://accounts.google.com";
+          client_id = {{ state.internal_google_client_id | to_json }};
+          client_secret = {{ state.internal_google_client_secret | to_json }};
+          allowed_domains = [ {% for d in internal_allowed_domains %}{{ d | to_json }} {% endfor %}];
+        }
+{% endif %}
+        {
+          # {{ partner_org_name }} org accounts (social logins), client "{{ host }}"
+          # in project "{{ apps_project_name }}" on {{ zitadel_url | regex_replace('^https://', '') }}.
+          slug = "zitadel";
+          name = {{ partner_login_name | to_json }};
+          issuer = {{ state.issuer | to_json }};
+          client_id = {{ state[login_key].client_id | to_json }};
+          client_secret = {{ state[login_key].client_secret | to_json }};
+          allow_all = true;
+          zitadel_org = {{ state.partner_org_id | to_json }};
+        }
+      ];

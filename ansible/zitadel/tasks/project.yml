@@ -1,0 +1,30 @@
+# A project by name, made if missing; its id in project_id (and state[project_key], if given).
+- name: "Find project {{ project_name }}"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/_search"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { queries: [ { nameQuery: { name: "{{ project_name }}", method: TEXT_QUERY_METHOD_EQUALS } } ] }
+  register: found_project
+
+- name: "Make project {{ project_name }}"
+  when: found_project.json.result | default([]) | length == 0
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { name: "{{ project_name }}" }
+  register: new_project
+  changed_when: true
+
+- ansible.builtin.set_fact:
+    project_id: "{{ found_project.json.result[0].id if found_project.json.result | default([]) else new_project.json.id }}"
+
+# With project_key, its id goes into the state as well.
+- ansible.builtin.set_fact:
+    state: "{{ state | combine({project_key: project_id}) }}"
+  when: project_key is defined
+- ansible.builtin.include_tasks: save.yml
+  when: project_key is defined

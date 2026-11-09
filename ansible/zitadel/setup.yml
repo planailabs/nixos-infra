@@ -1,0 +1,175 @@
+# Zitadel for a plan.ai-style deployment (console + chat + optional Harbor):
+# the partner org with plan.ai's org login policy and its social logins, the
+# apps project with each service's sign-in client and the chat's
+# token-exchange client, the console's and Harbor's API projects, the console's
+# service user (IAM_OWNER, PAT) and the chat's impersonation actor
+# (IAM_ADMIN_IMPERSONATOR, JSON key), and the instance's impersonation switch.
+#
+# Idempotent: everything is looked up before it is made. A client secret, PAT
+# or key can only be read when it is made, so they live in the state file,
+# private/<deployment>-zitadel.json, written after every step that produced
+# one. A secret missing there is made anew (a client secret regenerated):
+# delete one to rotate it, then run secrets.yml and redeploy.
+#
+#   ansible-playbook setup.yml -e @deployments/<deployment>.yml
+- hosts: localhost
+  gather_facts: false
+  vars:
+    # -e private_dir=… (the VM test) puts state and files elsewhere
+    state_file: "{{ private_dir | default(playbook_dir ~ '/../../private') }}/{{ deployment }}-zitadel.json"
+    zitadel_pat: "{{ lookup('env', 'ZITADEL_PAT') or lookup('pipe', zitadel_pat_command) }}"
+    zh:
+      Authorization: "Bearer {{ zitadel_pat | trim }}"
+      Content-Type: application/json
+      User-Agent: nixos-infra-ansible/1
+    # plan.ai's "plan.ai" org on id.plan.ai, minus its IdP links (added below)
+    login_policy:
+      allowUsernamePassword: false
+      allowRegister: true
+      allowExternalIdp: true
+      forceMfa: false
+      passwordlessType: PASSWORDLESS_TYPE_NOT_ALLOWED
+      allowDomainDiscovery: true
+      passwordCheckLifetime: 864000s
+      externalLoginCheckLifetime: 864000s
+      mfaInitSkipLifetime: 2592000s
+      secondFactorCheckLifetime: 64800s
+      multiFactorCheckLifetime: 43200s
+      secondFactors: [SECOND_FACTOR_TYPE_OTP, SECOND_FACTOR_TYPE_U2F]
+      multiFactors: [MULTI_FACTOR_TYPE_U2F_WITH_VERIFICATION]
+    idps:
+      - { kind: github, name: GitHub, scopes: ["read:user", "user:email"], env: GITHUB }
+      - { kind: google, name: Google, scopes: [openid, profile, email], env: GOOGLE }
+    login_apps: >-
+      {{ [ {'key': 'console_login', 'host': console_domain},
+           {'key': 'agent_login', 'host': agent_domain} ]
+         + ([ {'key': 'harbor_login', 'host': harbor_domain} ] if harbor_domain | default('') else []) }}
+    api_projects: >-
+      {{ [ {'key': 'console_api', 'name': console_domain ~ ' API'} ]
+         + ([ {'key': 'harbor_api', 'name': harbor_domain ~ ' API'} ] if harbor_domain | default('') else []) }}
+
+  tasks:
+    - name: Load the state
+      ansible.builtin.set_fact:
+        state: "{{ (lookup('file', state_file, errors='ignore') or '{}') | from_json }}"
+
+    - name: The instance's own org (where the projects live)
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/management/v1/orgs/me"
+        headers: "{{ zh }}"
+      register: me
+
+    - ansible.builtin.set_fact:
+        state: "{{ state | combine({'issuer': zitadel_url, 'org_id': me.json.org.id}) }}"
+
+    # ── partner org ──────────────────────────────────────────────────────────
+    - name: Find the partner org
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/admin/v1/orgs/_search"
+        method: POST
+        headers: "{{ zh }}"
+        body_format: json
+        body: { queries: [ { nameQuery: { name: "{{ partner_org_name }}", method: TEXT_QUERY_METHOD_EQUALS } } ] }
+      register: orgs
+
+    - name: Make the partner org
+      when: orgs.json.result | default([]) | length == 0
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/management/v1/orgs"
+        method: POST
+        headers: "{{ zh }}"
+        body_format: json
+        body: { name: "{{ partner_org_name }}" }
+      register: new_org
+
+    - ansible.builtin.set_fact:
+        state: "{{ state | combine({'partner_org_id': (orgs.json.result[0].id if orgs.json.result | default([]) else new_org.json.id)}) }}"
+        zho: "{{ zh | combine({'x-zitadel-orgid': (orgs.json.result[0].id if orgs.json.result | default([]) else new_org.json.id)}) }}"
+
+    - name: The partner org's login policy
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/management/v1/policies/login"
+        headers: "{{ zho }}"
+      register: policy
+
+    # Zitadel leaves false, empty and zero-enum fields out of its answer, and
+    # refuses a PUT that changes nothing: compare first.
+    - ansible.builtin.set_fact:
+        policy_differs: >-
+          {% set cur = policy.json.policy %}{% set ns = namespace(d=false) %}
+          {%- for k, v in login_policy.items() -%}
+            {%- set c = cur[k] if k in cur else (v if (not v or v == 'PASSWORDLESS_TYPE_NOT_ALLOWED') else None) -%}
+            {%- if c != v %}{% set ns.d = true %}{% endif -%}
+          {%- endfor %}{{ ns.d }}
+
+    - name: Give the partner org its own login policy, or bring it in line
+      when: policy.json.policy.isDefault | default(false) or policy_differs | bool
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/management/v1/policies/login"
+        method: "{{ 'POST' if policy.json.policy.isDefault | default(false) else 'PUT' }}"
+        headers: "{{ zho }}"
+        body_format: json
+        body: "{{ login_policy }}"
+      changed_when: true
+
+    - name: Social logins of the partner org
+      ansible.builtin.include_tasks: tasks/idp.yml
+      loop: "{{ idps }}"
+      loop_control: { loop_var: idp }
+      when: lookup('env', idp.env ~ '_CLIENT_ID') | length > 0
+
+    # ── apps project and its clients ─────────────────────────────────────────
+    - ansible.builtin.include_tasks: tasks/project.yml
+      vars: { project_name: "{{ apps_project_name }}", project_key: apps_project_id }
+
+    - name: Sign-in clients
+      ansible.builtin.include_tasks: tasks/oidc_app.yml
+      loop: "{{ login_apps }}"
+      loop_control: { loop_var: app }
+      vars:
+        app_name: "{{ app.host }}"
+        grants: [OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDC_GRANT_TYPE_REFRESH_TOKEN]
+
+    - name: The chat's token-exchange client
+      ansible.builtin.include_tasks: tasks/oidc_app.yml
+      vars:
+        app: { key: agent_exchange, host: "{{ agent_domain }}" }
+        app_name: chat connector (token exchange)
+        grants: [OIDC_GRANT_TYPE_AUTHORIZATION_CODE, OIDC_GRANT_TYPE_TOKEN_EXCHANGE]
+
+    - name: API projects (users' tokens from the chat, checked by introspection)
+      ansible.builtin.include_tasks: tasks/api_project.yml
+      loop: "{{ api_projects }}"
+      loop_control: { loop_var: api }
+
+    # ── service users ────────────────────────────────────────────────────────
+    - name: The console's service user
+      ansible.builtin.include_tasks: tasks/machine_user.yml
+      vars:
+        user: { name: "{{ deployment }}-console", display: "{{ console_domain }} console", role: IAM_OWNER, credential: pat, key: console_pat }
+
+    - name: The chat's impersonation actor (its key is root-grade)
+      ansible.builtin.include_tasks: tasks/machine_user.yml
+      vars:
+        user: { name: chat-connector, display: "{{ agent_domain }} connector (impersonation)", role: IAM_ADMIN_IMPERSONATOR, credential: key, key: agent_actor_key }
+
+    - name: Instance security policy
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/admin/v1/policies/security"
+        headers: "{{ zh }}"
+      register: security
+
+    - name: Allow impersonation (the chat's token exchange)
+      when: not (security.json.policy.enableImpersonation | default(false))
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/admin/v1/policies/security"
+        method: PUT
+        headers: "{{ zh }}"
+        body_format: json
+        body:
+          enableIframeEmbedding: "{{ security.json.policy.enableIframeEmbedding | default(false) }}"
+          allowedOrigins: "{{ security.json.policy.allowedOrigins | default([]) }}"
+          enableImpersonation: true
+      changed_when: true
+
+    - ansible.builtin.include_tasks: tasks/save.yml

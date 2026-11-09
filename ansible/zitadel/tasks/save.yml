@@ -1,0 +1,7 @@
+# Write the state now: what was just made may be a secret that can't be read back.
+- name: Save the state
+  ansible.builtin.copy:
+    dest: "{{ state_file }}"
+    content: "{{ state | to_nice_json(sort_keys=true) }}\n"
+    mode: "0600"
+  no_log: true

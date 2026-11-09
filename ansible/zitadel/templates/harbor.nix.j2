@@ -1,0 +1,22 @@
+# Rendered by ansible/zitadel/secrets.yml from {{ deployment }}-zitadel.json: edit the state or the template.
+{ ... }: {
+  # {{ harbor_domain }}'s secrets, in the Nix store on that host.
+  services.harbor-server.settings = {
+    # Users' Zitadel tokens (the chat's MCP): project "{{ harbor_domain }} API".
+    zitadel_bearer = {
+      issuer = {{ state.issuer | to_json }};
+      project_id = {{ state.harbor_api.project_id | to_json }};
+      client_id = {{ state.harbor_api.client_id | to_json }};
+      client_secret = {{ state.harbor_api.client_secret | to_json }};
+    };
+    # Encrypts stored credentials (Cloudflare tokens and the like).
+    secrets.encryption_key = {{ state.harbor_encryption_key | to_json }};
+    auth = {
+      external_url = "https://{{ harbor_domain }}";
+      cookie_secret = {{ state.harbor_cookie_secret | to_json }};
+      admin_emails = [ {% for e in admin_emails %}{{ e | to_json }} {% endfor %}];
+{% set host = harbor_domain %}{% set login_key = 'harbor_login' %}
+{% include '_providers.j2' %}
+    };
+  };
+}

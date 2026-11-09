@@ -111,6 +111,10 @@
     packages = {
       inherit (pkgs) cozempic obsidian-mcp-server obsidian-local-rest-api-plugin;
     } // nixpkgs.lib.optionalAttrs (system == "x86_64-linux") inputs.gitlab-nix-ci.packages.x86_64-linux;
+    checks = nixpkgs.lib.optionalAttrs (system == "x86_64-linux") {
+      # ansible/zitadel's playbooks against a Zitadel in a VM
+      zitadel-ansible = import ./ansible/zitadel/test.nix { inherit pkgs; };
+    };
   }) // {
 
     # NixOS configuration entrypoint

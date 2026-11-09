@@ -1,0 +1,54 @@
+# A "<domain> API" project with a basic-auth API client for introspection;
+# state[api.key] = {project_id, client_id, client_secret}.
+- ansible.builtin.include_tasks: project.yml
+  vars: { project_name: "{{ api.name }}" }
+
+- ansible.builtin.set_fact:
+    api_project_id: "{{ project_id }}"
+
+- name: "Find the introspection client of {{ api.name }}"
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ api_project_id }}/apps/_search"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: {}
+  register: api_apps
+
+- ansible.builtin.set_fact:
+    existing_api_app: "{{ api_apps.json.result | default([]) | selectattr('name', 'equalto', api.name ~ ' introspection') | first | default(None) }}"
+
+- name: "Make the introspection client of {{ api.name }}"
+  when: existing_api_app is none
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ api_project_id }}/apps/api"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: { name: "{{ api.name }} introspection", authMethodType: API_AUTH_METHOD_TYPE_BASIC }
+  register: new_api_app
+  changed_when: true
+  no_log: true
+
+- name: "New secret for the introspection client of {{ api.name }}"
+  when: existing_api_app is not none and not (state[api.key].client_secret | default(''))
+  ansible.builtin.uri:
+    url: "{{ zitadel_url }}/management/v1/projects/{{ api_project_id }}/apps/{{ existing_api_app.id }}/api_config/_generate_client_secret"
+    method: POST
+    headers: "{{ zh }}"
+    body_format: json
+    body: {}
+  register: new_api_secret
+  changed_when: true
+  no_log: true
+
+- ansible.builtin.set_fact:
+    state: >-
+      {{ state | combine({api.key: {
+           'project_id': api_project_id,
+           'client_id': (new_api_app.json.clientId if existing_api_app is none else existing_api_app.apiConfig.clientId),
+           'client_secret': (new_api_app.json.clientSecret if existing_api_app is none
+                             else (new_api_secret.json.clientSecret if new_api_secret is not skipped else state[api.key].client_secret))}}) }}
+  no_log: true
+
+- ansible.builtin.include_tasks: save.yml
