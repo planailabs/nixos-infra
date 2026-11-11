@@ -23,6 +23,7 @@ let
     internal_allowed_domains: [example.test]
     litellm_url: http://localhost:4000
     litellm_key_alias: test-chat
+    legal_tos_link: https://legal.example.test/agb.md
     harbor_ssh: ""
     harbor_database: harbor
   '';
@@ -130,6 +131,8 @@ pkgs.testers.runNixOSTest {
             f"curl -sf -H 'Authorization: Bearer {pat}' -H 'x-zitadel-orgid: {org}' http://localhost:8080/management/v1/policies/login"))["policy"]
         assert not policy.get("isDefault") and policy["allowRegister"] and not policy.get("allowUsernamePassword"), policy
         assert sorted(i["idpName"] for i in policy["idps"]) == ["GitHub", "Google"], policy
+        legal = api("/admin/v1/policies/privacy")["policy"]
+        assert legal["tosLink"] == legal["privacyLink"] == "https://legal.example.test/agb.md", legal
 
     with subtest("a secret deleted from the state is made anew"):
         old = state["agent_login"]["client_secret"]

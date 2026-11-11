@@ -29,6 +29,11 @@ admin_emails: [maciej@plan.ai]
 internal_login_name: the.webapp.agency Internal
 internal_allowed_domains: [plan.ai, webapp.agency]
 
+# AGB & Datenschutz the login makes users accept (one document may serve both;
+# privacy defaults to the tos link). Empty: left as it is in Zitadel.
+legal_tos_link: ""          # webapp.agency's own document, URL not decided yet
+legal_privacy_link: ""
+
 # LiteLLM (codex) for the chat's agents: master key from LITELLM_MASTER_KEY
 litellm_url: https://codex.plan.ai
 litellm_key_alias: webapp-chat

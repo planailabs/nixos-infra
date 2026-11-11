@@ -1,0 +1,765 @@
+From a21bc0b3ab8e28bd8a6332a1f2725fbe745adec7 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Maciej=20Kr=C3=BCger?= <mkg20001@gmail.com>
+Date: Wed, 11 Nov 2026 01:53:42 +0100
+Subject: [PATCH] login: require acceptance of the terms of service and privacy
+ policy
+
+Before an OIDC/SAML flow completes, the user is sent to /legal when the
+sha256 of the documents the instance's or org's legal settings link to
+(fetched at runtime, LEGAL_DOCUMENT_TTL_SECONDS, default 300) differs
+from the one in their user metadata key "agb"
+(LEGAL_ACCEPTANCE_METADATA_KEY). Accepting there, or registering through
+the register form, stores the current hash. prompt=none answers
+consent_required. An unreachable document doesn't block sign-in.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+---
+ apps/login/locales/de.json                    |  16 ++-
+ apps/login/locales/en.json                    |  10 ++
+ apps/login/src/app/(login)/legal/page.tsx     |  60 +++++++++
+ .../src/components/legal-acceptance-form.tsx  |  70 ++++++++++
+ .../components/privacy-policy-checkboxes.tsx  |   7 +-
+ apps/login/src/lib/legal-acceptance.test.ts   | 123 +++++++++++++++++
+ apps/login/src/lib/legal-acceptance.ts        | 126 ++++++++++++++++++
+ apps/login/src/lib/oidc.ts                    |  10 ++
+ apps/login/src/lib/saml.ts                    |  10 ++
+ apps/login/src/lib/server/flow-initiation.ts  |  26 +++-
+ apps/login/src/lib/server/legal.ts            |  31 +++++
+ apps/login/src/lib/server/register.ts         |  13 ++
+ apps/login/src/lib/zitadel.ts                 |  28 ++++
+ 13 files changed, 520 insertions(+), 10 deletions(-)
+ create mode 100644 apps/login/src/app/(login)/legal/page.tsx
+ create mode 100644 apps/login/src/components/legal-acceptance-form.tsx
+ create mode 100644 apps/login/src/lib/legal-acceptance.test.ts
+ create mode 100644 apps/login/src/lib/legal-acceptance.ts
+ create mode 100644 apps/login/src/lib/server/legal.ts
+
+diff --git a/apps/login/locales/de.json b/apps/login/locales/de.json
+index d5c396c..236c3c1 100644
+--- a/apps/login/locales/de.json
++++ b/apps/login/locales/de.json
+@@ -327,9 +327,9 @@
+     "description": "Erstellen Sie Ihr Zitadel-Konto.",
+     "noMethodAvailableWarning": "Keine Authentifizierungsmethode verfügbar. Bitte wenden Sie sich an den Administrator.",
+     "selectMethod": "Wählen Sie die Methode, mit der Sie sich authentifizieren möchten",
+-    "agreeTo": "Um sich zu registrieren, müssen Sie den Nutzungsbedingungen zustimmen",
+-    "termsOfService": "Nutzungsbedingungen",
+-    "privacyPolicy": "Datenschutzrichtlinie",
++    "agreeTo": "Um sich zu registrieren, müssen Sie den AGB und der Datenschutzerklärung zustimmen",
++    "termsOfService": "Allgemeine Geschäftsbedingungen (AGB)",
++    "privacyPolicy": "Datenschutzerklärung",
+     "submit": "Weiter",
+     "password": {
+       "title": "Passwort festlegen",
+@@ -472,5 +472,15 @@
+     "tryagain": "Erneut versuchen",
+     "couldNotContinueSession": "Sitzung konnte nicht fortgesetzt werden - fehlende Benutzerinformationen",
+     "couldNotClearSession": "Die Sitzung konnte nicht beendet werden. Bitte versuchen Sie es erneut."
++  },
++  "legal": {
++    "title": "AGB und Datenschutzerklärung",
++    "description": "Bitte stimmen Sie unseren aktuellen AGB und unserer Datenschutzerklärung zu, um fortzufahren.",
++    "agreeTo": "Um fortzufahren, müssen Sie den AGB und der Datenschutzerklärung zustimmen",
++    "submit": "Zustimmen und fortfahren",
++    "errors": {
++      "sessionNotFound": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
++      "documentsUnavailable": "Die AGB konnten nicht geladen werden. Bitte versuchen Sie es später erneut."
++    }
+   }
+ }
+diff --git a/apps/login/locales/en.json b/apps/login/locales/en.json
+index 67be25b..747bd04 100644
+--- a/apps/login/locales/en.json
++++ b/apps/login/locales/en.json
+@@ -473,5 +473,15 @@
+     "tryagain": "Try Again",
+     "couldNotContinueSession": "Could not continue with session - missing user information",
+     "couldNotClearSession": "Could not end the session. Please try again."
++  },
++  "legal": {
++    "title": "Terms and privacy policy",
++    "description": "Please accept our current terms of service and privacy policy to continue.",
++    "agreeTo": "To continue you must accept the terms of service and the privacy policy",
++    "submit": "Accept and continue",
++    "errors": {
++      "sessionNotFound": "Your session has expired. Please sign in again.",
++      "documentsUnavailable": "The terms could not be loaded. Please try again later."
++    }
+   }
+ }
+diff --git a/apps/login/src/app/(login)/legal/page.tsx b/apps/login/src/app/(login)/legal/page.tsx
+new file mode 100644
+index 0000000..99d0bd8
+--- /dev/null
++++ b/apps/login/src/app/(login)/legal/page.tsx
+@@ -0,0 +1,60 @@
++import { DynamicTheme } from "@/components/dynamic-theme";
++import { LegalAcceptanceForm } from "@/components/legal-acceptance-form";
++import { Translated } from "@/components/translated";
++import { UserAvatar } from "@/components/user-avatar";
++import { getServiceConfig } from "@/lib/service-url";
++import { loadSessionById } from "@/lib/session";
++import { getBrandingSettings, getLegalAndSupportSettings } from "@/lib/zitadel";
++import { headers } from "next/headers";
++import { redirect } from "next/navigation";
++
++// Asked before an OIDC/SAML flow completes when the terms of service or privacy policy changed since the
++// user last accepted them (lib/legal-acceptance.ts)
++export default async function Page(props: { searchParams: Promise<Record<string | number | symbol, string | undefined>> }) {
++  const searchParams = await props.searchParams;
++  const { sessionId, requestId, organization } = searchParams;
++
++  if (!requestId) {
++    return redirect("/loginname");
++  }
++
++  const _headers = await headers();
++  const { serviceConfig } = getServiceConfig(_headers);
++
++  const session = sessionId ? await loadSessionById(serviceConfig, sessionId, organization) : undefined;
++  if (!session?.factors?.user) {
++    const params = new URLSearchParams({ requestId });
++    if (organization) {
++      params.set("organization", organization);
++    }
++    return redirect("/loginname?" + params);
++  }
++
++  const userOrg = session.factors.user.organizationId;
++  const branding = await getBrandingSettings({ serviceConfig, organization: userOrg });
++  const legal = await getLegalAndSupportSettings({ serviceConfig, organization: userOrg });
++
++  return (
++    <DynamicTheme branding={branding}>
++      <div className="flex flex-col space-y-4">
++        <h1>
++          <Translated i18nKey="title" namespace="legal" />
++        </h1>
++        <p className="ztdl-p">
++          <Translated i18nKey="description" namespace="legal" />
++        </p>
++        <UserAvatar
++          loginName={session.factors.user.loginName}
++          displayName={session.factors.user.displayName}
++          showDropdown={false}
++        />
++      </div>
++
++      <div className="w-full">
++        {legal && (
++          <LegalAcceptanceForm legal={legal} sessionId={session.id} requestId={requestId} organization={organization} />
++        )}
++      </div>
++    </DynamicTheme>
++  );
++}
+diff --git a/apps/login/src/components/legal-acceptance-form.tsx b/apps/login/src/components/legal-acceptance-form.tsx
+new file mode 100644
+index 0000000..c454639
+--- /dev/null
++++ b/apps/login/src/components/legal-acceptance-form.tsx
+@@ -0,0 +1,70 @@
++"use client";
++
++import { handleServerActionResponse } from "@/lib/client-utils";
++import { acceptLegal } from "@/lib/server/legal";
++import { LegalAndSupportSettings } from "@zitadel/proto/zitadel/settings/v2/legal_settings_pb";
++import { useRouter } from "next/navigation";
++import { useState } from "react";
++import { Alert } from "./alert";
++import { AutoSubmitForm } from "./auto-submit-form";
++import { Button, ButtonVariants } from "./button";
++import { PrivacyPolicyCheckboxes } from "./privacy-policy-checkboxes";
++import { Spinner } from "./spinner";
++import { Translated } from "./translated";
++
++export function LegalAcceptanceForm({
++  legal,
++  sessionId,
++  requestId,
++  organization,
++}: {
++  legal: LegalAndSupportSettings;
++  sessionId: string;
++  requestId: string;
++  organization?: string;
++}) {
++  const [accepted, setAccepted] = useState(false);
++  const [loading, setLoading] = useState(false);
++  const [error, setError] = useState("");
++  const [samlData, setSamlData] = useState<{ url: string; fields: Record<string, string> } | null>(null);
++  const router = useRouter();
++
++  async function submit() {
++    setError("");
++    setLoading(true);
++    try {
++      handleServerActionResponse(await acceptLegal({ sessionId, requestId, organization }), router, setSamlData, setError);
++    } catch {
++      setError("Could not complete the request");
++    } finally {
++      setLoading(false);
++    }
++  }
++
++  return (
++    <div className="w-full">
++      {samlData && <AutoSubmitForm url={samlData.url} fields={samlData.fields} />}
++      <PrivacyPolicyCheckboxes legal={legal} onChange={setAccepted} i18nKey="agreeTo" namespace="legal" />
++
++      {error && (
++        <div className="py-4">
++          <Alert>{error}</Alert>
++        </div>
++      )}
++
++      <div className="mt-8 flex w-full flex-row items-center">
++        <span className="flex-grow"></span>
++        <Button
++          type="button"
++          onClick={submit}
++          disabled={!accepted || loading}
++          variant={ButtonVariants.Primary}
++          data-testid="submit-button"
++        >
++          {loading && <Spinner className="mr-2 h-5 w-5" />}
++          <Translated i18nKey="submit" namespace="legal" />
++        </Button>
++      </div>
++    </div>
++  );
++}
+diff --git a/apps/login/src/components/privacy-policy-checkboxes.tsx b/apps/login/src/components/privacy-policy-checkboxes.tsx
+index 0998ad5..75ee363 100644
+--- a/apps/login/src/components/privacy-policy-checkboxes.tsx
++++ b/apps/login/src/components/privacy-policy-checkboxes.tsx
+@@ -10,6 +10,9 @@ import { Translated } from "./translated";
+ type Props = {
+   legal: LegalAndSupportSettings;
+   onChange: (allAccepted: boolean) => void;
++  // the sentence above the checkboxes
++  i18nKey?: string;
++  namespace?: string;
+ };
+ 
+ type AcceptanceState = {
+@@ -17,7 +20,7 @@ type AcceptanceState = {
+   privacyPolicyAccepted: boolean;
+ };
+ 
+-export function PrivacyPolicyCheckboxes({ legal, onChange }: Props) {
++export function PrivacyPolicyCheckboxes({ legal, onChange, i18nKey = "agreeTo", namespace = "register" }: Props) {
+   const locale = useLocale();
+   const [acceptanceState, setAcceptanceState] = useState<AcceptanceState>({
+     tosAccepted: false,
+@@ -39,7 +42,7 @@ export function PrivacyPolicyCheckboxes({ legal, onChange }: Props) {
+   return (
+     <>
+       <p className="text-text-light-secondary-500 dark:text-text-dark-secondary-500 mt-4 flex flex-row items-center text-sm">
+-        <Translated i18nKey="agreeTo" namespace="register" />
++        <Translated i18nKey={i18nKey} namespace={namespace} />
+         {helpLink && (
+           <span>
+             <Link href={helpLink} target="_blank" aria-label="Open help in a new tab" data-testid="help-link">
+diff --git a/apps/login/src/lib/legal-acceptance.test.ts b/apps/login/src/lib/legal-acceptance.test.ts
+new file mode 100644
+index 0000000..19fbdb2
+--- /dev/null
++++ b/apps/login/src/lib/legal-acceptance.test.ts
+@@ -0,0 +1,123 @@
++import { createHash } from "node:crypto";
++import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
++import { currentLegalHash, legalAcceptancePath, recordLegalAcceptance } from "./legal-acceptance";
++import { getLegalAndSupportSettings, getUserMetadataValue, setUserMetadataValue } from "./zitadel";
++
++vi.mock("./zitadel", () => ({
++  getLegalAndSupportSettings: vi.fn(),
++  getUserMetadataValue: vi.fn(),
++  setUserMetadataValue: vi.fn(),
++}));
++
++const serviceConfig = { baseUrl: "https://zitadel.example" } as any;
++const sha256 = (s: string) => createHash("sha256").update(s).digest("hex");
++const session = { id: "s1", factors: { user: { id: "u1", organizationId: "o1" } } } as any;
++
++let docs: Record<string, string | null>;
++const fetchMock = vi.fn(async (url: string) => {
++  const body = docs[url];
++  return body === null || body === undefined ? new Response("", { status: 503 }) : new Response(body);
++});
++
++function links(tosLink?: string, privacyPolicyLink?: string) {
++  vi.mocked(getLegalAndSupportSettings).mockResolvedValue({ tosLink, privacyPolicyLink } as any);
++}
++
++beforeEach(() => {
++  docs = {};
++  fetchMock.mockClear();
++  vi.stubGlobal("fetch", fetchMock);
++  vi.mocked(getUserMetadataValue).mockReset();
++  vi.mocked(setUserMetadataValue).mockReset();
++});
++
++afterEach(() => {
++  vi.useRealTimers();
++  vi.unstubAllGlobals();
++});
++
++describe("currentLegalHash", () => {
++  it("is the document's sha256 when both links point to it", async () => {
++    docs["https://a.example/legal-de.md"] = "# AGB";
++    links("https://a.example/legal-de.md", "https://a.example/legal-de.md");
++    expect(await currentLegalHash(serviceConfig, "o1")).toBe(sha256("# AGB"));
++    expect(fetchMock).toHaveBeenCalledTimes(1);
++  });
++
++  it("covers both documents when they differ", async () => {
++    docs["https://b.example/tos"] = "tos";
++    docs["https://b.example/privacy"] = "privacy";
++    links("https://b.example/tos", "https://b.example/privacy");
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256(sha256("tos") + "\n" + sha256("privacy")));
++  });
++
++  it("is null without links and undefined when a document can't be fetched", async () => {
++    links();
++    expect(await currentLegalHash(serviceConfig)).toBeNull();
++    links("https://c.example/down");
++    expect(await currentLegalHash(serviceConfig)).toBeUndefined();
++  });
++
++  it("refetches after the TTL and keeps the last hash while the document is down", async () => {
++    vi.useFakeTimers();
++    const url = "https://d.example/legal";
++    links(url);
++    docs[url] = "v1";
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256("v1"));
++
++    docs[url] = "v2";
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256("v1")); // cached
++    vi.advanceTimersByTime(301_000);
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256("v2"));
++
++    docs[url] = null;
++    vi.advanceTimersByTime(301_000);
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256("v2"));
++  });
++});
++
++describe("legalAcceptancePath", () => {
++  const url = "https://e.example/legal";
++  beforeEach(() => {
++    docs[url] = "current";
++    links(url);
++  });
++
++  it("sends a user who never accepted, or accepted another version, to the legal page", async () => {
++    for (const accepted of [undefined, sha256("old")]) {
++      vi.mocked(getUserMetadataValue).mockResolvedValue(accepted);
++      expect(await legalAcceptancePath({ serviceConfig, session, requestId: "oidc_r1" })).toBe(
++        "/legal?sessionId=s1&requestId=oidc_r1&organization=o1",
++      );
++    }
++    expect(getUserMetadataValue).toHaveBeenCalledWith({ serviceConfig, userId: "u1", key: "agb" });
++  });
++
++  it("lets a user who accepted the current version through", async () => {
++    vi.mocked(getUserMetadataValue).mockResolvedValue(sha256("current"));
++    expect(await legalAcceptancePath({ serviceConfig, session, requestId: "oidc_r1" })).toBeUndefined();
++  });
++
++  it("doesn't ask when there are no documents or they can't be fetched", async () => {
++    links();
++    expect(await legalAcceptancePath({ serviceConfig, session, requestId: "oidc_r1" })).toBeUndefined();
++    links("https://e.example/down");
++    expect(await legalAcceptancePath({ serviceConfig, session, requestId: "oidc_r1" })).toBeUndefined();
++    expect(getUserMetadataValue).not.toHaveBeenCalled();
++  });
++});
++
++describe("recordLegalAcceptance", () => {
++  it("stores the current hash", async () => {
++    docs["https://f.example/legal"] = "current";
++    links("https://f.example/legal");
++    expect(await recordLegalAcceptance({ serviceConfig, userId: "u1", organization: "o1" })).toBe(true);
++    expect(setUserMetadataValue).toHaveBeenCalledWith({ serviceConfig, userId: "u1", key: "agb", value: sha256("current") });
++  });
++
++  it("fails when the documents can't be fetched", async () => {
++    links("https://f.example/down");
++    expect(await recordLegalAcceptance({ serviceConfig, userId: "u1" })).toBe(false);
++    expect(setUserMetadataValue).not.toHaveBeenCalled();
++  });
++});
+diff --git a/apps/login/src/lib/legal-acceptance.ts b/apps/login/src/lib/legal-acceptance.ts
+new file mode 100644
+index 0000000..d6ba94f
+--- /dev/null
++++ b/apps/login/src/lib/legal-acceptance.ts
+@@ -0,0 +1,126 @@
++import { Session } from "@zitadel/proto/zitadel/session/v2/session_pb";
++import { createHash } from "node:crypto";
++import { resolveLocalizedLegalLink } from "./legal-links";
++import { createLogger } from "./logger";
++import { getLegalAndSupportSettings, getUserMetadataValue, ServiceConfig, setUserMetadataValue } from "./zitadel";
++
++const logger = createLogger("legal-acceptance");
++
++// User metadata key holding the hash of the terms of service and privacy policy the user last accepted
++export const LEGAL_METADATA_KEY = process.env.LEGAL_ACCEPTANCE_METADATA_KEY || "agb";
++const documentTTL = Number(process.env.LEGAL_DOCUMENT_TTL_SECONDS ?? 300) * 1000;
++
++const documents = new Map<string, { hash: string; fetchedAt: number }>();
++
++function sha256(data: string | Uint8Array): string {
++  return createHash("sha256").update(data).digest("hex");
++}
++
++/** sha256 of the document at url, fetched at most every LEGAL_DOCUMENT_TTL_SECONDS; the last hash if a fetch fails. */
++async function documentHash(url: string): Promise<string | undefined> {
++  const cached = documents.get(url);
++  if (cached && Date.now() - cached.fetchedAt < documentTTL) {
++    return cached.hash;
++  }
++
++  try {
++    const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(5000) });
++    if (!response.ok) {
++      throw new Error(`HTTP ${response.status}`);
++    }
++    const hash = sha256(new Uint8Array(await response.arrayBuffer()));
++    documents.set(url, { hash, fetchedAt: Date.now() });
++    return hash;
++  } catch (error) {
++    logger.error("Could not fetch legal document", { url, error: String(error), usingLastHash: !!cached });
++    return cached?.hash;
++  }
++}
++
++/**
++ * The hash users have to have accepted: of the one document when the terms of service and the privacy
++ * policy link to the same one, else of both. null: the organization links to none, there is nothing to
++ * accept. undefined: a document could not be fetched yet.
++ */
++export async function currentLegalHash(
++  serviceConfig: ServiceConfig,
++  organization?: string,
++): Promise<string | null | undefined> {
++  const legal = await getLegalAndSupportSettings({ serviceConfig, organization });
++  // ponytail: a link with {{.Lang}} is hashed in English, so switching languages doesn't ask again
++  const links = [legal?.tosLink, legal?.privacyPolicyLink]
++    .filter((l): l is string => !!l)
++    .map((l) => resolveLocalizedLegalLink(l, "en")!)
++    .filter((l, i, all) => all.indexOf(l) === i);
++
++  if (links.length === 0) {
++    return null;
++  }
++
++  const hashes = await Promise.all(links.map(documentHash));
++  if (hashes.some((h) => !h)) {
++    return undefined;
++  }
++
++  return hashes.length === 1 ? hashes[0] : sha256(hashes.join("\n"));
++}
++
++/**
++ * Where the user has to go before the flow can complete: the legal page when the documents changed
++ * since the user last accepted them (or the user never did), else undefined.
++ */
++export async function legalAcceptancePath({
++  serviceConfig,
++  session,
++  requestId,
++}: {
++  serviceConfig: ServiceConfig;
++  session: Session;
++  requestId: string;
++}): Promise<string | undefined> {
++  const user = session.factors?.user;
++  if (!user?.id) {
++    return undefined;
++  }
++
++  const hash = await currentLegalHash(serviceConfig, user.organizationId);
++  if (hash === undefined) {
++    // availability beats a gate nobody can pass: the user is asked once the documents can be fetched again
++    logger.error("Legal documents unavailable, not asking for acceptance", { userId: user.id });
++    return undefined;
++  }
++  if (hash === null) {
++    return undefined;
++  }
++
++  const accepted = await getUserMetadataValue({ serviceConfig, userId: user.id, key: LEGAL_METADATA_KEY });
++  if (accepted === hash) {
++    return undefined;
++  }
++
++  const params = new URLSearchParams({ sessionId: session.id, requestId });
++  if (user.organizationId) {
++    params.set("organization", user.organizationId);
++  }
++  return "/legal?" + params;
++}
++
++/** Stores the current hash as the one the user accepted. false: the documents can't be fetched. */
++export async function recordLegalAcceptance({
++  serviceConfig,
++  userId,
++  organization,
++}: {
++  serviceConfig: ServiceConfig;
++  userId: string;
++  organization?: string;
++}): Promise<boolean> {
++  const hash = await currentLegalHash(serviceConfig, organization);
++  if (hash === undefined) {
++    return false;
++  }
++  if (hash !== null) {
++    await setUserMetadataValue({ serviceConfig, userId, key: LEGAL_METADATA_KEY, value: hash });
++  }
++  return true;
++}
+diff --git a/apps/login/src/lib/oidc.ts b/apps/login/src/lib/oidc.ts
+index 76a1601..8ae99b8 100644
+--- a/apps/login/src/lib/oidc.ts
++++ b/apps/login/src/lib/oidc.ts
+@@ -6,6 +6,7 @@ import { createCallback, getLoginSettings, ServiceConfig } from "@/lib/zitadel";
+ import { Code, create } from "@zitadel/client";
+ import { CreateCallbackRequestSchema, SessionSchema } from "@zitadel/proto/zitadel/oidc/v2/oidc_service_pb";
+ import { Session } from "@zitadel/proto/zitadel/session/v2/session_pb";
++import { legalAcceptancePath } from "./legal-acceptance";
+ import { isSessionValid } from "./session";
+ 
+ type LoginWithOIDCAndSession = {
+@@ -53,6 +54,15 @@ export async function loginWithOIDCAndSession({
+         sessionToken: cookie?.token,
+       };
+ 
++      const legalPath = await legalAcceptancePath({
++        serviceConfig,
++        session: selectedSession,
++        requestId: `oidc_${authRequest}`,
++      });
++      if (legalPath) {
++        return { redirect: legalPath };
++      }
++
+       try {
+         const { callbackUrl } = await createCallback({
+           serviceConfig,
+diff --git a/apps/login/src/lib/saml.ts b/apps/login/src/lib/saml.ts
+index 3844393..48a4a87 100644
+--- a/apps/login/src/lib/saml.ts
++++ b/apps/login/src/lib/saml.ts
+@@ -6,6 +6,7 @@ import { createResponse, getLoginSettings, ServiceConfig } from "@/lib/zitadel";
+ import { Code, create } from "@zitadel/client";
+ import { CreateResponseRequestSchema } from "@zitadel/proto/zitadel/saml/v2/saml_service_pb";
+ import { Session } from "@zitadel/proto/zitadel/session/v2/session_pb";
++import { legalAcceptancePath } from "./legal-acceptance";
+ import { isSessionValid } from "./session";
+ 
+ type LoginWithSAMLAndSession = {
+@@ -60,6 +61,15 @@ export async function loginWithSAMLAndSession({
+         sessionToken: cookie?.token,
+       };
+ 
++      const legalPath = await legalAcceptancePath({
++        serviceConfig,
++        session: selectedSession,
++        requestId: `saml_${samlRequest}`,
++      });
++      if (legalPath) {
++        return { redirect: legalPath };
++      }
++
+       // works not with _rsc request
+       try {
+         const { url, binding } = await createResponse({
+diff --git a/apps/login/src/lib/server/flow-initiation.ts b/apps/login/src/lib/server/flow-initiation.ts
+index b1d752c..efcbf6e 100644
+--- a/apps/login/src/lib/server/flow-initiation.ts
++++ b/apps/login/src/lib/server/flow-initiation.ts
+@@ -4,6 +4,7 @@ import { getLanguageCookie, setLanguageCookie, type Cookie } from "@/lib/cookies
+ 
+ import { shouldUILocalesOverrideCookie } from "@/lib/i18n";
+ import { idpTypeToSlug } from "@/lib/idp";
++import { legalAcceptancePath } from "@/lib/legal-acceptance";
+ import { createLogger } from "@/lib/logger";
+ import { sendLoginname } from "@/lib/server/loginname";
+ import { constructUrl } from "@/lib/service-url";
+@@ -20,7 +21,7 @@ import {
+   startIdentityProviderFlow,
+ } from "@/lib/zitadel";
+ import { create } from "@zitadel/client";
+-import { Prompt } from "@zitadel/proto/zitadel/oidc/v2/authorization_pb";
++import { ErrorReason, Prompt } from "@zitadel/proto/zitadel/oidc/v2/authorization_pb";
+ import { CreateCallbackRequestSchema, SessionSchema } from "@zitadel/proto/zitadel/oidc/v2/oidc_service_pb";
+ import { CreateResponseRequestSchema } from "@zitadel/proto/zitadel/saml/v2/saml_service_pb";
+ import { Session } from "@zitadel/proto/zitadel/session/v2/session_pb";
+@@ -446,14 +447,19 @@ export async function handleOIDCFlowInitiation(params: FlowInitiationParams): Pr
+         sessionToken: cookie.token,
+       };
+ 
++      // prompt=none can't show the legal page: the client is told it has to ask (OIDC Core 3.1.2.6)
++      const needsLegalAcceptance = !!(await legalAcceptancePath({ serviceConfig, session: selectedSession, requestId }));
++
+       const { callbackUrl } = await createCallback({
+         serviceConfig,
+         req: create(CreateCallbackRequestSchema, {
+           authRequestId: requestId.replace("oidc_", ""),
+-          callbackKind: {
+-            case: "session",
+-            value: create(SessionSchema, session),
+-          },
++          callbackKind: needsLegalAcceptance
++            ? { case: "error", value: { error: ErrorReason.CONSENT_REQUIRED } }
++            : {
++                case: "session",
++                value: create(SessionSchema, session),
++              },
+         }),
+       });
+ 
+@@ -517,6 +523,11 @@ export async function handleOIDCFlowInitiation(params: FlowInitiationParams): Pr
+         sessionToken: cookie.token,
+       };
+ 
++      const legalPath = await legalAcceptancePath({ serviceConfig, session: selectedSession, requestId });
++      if (legalPath) {
++        return NextResponse.redirect(constructUrl(request, legalPath));
++      }
++
+       try {
+         const { callbackUrl } = await createCallback({
+           serviceConfig,
+@@ -637,6 +648,11 @@ export async function handleSAMLFlowInitiation(params: FlowInitiationParams): Pr
+     });
+   }
+ 
++  const legalPath = await legalAcceptancePath({ serviceConfig, session: selectedSession, requestId });
++  if (legalPath) {
++    return NextResponse.redirect(constructUrl(request, legalPath));
++  }
++
+   // Valid session and cookie found - attempt to complete SAML flow
+   const session = {
+     sessionId: cookie.id,
+diff --git a/apps/login/src/lib/server/legal.ts b/apps/login/src/lib/server/legal.ts
+new file mode 100644
+index 0000000..f7611b3
+--- /dev/null
++++ b/apps/login/src/lib/server/legal.ts
+@@ -0,0 +1,31 @@
++"use server";
++
++import { completeFlowOrGetUrl } from "@/lib/client";
++import { recordLegalAcceptance } from "@/lib/legal-acceptance";
++import { getServiceConfig } from "@/lib/service-url";
++import { loadSessionById } from "@/lib/session";
++import { getTranslations } from "next-intl/server";
++import { headers } from "next/headers";
++
++export async function acceptLegal(command: { sessionId: string; requestId: string; organization?: string }) {
++  const t = await getTranslations("legal");
++  const _headers = await headers();
++  const { serviceConfig } = getServiceConfig(_headers);
++
++  // the session cookie proves the user is the session's: only they can accept for themselves
++  const session = await loadSessionById(serviceConfig, command.sessionId, command.organization);
++  const user = session?.factors?.user;
++  if (!session || !user?.id) {
++    return { error: t("errors.sessionNotFound") };
++  }
++
++  if (!(await recordLegalAcceptance({ serviceConfig, userId: user.id, organization: user.organizationId }))) {
++    return { error: t("errors.documentsUnavailable") };
++  }
++
++  return completeFlowOrGetUrl({
++    sessionId: session.id,
++    requestId: command.requestId,
++    organization: command.organization,
++  });
++}
+diff --git a/apps/login/src/lib/server/register.ts b/apps/login/src/lib/server/register.ts
+index 2ad5d19..f2fd451 100644
+--- a/apps/login/src/lib/server/register.ts
++++ b/apps/login/src/lib/server/register.ts
+@@ -1,5 +1,6 @@
+ "use server";
+ 
++import { recordLegalAcceptance } from "@/lib/legal-acceptance";
+ import { createSessionAndUpdateCookie, createSessionForIdpAndUpdateCookie } from "@/lib/server/cookie";
+ import { addHumanUser, addIDPLink, getLoginSettings, getUserByID, listAuthenticationMethodTypes } from "@/lib/zitadel";
+ import { Code, ConnectError, Duration, create } from "@zitadel/client";
+@@ -95,6 +96,18 @@ export async function registerUser(
+     return { error: t("errors.couldNotCreateUser") };
+   }
+ 
++  // the register form doesn't submit until the terms of service and privacy policy are accepted
++  const recorded = await recordLegalAcceptance({
++    serviceConfig,
++    userId: addResponse.userId,
++    organization: command.organization,
++  }).catch(() => false);
++  if (!recorded) {
++    logger.error("Could not record legal acceptance; the user is asked again before the flow completes", {
++      userId: addResponse.userId,
++    });
++  }
++
+   let checkPayload: any = {
+     user: { search: { case: "userId", value: addResponse.userId } },
+   };
+diff --git a/apps/login/src/lib/zitadel.ts b/apps/login/src/lib/zitadel.ts
+index 4975981..82c4a2e 100644
+--- a/apps/login/src/lib/zitadel.ts
++++ b/apps/login/src/lib/zitadel.ts
+@@ -1,6 +1,7 @@
+ import { createConnectTransport } from "@connectrpc/connect-node";
+ import { Client, create, Duration } from "@zitadel/client";
+ import { makeReqCtx } from "@zitadel/client/v2";
++import { TextFilterMethod } from "@zitadel/proto/zitadel/filter/v2/filter_pb";
+ import { IdentityProviderService } from "@zitadel/proto/zitadel/idp/v2/idp_service_pb";
+ import { OrganizationSchema, TextQueryMethod } from "@zitadel/proto/zitadel/object/v2/object_pb";
+ import { CreateCallbackRequest, OIDCService } from "@zitadel/proto/zitadel/oidc/v2/oidc_service_pb";
+@@ -542,6 +543,33 @@ export async function getUserByID({ serviceConfig, userId }: WithServiceConfig<{
+   return userService.getUserByID({ userId }, {});
+ }
+ 
++export async function getUserMetadataValue({
++  serviceConfig,
++  userId,
++  key,
++}: WithServiceConfig<{ userId: string; key: string }>): Promise<string | undefined> {
++  const userService: Client<typeof UserService> = await createServiceForHost(UserService, serviceConfig);
++
++  const { metadata } = await userService.listUserMetadata({
++    userId,
++    filters: [{ filter: { case: "keyFilter", value: { key, method: TextFilterMethod.EQUALS } } }],
++  });
++
++  const value = metadata.find((m) => m.key === key)?.value;
++  return value ? new TextDecoder().decode(value) : undefined;
++}
++
++export async function setUserMetadataValue({
++  serviceConfig,
++  userId,
++  key,
++  value,
++}: WithServiceConfig<{ userId: string; key: string; value: string }>) {
++  const userService: Client<typeof UserService> = await createServiceForHost(UserService, serviceConfig);
++
++  return userService.setUserMetadata({ userId, metadata: [{ key, value: new TextEncoder().encode(value) }] });
++}
++
+ export async function humanMFAInitSkipped({ serviceConfig, userId }: WithServiceConfig<{ userId: string }>) {
+   const userService: Client<typeof UserService> = await createServiceForHost(UserService, serviceConfig);
+ 
+-- 
+2.56.0
+

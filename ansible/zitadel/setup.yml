@@ -172,4 +172,28 @@
           enableImpersonation: true
       changed_when: true
 
+    # ── legal documents ──────────────────────────────────────────────────────
+    # The patched login (pkgs/zitadel-login) asks every user to accept what
+    # these link to, again whenever the documents' hash changes.
+    - name: Instance legal settings
+      when: legal_tos_link | default('') | length > 0
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/admin/v1/policies/privacy"
+        headers: "{{ zh }}"
+      register: privacy
+
+    - name: Link the terms of service and privacy policy
+      when: >-
+        legal_tos_link | default('') | length > 0 and
+        (privacy.json.policy.tosLink | default('') != legal_tos_link or
+         privacy.json.policy.privacyLink | default('') != (legal_privacy_link | default(legal_tos_link, true)))
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/admin/v1/policies/privacy"
+        method: PUT
+        headers: "{{ zh }}"
+        body_format: json
+        body: "{{ privacy.json.policy | dict2items | selectattr('key', 'in', ['helpLink', 'supportEmail', 'docsLink', 'customLink', 'customLinkText']) | items2dict
+                  | combine({'tosLink': legal_tos_link, 'privacyLink': legal_privacy_link | default(legal_tos_link, true)}) }}"
+      changed_when: true
+
     - ansible.builtin.include_tasks: tasks/save.yml

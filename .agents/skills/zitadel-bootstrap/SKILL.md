@@ -42,6 +42,7 @@ people see on the login page.
 | `harbor_domain` | Harbor's domain, or empty for none | `harbor.webapp.agency` |
 | `admin_emails` | Who administers console, chat and Harbor | `[maciej@plan.ai]` |
 | `internal_login_name`, `internal_allowed_domains` | Name and allowed email domains of the services' own Google sign-in (optional) | `the.webapp.agency Internal`, `[plan.ai, webapp.agency]` |
+| `legal_tos_link`, `legal_privacy_link` | URL of the AGB & Datenschutz the login makes users accept (privacy defaults to the tos link; pkgs/zitadel-login) | `https://plan.ai/legal-de.md` |
 | `litellm_url`, `litellm_key_alias` | LiteLLM for the chat's agents, and the key's alias | `https://codex.plan.ai`, `webapp-chat` |
 | `harbor_ssh`, `harbor_database` | Where to insert the console's Harbor admin token (empty: skip) | `root@<harbor host>`, `harbor` |
 
