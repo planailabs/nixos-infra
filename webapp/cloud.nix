@@ -19,7 +19,8 @@
       };
 
       fleet = {
-        alias_prefix = "webapp";
+        # The region is shared with cloud.plan.ai: use its images (plan-ai-<product>).
+        alias_prefix = "plan-ai";
         instance_prefix = "webapp";
         boot_timeout_secs = 180;
         sync_interval_secs = 30;
