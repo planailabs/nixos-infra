@@ -56,11 +56,11 @@
         "xzar": "xzar_5"
       },
       "locked": {
-        "lastModified": 1794238976,
-        "narHash": "sha256-JZ+zt8+xEw0bXII7VHfzLtFDUoczyHiZCqL189ENEMc=",
+        "lastModified": 1794351722,
+        "narHash": "sha256-cRgXEWq1lyiPj+FVennbo3kBTE8nrrdvAfyEdhM6pi4=",
         "ref": "refs/heads/trunk",
-        "rev": "1bebb8351c06f64cd9f13e6310b2e93943bb15d7",
-        "revCount": 638,
+        "rev": "5620c2a5dba84641d4874d4b68ce0915ebd71ed5",
+        "revCount": 706,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -74,11 +74,11 @@
         "nixpkgs": "nixpkgs_5"
       },
       "locked": {
-        "lastModified": 1793741871,
-        "narHash": "sha256-sAtYUu4Zr2X2Q9viDvOEgAtalugR+fnK9wlfgH25KGM=",
+        "lastModified": 1794262867,
+        "narHash": "sha256-Ccf1gpQ/CX111RcU5ki1l5W2/24eVDvjZ3Y7egAzIDs=",
         "owner": "DeusData",
         "repo": "codebase-memory-mcp",
-        "rev": "e0c7a1da6c067149716afad5a06f2465c114840d",
+        "rev": "6df7fcb05dd242534767feacb88b8211280c6842",
         "type": "github"
       },
       "original": {
@@ -140,11 +140,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792526520,
-        "narHash": "sha256-3hSJlv8mUVnZPMWK2+CM7a9O+nR6Z4mCh27NfLCmTPc=",
+        "lastModified": 1794328522,
+        "narHash": "sha256-h2BYMW4nTFpIqnMd8gwAPFmJAp/1wWLQ6vT0NfL5qt4=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "cedd626e11b635470fa6f9fdb8ad79b0075dd7f9",
+        "rev": "1dd30c29c88d99ce295f15e27f93c49bc5fbae07",
         "type": "github"
       },
       "original": {
@@ -922,11 +922,11 @@
         "xzar": "xzar"
       },
       "locked": {
-        "lastModified": 1794181950,
-        "narHash": "sha256-qWl4J8F9qeszMYmCvUOZANQQML92cnSnTyn2ugasSKU=",
+        "lastModified": 1794360986,
+        "narHash": "sha256-oJQwoSOcu7o+Q0TPxUg0R7jaR13I+M0W1CBsDQJ8n+A=",
         "ref": "refs/heads/trunk",
-        "rev": "636664462f77a79f99f1500311348196c25fdca2",
-        "revCount": 325,
+        "rev": "e339c57847432c8a428a748b24c2785c0a0b5e40",
+        "revCount": 328,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/harbor"
@@ -941,11 +941,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1794051415,
-        "narHash": "sha256-mJok3uMK0awq2MPKdSnvTxm3UD89KD3LclQzASgtY1s=",
+        "lastModified": 1794222723,
+        "narHash": "sha256-jehPADpSIsWnyNHw/s44OHF9l6Y75QmW74sqO9cEe0A=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "1a8ff4f57ffe1f732beaa1db842247a381ea471d",
+        "rev": "919c16cf46a7acf9b44b2c2444bc39aa094eaa85",
         "type": "github"
       },
       "original": {
@@ -1015,11 +1015,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793979366,
-        "narHash": "sha256-7OoWDsYO9teiPxl0QdlS5lYE20Pue8/5mpscSL32FUA=",
+        "lastModified": 1794278858,
+        "narHash": "sha256-rkrJwLgLSHBnXfgoSKIDa+2LLGdTqynsV3GAxOTGhUU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "2c0c1f01521469cf0271180c453c79782d53c2f6",
+        "rev": "82ce401aa350502897c3f2e85f384d61cd3b0b6d",
         "type": "github"
       },
       "original": {
@@ -1044,11 +1044,11 @@
         "xzar": "xzar_3"
       },
       "locked": {
-        "lastModified": 1793750838,
-        "narHash": "sha256-Tc6ECcalzMlb2jtH0KxijflkRXgZyLGLJbZZX1F/J94=",
+        "lastModified": 1794352760,
+        "narHash": "sha256-acROh5+HML50A+OVYbtVjvBk7FWO045qItROF3jmo3w=",
         "ref": "refs/heads/trunk",
-        "rev": "d8c2b305ad0bf3135462fcb2fc9130d16746a97d",
-        "revCount": 139,
+        "rev": "24b801fe4e24b77dc69e0bf26df7e0111aa70b40",
+        "revCount": 142,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/hugger"
       },
@@ -1072,11 +1072,11 @@
         "xzar": "xzar_4"
       },
       "locked": {
-        "lastModified": 1794200589,
-        "narHash": "sha256-kPjt62GWlFh6D9/gr1bmXwz7rZaQmEGO47vWikikvLo=",
+        "lastModified": 1794361758,
+        "narHash": "sha256-3PiXsyIKPtsDpMhYqo74xb9lp+H0+cCizzgnAiHBR6w=",
         "ref": "refs/heads/trunk",
-        "rev": "5dbb13b12a3c170ed0ab6713d45374deddc6e549",
-        "revCount": 2647,
+        "rev": "e2a7c139cb742855555de9548b4c05e4d62179ca",
+        "revCount": 2649,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -1100,11 +1100,11 @@
         "xzar": "xzar_7"
       },
       "locked": {
-        "lastModified": 1794181965,
-        "narHash": "sha256-2pagQVzSE+Zi2iuXshk2ofdTZzjq+dJGzdjUUSX1yrU=",
+        "lastModified": 1794297988,
+        "narHash": "sha256-4a2QGafL0NnODOguyyIyJtdPBQK4tQ16+UFZkRiW7io=",
         "ref": "refs/heads/trunk",
-        "rev": "89193e4bb49e6874ecc84e20aa1b63f8e7cae53a",
-        "revCount": 2644,
+        "rev": "7c260eb50e4f82e1d732fc2e44591844ca8f7592",
+        "revCount": 2648,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -1135,11 +1135,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794181969,
-        "narHash": "sha256-1bGPVaug+JEtGmfC5+KbW5HessVWFvdVjHLxqC2ZEAA=",
+        "lastModified": 1794357087,
+        "narHash": "sha256-ZHf9whV/IsaGpxCVpRF1f0s5Fe4xTMZ+m7nGk4a/QaI=",
         "ref": "refs/heads/trunk",
-        "rev": "b36393ee3216ba63a7c3fa59f1e55e43e46a159e",
-        "revCount": 796,
+        "rev": "7542c711ff409296012b81f4cf550f516ef287d8",
+        "revCount": 802,
         "submodules": true,
         "type": "git",
         "url": "https://git.plan.ai/plan-ai/memvault"
@@ -1164,11 +1164,11 @@
         "xzar": "xzar_8"
       },
       "locked": {
-        "lastModified": 1794241575,
-        "narHash": "sha256-0G+d3cX5uCU+rnhNQcWLqc9pPRA+VIpfdp/g5IvQUvA=",
+        "lastModified": 1794287363,
+        "narHash": "sha256-/ehlpQi1xYZmfSjMFc1M1TlgnsFhKAKQ7Y93bbRfIt0=",
         "ref": "refs/heads/trunk",
-        "rev": "93f13585e128d3458d756edbc77a427f9ccf656f",
-        "revCount": 797,
+        "rev": "43da45d7b4ee35248a65f3e4b43fe8de555ec011",
+        "revCount": 798,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/memvault"
@@ -1563,11 +1563,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1794249903,
-        "narHash": "sha256-V0lDrd7y3EeEEZza1NjLb2beM8Y87pZ5o8A8l/xQwXA=",
+        "lastModified": 1794352698,
+        "narHash": "sha256-NfY3Rrn0cvaQ/APa+YZuDHEEoe0uIk3Ru6jecNOROxo=",
         "ref": "refs/heads/trunk",
-        "rev": "216f98f2ce89ccc92155a60cd8105dfd74a17183",
-        "revCount": 231,
+        "rev": "3322a42d07b11b7f57daf9763f02ea97c3b840c8",
+        "revCount": 237,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -1652,11 +1652,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793585423,
-        "narHash": "sha256-Fzdew7s0V4PHsBX0GDQ+1Zcd4HejuqAh9rAjSP9M6JQ=",
+        "lastModified": 1794012432,
+        "narHash": "sha256-zBKFTg7tEGApNt+CEKI5+WNNomD5MZqYNBr+r6/Bmdg=",
         "owner": "pyproject-nix",
         "repo": "build-system-pkgs",
-        "rev": "461a6a8540307fb9c05b8f6ad29e9720d2a621db",
+        "rev": "bdbc5f8dd2ad6136bb2ccecb14f6ec343965b194",
         "type": "github"
       },
       "original": {
@@ -1726,11 +1726,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793240426,
-        "narHash": "sha256-NPWgb6H4arnWyTKvYIys5U0xqd5QY74Z+lyTJA+7XGY=",
+        "lastModified": 1793820880,
+        "narHash": "sha256-NUMabnvaL/0Ah9WM9pBMXEp+dQjMSYjezZ/fNjXouLQ=",
         "owner": "pyproject-nix",
         "repo": "pyproject.nix",
-        "rev": "bf7d4b1d6de61db02fd4e748395634f03006e5de",
+        "rev": "d43f0e74444c1f266c640fc49ce6ce6fb69d33c3",
         "type": "github"
       },
       "original": {
@@ -1867,11 +1867,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793697474,
-        "narHash": "sha256-KgJnMIR0ltd7pMcpDWn5q40bzmC7xtlb71clPFNUu+Y=",
+        "lastModified": 1794216702,
+        "narHash": "sha256-J+4v+Olc/2mN/bSc9CuAQ/PB7c0w1mzDJK8JvS7rKmM=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "fb3eee9d296214ebbcc53921f34e80bb4166e859",
+        "rev": "b70538330f20adc9665afa2976471eb5b85ebd1f",
         "type": "github"
       },
       "original": {
@@ -1932,11 +1932,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794127728,
-        "narHash": "sha256-QhZ104DwHvvMxWxmI13zdppISE27UmdqhRI2VwBg/yU=",
+        "lastModified": 1794303164,
+        "narHash": "sha256-UZMtOt43/HRVssXPSuPv8t11Toq9+CjyWUfYQ3tqGVE=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "51c6dc40d18552701f7c5c62e3f7a5fc899f7132",
+        "rev": "89750a2ef1c6a44db9f4251b16c23deffdcfddff",
         "type": "github"
       },
       "original": {
@@ -2153,11 +2153,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793434469,
-        "narHash": "sha256-+sgVNI2c67di+XIeMaz5KSei4T65kX68s5Nl0E5Gzbc=",
+        "lastModified": 1794216702,
+        "narHash": "sha256-J+4v+Olc/2mN/bSc9CuAQ/PB7c0w1mzDJK8JvS7rKmM=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "6ecf534a7c16e7c969f26838fdd8c93597ae93f3",
+        "rev": "b70538330f20adc9665afa2976471eb5b85ebd1f",
         "type": "github"
       },
       "original": {
