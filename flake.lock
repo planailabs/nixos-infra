@@ -56,11 +56,11 @@
         "xzar": "xzar_5"
       },
       "locked": {
-        "lastModified": 1794448523,
-        "narHash": "sha256-JHCMSjwMGEcBohfoIBNvpYZG8XrO7+lXOdcQec6uBWE=",
+        "lastModified": 1794520778,
+        "narHash": "sha256-fR9VnLJSo4LyQUW1yDNyOXLJaHopMSa1QlFD4LiLmao=",
         "ref": "refs/heads/trunk",
-        "rev": "2d217e904a85647341dbda540da04d11c5cc3fb3",
-        "revCount": 746,
+        "rev": "2ceca6e8829fb772cfd885a38455cd7154daacfa",
+        "revCount": 763,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cms-agent"
       },
@@ -265,11 +265,11 @@
         "systems": "systems_14"
       },
       "locked": {
-        "lastModified": 1791914995,
-        "narHash": "sha256-Zf/xfQEAasnwnmEfHqW/4hjDE/s44yn2hD4RuVIZRjA=",
+        "lastModified": 1794427683,
+        "narHash": "sha256-o7ey9gEilsxaifqJWnBDlYSKbNWYQYtKwDyXeZU2kaU=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "b7a79d3fea1e214f6d668d521cecec0c01e26544",
+        "rev": "cd489559845d81f673a12885576016c65cbe9363",
         "type": "github"
       },
       "original": {
@@ -1100,11 +1100,11 @@
         "xzar": "xzar_7"
       },
       "locked": {
-        "lastModified": 1794366709,
-        "narHash": "sha256-QgqFRctwVil3XFqTU6fcusv3RfYsAQnLOTgGvkyJBeQ=",
+        "lastModified": 1794460425,
+        "narHash": "sha256-AYdXAtZns4oAbRaI7fZg7KKp6xDbZDWEb8Z0vYbyXwQ=",
         "ref": "refs/heads/trunk",
-        "rev": "cdf82773717230bbfeb427c5a3ef856eadc52394",
-        "revCount": 2650,
+        "rev": "7b9adf3e6656242f958fbddb210157ecebbcf39c",
+        "revCount": 2653,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/mac-mgmt"
@@ -1563,11 +1563,11 @@
         "xzar": "xzar_9"
       },
       "locked": {
-        "lastModified": 1794449972,
-        "narHash": "sha256-ZWMmQZVLTSlTmTNFUwdXbWN0HJiIoPw2P7Kxx/KB5E4=",
+        "lastModified": 1794534728,
+        "narHash": "sha256-XIp6srdWFzo25hknLeeAuVLV3PNmArKzNLNYisQb1+k=",
         "ref": "refs/heads/trunk",
-        "rev": "149c4c5875ef79ea14b3cc360114d5631198c8c9",
-        "revCount": 242,
+        "rev": "eae9b2c092296b8f15e3b20f3e0a9928f35c33eb",
+        "revCount": 250,
         "submodules": true,
         "type": "git",
         "url": "ssh://git@git.plan.ai/plan-ai/cloud"
@@ -2153,11 +2153,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794303164,
-        "narHash": "sha256-UZMtOt43/HRVssXPSuPv8t11Toq9+CjyWUfYQ3tqGVE=",
+        "lastModified": 1794388042,
+        "narHash": "sha256-rsskkiDNmuZGK6Xk3JvWUxWENjuX4Jf0hOSFYujGC0s=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "89750a2ef1c6a44db9f4251b16c23deffdcfddff",
+        "rev": "0070500a3d72ade21323092e7bdd7125c5268482",
         "type": "github"
       },
       "original": {
@@ -2292,11 +2292,11 @@
     },
     "systems_14": {
       "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "lastModified": 1791244623,
+        "narHash": "sha256-uuanbkFk8a313Zfrxdcz8Us/yQtaxNnKJtX8v0ZPpd8=",
         "owner": "nix-systems",
         "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "rev": "d36eeed142f88b5a636f2e3856a53c61654cf29b",
         "type": "github"
       },
       "original": {
