@@ -300,6 +300,17 @@ let
                     },
                 }
             ]
+            # DeepSeek V4.1 Flash on Baseten (OpenAI-compatible).
+            + [
+                {
+                    "model_name": "deepseek-flash-fast",
+                    "litellm_params": {
+                        "model": "openai/deepseek-ai/DeepSeek-V4.1-Flash-1017-Fast",
+                        "api_base": "https://inference.baseten.co/v1",
+                        "api_key": "os.environ/BASETEN_API_KEY",
+                    },
+                }
+            ]
         ),
     }
     priced = [s for s in slugs if s in prices]
