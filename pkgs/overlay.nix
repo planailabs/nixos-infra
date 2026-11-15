@@ -1,4 +1,34 @@
-final: prev: {
+final: prev:
+let
+  # dx (dioxus-cli) resolves rustc through cargo's rustc-wrapper, and on the
+  # build hosts the pre-build hook points that wrapper at sccache. sccache
+  # cannot identify dx's rustc shim — it probes it with a C file, gets a Rust
+  # parse error and refuses with "Compiler not supported" — which fails every
+  # dx package that has to be built from source (logos/peira/metis, 2026-11-14).
+  # A project-level cargo config outranks the CARGO_HOME one the hook writes, so
+  # this swaps the wrapper for a pass-through in one package only: the shared
+  # cargo target cache keeps working, sccache is only a speed-up. The
+  # RUSTC_BOOTSTRAP stanza is the hook wrapper's own, needed for the -Z flag
+  # cargo-auditable passes to rustc.
+  rustcPassThrough = prev.writeShellScript "rustc-passthrough" ''
+    case " $* " in
+      *" -Z checksum-hash-algorithm="*|*" -Zchecksum-hash-algorithm="*)
+        RUSTC_BOOTSTRAP=1; export RUSTC_BOOTSTRAP ;;
+    esac
+    exec "$@"
+  '';
+
+  # Use as `overrideAttrs (old: { ...base } // noSccacheWrapper old)`.
+  noSccacheWrapper = old: {
+    postPatch = (old.postPatch or "") + ''
+      mkdir -p .cargo
+      cat > .cargo/config.toml <<'CARGO_EOF'
+      [build]
+      rustc-wrapper = "${rustcPassThrough}"
+      CARGO_EOF
+    '';
+  };
+in {
   sanoid = prev.sanoid.overrideAttrs(_: {
     # patches = [ ./sanoid.patch ];
     src = prev.fetchFromGitHub {
@@ -42,7 +72,7 @@ final: prev: {
     # covered. Keep them running so a bad rebase of the patch is caught here.
     doCheck = true;
     cargoTestFlags = [ "-p" "xzar-server" "--lib" ];
-  });
+  } // noSccacheWrapper prev.xzar-server);
 } // prev.lib.optionalAttrs (prev ? dioxus-cli-patched) {
   # dx aborts its own `cargo metadata` after ~200 s and fails the whole build
   # with "cargo metadata took too long to respond". This workspace's crates need
