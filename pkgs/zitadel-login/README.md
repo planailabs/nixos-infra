@@ -10,7 +10,10 @@ Datenschutzerklärung) before a sign-in completes, again whenever they change.
 
 - The documents are what the legal settings link to (`tosLink`, `privacyLink`;
   `ansible/zitadel` sets them from `legal_tos_link`). One URL may serve both.
-- Their sha256 (of both, if they differ) is fetched at runtime and is compared
+- A link may carry `{lang}` (or Zitadel's `{{.Lang}}`): users see the document
+  in their language when it exists with the German one's content type (sites
+  answering unknown paths with a 200 HTML page don't count), else the German one.
+- The German documents' sha256 (of both, if they differ) is fetched at runtime and is compared
   with the user's metadata key `agb`. A user whose hash is missing or outdated
   gets `/legal`; accepting stores the current hash, as registering does.
 - One checkbox accepts both, its label links both documents ("AGB und

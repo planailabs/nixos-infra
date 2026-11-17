@@ -1,4 +1,4 @@
-From ce4827f4d85a21d7971a91c1bbc9dee86ae3b9b3 Mon Sep 17 00:00:00 2001
+From a6efef8e389523fbdf0f271fa26e60dfe3a55764 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Maciej=20Kr=C3=BCger?= <mkg20001@gmail.com>
 Date: Wed, 11 Nov 2026 01:53:42 +0100
 Subject: [PATCH] login: require acceptance of the terms of service and privacy
@@ -12,11 +12,15 @@ from the one in their user metadata key "agb"
 the register form, stores the current hash. prompt=none answers
 consent_required. An unreachable document doesn't block sign-in.
 
+Links may carry {lang} (or {{.Lang}}): shown in the user's language when
+that document exists with the German one's content type, else in German.
+The German documents are the ones hashed.
+
 Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
 ---
  .../login/acceptance/tests/register-screen.ts |   3 +-
  apps/login/locales/ar.json                    |   1 +
- apps/login/locales/de.json                    |  17 ++-
+ apps/login/locales/de.json                    |  17 +-
  apps/login/locales/en.json                    |  11 ++
  apps/login/locales/es.json                    |   1 +
  apps/login/locales/fr.json                    |   1 +
@@ -30,20 +34,24 @@ Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
  apps/login/locales/tr.json                    |   1 +
  apps/login/locales/uk.json                    |   1 +
  apps/login/locales/zh.json                    |   1 +
- apps/login/src/app/(login)/legal/page.tsx     |  60 +++++++++
- .../src/components/legal-acceptance-form.tsx  |  70 ++++++++++
+ apps/login/src/app/(login)/legal/page.tsx     |  65 +++++++
+ apps/login/src/app/(login)/register/page.tsx  |   8 +-
+ .../app/(login)/register/password/page.tsx    |   7 +-
+ .../src/components/legal-acceptance-form.tsx  |  70 ++++++++
  .../privacy-policy-checkboxes.test.tsx        |  20 ++-
- .../components/privacy-policy-checkboxes.tsx  |  88 ++++--------
- apps/login/src/lib/legal-acceptance.test.ts   | 123 +++++++++++++++++
- apps/login/src/lib/legal-acceptance.ts        | 126 ++++++++++++++++++
+ .../components/privacy-policy-checkboxes.tsx  |  88 +++-------
+ apps/login/src/lib/legal-acceptance.test.ts   | 158 +++++++++++++++++
+ apps/login/src/lib/legal-acceptance.ts        | 166 ++++++++++++++++++
+ apps/login/src/lib/legal-links.test.ts        |   4 +
+ apps/login/src/lib/legal-links.ts             |   9 +-
  apps/login/src/lib/oidc.ts                    |  10 ++
  apps/login/src/lib/saml.ts                    |  10 ++
- apps/login/src/lib/server/flow-initiation.ts  |  26 +++-
- apps/login/src/lib/server/legal.ts            |  31 +++++
+ apps/login/src/lib/server/flow-initiation.ts  |  26 ++-
+ apps/login/src/lib/server/legal.ts            |  31 ++++
  apps/login/src/lib/server/register.ts         |  13 ++
- apps/login/src/lib/zitadel.ts                 |  28 ++++
+ apps/login/src/lib/zitadel.ts                 |  28 +++
  apps/login/tsconfig.build.tsbuildinfo         |   1 +
- 29 files changed, 580 insertions(+), 70 deletions(-)
+ 33 files changed, 683 insertions(+), 75 deletions(-)
  create mode 100644 apps/login/src/app/(login)/legal/page.tsx
  create mode 100644 apps/login/src/components/legal-acceptance-form.tsx
  create mode 100644 apps/login/src/lib/legal-acceptance.test.ts
@@ -283,17 +291,19 @@ index 8a1f153..cab3124 100644
        "title": "设置密码",
 diff --git a/apps/login/src/app/(login)/legal/page.tsx b/apps/login/src/app/(login)/legal/page.tsx
 new file mode 100644
-index 0000000..99d0bd8
+index 0000000..7cd7ec4
 --- /dev/null
 +++ b/apps/login/src/app/(login)/legal/page.tsx
-@@ -0,0 +1,60 @@
+@@ -0,0 +1,65 @@
 +import { DynamicTheme } from "@/components/dynamic-theme";
 +import { LegalAcceptanceForm } from "@/components/legal-acceptance-form";
 +import { Translated } from "@/components/translated";
 +import { UserAvatar } from "@/components/user-avatar";
++import { localizeLegalSettings } from "@/lib/legal-acceptance";
 +import { getServiceConfig } from "@/lib/service-url";
 +import { loadSessionById } from "@/lib/session";
 +import { getBrandingSettings, getLegalAndSupportSettings } from "@/lib/zitadel";
++import { getLocale } from "next-intl/server";
 +import { headers } from "next/headers";
 +import { redirect } from "next/navigation";
 +
@@ -321,7 +331,10 @@ index 0000000..99d0bd8
 +
 +  const userOrg = session.factors.user.organizationId;
 +  const branding = await getBrandingSettings({ serviceConfig, organization: userOrg });
-+  const legal = await getLegalAndSupportSettings({ serviceConfig, organization: userOrg });
++  const legal = await localizeLegalSettings(
++    await getLegalAndSupportSettings({ serviceConfig, organization: userOrg }),
++    await getLocale(),
++  );
 +
 +  return (
 +    <DynamicTheme branding={branding}>
@@ -347,6 +360,71 @@ index 0000000..99d0bd8
 +    </DynamicTheme>
 +  );
 +}
+diff --git a/apps/login/src/app/(login)/register/page.tsx b/apps/login/src/app/(login)/register/page.tsx
+index ce799e3..6be7dcf 100644
+--- a/apps/login/src/app/(login)/register/page.tsx
++++ b/apps/login/src/app/(login)/register/page.tsx
+@@ -3,6 +3,7 @@ import { DynamicTheme } from "@/components/dynamic-theme";
+ import { RegisterForm } from "@/components/register-form";
+ import { SignInWithIdp } from "@/components/sign-in-with-idp";
+ import { Translated } from "@/components/translated";
++import { localizeLegalSettings } from "@/lib/legal-acceptance";
+ import { getServiceConfig } from "@/lib/service-url";
+ import {
+   getActiveIdentityProviders,
+@@ -14,7 +15,7 @@ import {
+ } from "@/lib/zitadel";
+ import { Organization } from "@zitadel/proto/zitadel/org/v2/org_pb";
+ import { Metadata } from "next";
+-import { getTranslations } from "next-intl/server";
++import { getLocale, getTranslations } from "next-intl/server";
+ import { headers } from "next/headers";
+ 
+ export async function generateMetadata(): Promise<Metadata> {
+@@ -37,7 +38,10 @@ export default async function Page(props: { searchParams: Promise<Record<string
+     }
+   }
+ 
+-  const legal = await getLegalAndSupportSettings({ serviceConfig, organization });
++  const legal = await localizeLegalSettings(
++    await getLegalAndSupportSettings({ serviceConfig, organization }),
++    await getLocale(),
++  );
+   const passwordComplexitySettings = await getPasswordComplexitySettings({ serviceConfig, organization });
+ 
+   const branding = await getBrandingSettings({ serviceConfig, organization });
+diff --git a/apps/login/src/app/(login)/register/password/page.tsx b/apps/login/src/app/(login)/register/password/page.tsx
+index 2f36fef..33e10a6 100644
+--- a/apps/login/src/app/(login)/register/password/page.tsx
++++ b/apps/login/src/app/(login)/register/password/page.tsx
+@@ -1,6 +1,7 @@
+ import { DynamicTheme } from "@/components/dynamic-theme";
+ import { SetRegisterPasswordForm } from "@/components/set-register-password-form";
+ import { Translated } from "@/components/translated";
++import { localizeLegalSettings } from "@/lib/legal-acceptance";
+ import { getServiceConfig } from "@/lib/service-url";
+ import {
+   getBrandingSettings,
+@@ -10,6 +11,7 @@ import {
+   getPasswordComplexitySettings,
+ } from "@/lib/zitadel";
+ import { Organization } from "@zitadel/proto/zitadel/org/v2/org_pb";
++import { getLocale } from "next-intl/server";
+ import { headers } from "next/headers";
+ 
+ export default async function Page(props: { searchParams: Promise<Record<string | number | symbol, string | undefined>> }) {
+@@ -29,7 +31,10 @@ export default async function Page(props: { searchParams: Promise<Record<string
+ 
+   const missingData = !firstname || !lastname || !email || !organization;
+ 
+-  const legal = await getLegalAndSupportSettings({ serviceConfig, organization });
++  const legal = await localizeLegalSettings(
++    await getLegalAndSupportSettings({ serviceConfig, organization }),
++    await getLocale(),
++  );
+   const passwordComplexitySettings = await getPasswordComplexitySettings({ serviceConfig, organization });
+ 
+   const branding = await getBrandingSettings({ serviceConfig, organization });
 diff --git a/apps/login/src/components/legal-acceptance-form.tsx b/apps/login/src/components/legal-acceptance-form.tsx
 new file mode 100644
 index 0000000..c454639
@@ -583,13 +661,13 @@ index 0998ad5..4857a5b 100644
          </div>
 diff --git a/apps/login/src/lib/legal-acceptance.test.ts b/apps/login/src/lib/legal-acceptance.test.ts
 new file mode 100644
-index 0000000..19fbdb2
+index 0000000..6ff9a2e
 --- /dev/null
 +++ b/apps/login/src/lib/legal-acceptance.test.ts
-@@ -0,0 +1,123 @@
+@@ -0,0 +1,158 @@
 +import { createHash } from "node:crypto";
 +import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-+import { currentLegalHash, legalAcceptancePath, recordLegalAcceptance } from "./legal-acceptance";
++import { currentLegalHash, legalAcceptancePath, localizeLegalSettings, recordLegalAcceptance } from "./legal-acceptance";
 +import { getLegalAndSupportSettings, getUserMetadataValue, setUserMetadataValue } from "./zitadel";
 +
 +vi.mock("./zitadel", () => ({
@@ -605,7 +683,12 @@ index 0000000..19fbdb2
 +let docs: Record<string, string | null>;
 +const fetchMock = vi.fn(async (url: string) => {
 +  const body = docs[url];
-+  return body === null || body === undefined ? new Response("", { status: 503 }) : new Response(body);
++  if (body === null || body === undefined) {
++    return new Response("", { status: 503 });
++  }
++  // "<html>…" stands in for a site's 200 fallback page
++  const type = body.startsWith("<html>") ? "text/html; charset=utf-8" : "text/markdown; charset=utf-8";
++  return new Response(body, { headers: { "content-type": type } });
 +});
 +
 +function links(tosLink?: string, privacyPolicyLink?: string) {
@@ -710,15 +793,46 @@ index 0000000..19fbdb2
 +    expect(setUserMetadataValue).not.toHaveBeenCalled();
 +  });
 +});
++
++describe("localizeLegalSettings", () => {
++  const legal = (link: string) => ({ tosLink: link, privacyPolicyLink: link, helpLink: "" }) as any;
++
++  it("uses the translation when it exists", async () => {
++    docs["https://l.example/legal-de.md"] = "# AGB";
++    docs["https://l.example/legal-en.md"] = "# Terms";
++    const out = await localizeLegalSettings(legal("https://l.example/legal-{lang}.md"), "en");
++    expect(out?.tosLink).toBe("https://l.example/legal-en.md");
++    expect(out?.privacyPolicyLink).toBe("https://l.example/legal-en.md");
++  });
++
++  it("falls back to German when the translation is missing or the site's HTML fallback page", async () => {
++    docs["https://m.example/legal-de.md"] = "# AGB";
++    docs["https://m.example/legal-fr.md"] = "<html>not found</html>";
++    expect((await localizeLegalSettings(legal("https://m.example/legal-{lang}.md"), "fr"))?.tosLink).toBe(
++      "https://m.example/legal-de.md",
++    );
++    expect((await localizeLegalSettings(legal("https://m.example/legal-{lang}.md"), "it"))?.tosLink).toBe(
++      "https://m.example/legal-de.md",
++    );
++  });
++
++  it("hashes the German document whatever the language", async () => {
++    docs["https://n.example/legal-de.md"] = "# AGB";
++    docs["https://n.example/legal-en.md"] = "# Terms";
++    links("https://n.example/legal-{lang}.md", "https://n.example/legal-{lang}.md");
++    expect(await currentLegalHash(serviceConfig)).toBe(sha256("# AGB"));
++  });
++});
 diff --git a/apps/login/src/lib/legal-acceptance.ts b/apps/login/src/lib/legal-acceptance.ts
 new file mode 100644
-index 0000000..d6ba94f
+index 0000000..46f2f01
 --- /dev/null
 +++ b/apps/login/src/lib/legal-acceptance.ts
-@@ -0,0 +1,126 @@
+@@ -0,0 +1,166 @@
 +import { Session } from "@zitadel/proto/zitadel/session/v2/session_pb";
++import { LegalAndSupportSettings } from "@zitadel/proto/zitadel/settings/v2/legal_settings_pb";
 +import { createHash } from "node:crypto";
-+import { resolveLocalizedLegalLink } from "./legal-links";
++import { hasLanguagePlaceholder, resolveLocalizedLegalLink } from "./legal-links";
 +import { createLogger } from "./logger";
 +import { getLegalAndSupportSettings, getUserMetadataValue, ServiceConfig, setUserMetadataValue } from "./zitadel";
 +
@@ -728,17 +842,21 @@ index 0000000..d6ba94f
 +export const LEGAL_METADATA_KEY = process.env.LEGAL_ACCEPTANCE_METADATA_KEY || "agb";
 +const documentTTL = Number(process.env.LEGAL_DOCUMENT_TTL_SECONDS ?? 300) * 1000;
 +
-+const documents = new Map<string, { hash: string; fetchedAt: number }>();
++// The language whose documents are binding: the one hashed, and shown when there's no translation
++const LEGAL_LANGUAGE = "de";
++
++type LegalDocument = { hash: string; contentType: string | null };
++const documents = new Map<string, LegalDocument & { fetchedAt: number }>();
 +
 +function sha256(data: string | Uint8Array): string {
 +  return createHash("sha256").update(data).digest("hex");
 +}
 +
-+/** sha256 of the document at url, fetched at most every LEGAL_DOCUMENT_TTL_SECONDS; the last hash if a fetch fails. */
-+async function documentHash(url: string): Promise<string | undefined> {
++/** The document at url, fetched at most every LEGAL_DOCUMENT_TTL_SECONDS; the last one if a fetch fails. */
++async function fetchDocument(url: string): Promise<LegalDocument | undefined> {
 +  const cached = documents.get(url);
 +  if (cached && Date.now() - cached.fetchedAt < documentTTL) {
-+    return cached.hash;
++    return cached;
 +  }
 +
 +  try {
@@ -746,13 +864,48 @@ index 0000000..d6ba94f
 +    if (!response.ok) {
 +      throw new Error(`HTTP ${response.status}`);
 +    }
-+    const hash = sha256(new Uint8Array(await response.arrayBuffer()));
-+    documents.set(url, { hash, fetchedAt: Date.now() });
-+    return hash;
++    const doc = {
++      hash: sha256(new Uint8Array(await response.arrayBuffer())),
++      contentType: response.headers.get("content-type")?.split(";")[0].trim() ?? null,
++    };
++    documents.set(url, { ...doc, fetchedAt: Date.now() });
++    return doc;
 +  } catch (error) {
 +    logger.error("Could not fetch legal document", { url, error: String(error), usingLastHash: !!cached });
-+    return cached?.hash;
++    return cached;
 +  }
++}
++
++/**
++ * link in locale when that translation exists, else in LEGAL_LANGUAGE. A translation only counts with the
++ * German one's content type: sites answering unknown paths with a 200 HTML page would pass otherwise.
++ */
++async function localizedLink(link: string | undefined, locale: string): Promise<string | undefined> {
++  if (!link || !hasLanguagePlaceholder(link)) {
++    return link;
++  }
++  const fallback = resolveLocalizedLegalLink(link, LEGAL_LANGUAGE)!;
++  if (locale === LEGAL_LANGUAGE) {
++    return fallback;
++  }
++  const localized = resolveLocalizedLegalLink(link, locale)!;
++  const [doc, binding] = await Promise.all([fetchDocument(localized), fetchDocument(fallback)]);
++  return doc && doc.contentType === binding?.contentType ? localized : fallback;
++}
++
++/** The legal settings with the terms of service and privacy policy links in locale, German without that translation. */
++export async function localizeLegalSettings(
++  legal: LegalAndSupportSettings | undefined,
++  locale: string,
++): Promise<LegalAndSupportSettings | undefined> {
++  if (!legal) {
++    return legal;
++  }
++  const [tosLink, privacyPolicyLink] = await Promise.all([
++    localizedLink(legal.tosLink, locale),
++    localizedLink(legal.privacyPolicyLink, locale),
++  ]);
++  return { ...legal, tosLink: tosLink ?? "", privacyPolicyLink: privacyPolicyLink ?? "" };
 +}
 +
 +/**
@@ -765,17 +918,17 @@ index 0000000..d6ba94f
 +  organization?: string,
 +): Promise<string | null | undefined> {
 +  const legal = await getLegalAndSupportSettings({ serviceConfig, organization });
-+  // ponytail: a link with {{.Lang}} is hashed in English, so switching languages doesn't ask again
++  // the German documents are hashed, so switching languages (or a new translation) doesn't ask again
 +  const links = [legal?.tosLink, legal?.privacyPolicyLink]
 +    .filter((l): l is string => !!l)
-+    .map((l) => resolveLocalizedLegalLink(l, "en")!)
++    .map((l) => resolveLocalizedLegalLink(l, LEGAL_LANGUAGE)!)
 +    .filter((l, i, all) => all.indexOf(l) === i);
 +
 +  if (links.length === 0) {
 +    return null;
 +  }
 +
-+  const hashes = await Promise.all(links.map(documentHash));
++  const hashes = await Promise.all(links.map(async (l) => (await fetchDocument(l))?.hash));
 +  if (hashes.some((h) => !h)) {
 +    return undefined;
 +  }
@@ -842,6 +995,42 @@ index 0000000..d6ba94f
 +  }
 +  return true;
 +}
+diff --git a/apps/login/src/lib/legal-links.test.ts b/apps/login/src/lib/legal-links.test.ts
+index 45be86f..5ccd13b 100644
+--- a/apps/login/src/lib/legal-links.test.ts
++++ b/apps/login/src/lib/legal-links.test.ts
+@@ -12,6 +12,10 @@ describe("resolveLocalizedLegalLink", () => {
+     );
+   });
+ 
++  it("replaces the {lang} placeholder", () => {
++    expect(resolveLocalizedLegalLink("https://example.com/legal-{lang}.md", "en")).toBe("https://example.com/legal-en.md");
++  });
++
+   it("returns the original link when no placeholder is present", () => {
+     expect(resolveLocalizedLegalLink("https://example.com/terms", "en")).toBe("https://example.com/terms");
+   });
+diff --git a/apps/login/src/lib/legal-links.ts b/apps/login/src/lib/legal-links.ts
+index f8bc5ab..11cb363 100644
+--- a/apps/login/src/lib/legal-links.ts
++++ b/apps/login/src/lib/legal-links.ts
+@@ -1,9 +1,14 @@
+-const LANGUAGE_PLACEHOLDER = "{{.Lang}}";
++// Zitadel's own placeholder, and the shorter one our instances' legal links use
++const LANGUAGE_PLACEHOLDERS = ["{{.Lang}}", "{lang}"];
++
++export function hasLanguagePlaceholder(link: string): boolean {
++  return LANGUAGE_PLACEHOLDERS.some((p) => link.includes(p));
++}
+ 
+ export function resolveLocalizedLegalLink(link: string | undefined, locale: string | undefined): string | undefined {
+   if (!link || !locale) {
+     return link;
+   }
+ 
+-  return link.replaceAll(LANGUAGE_PLACEHOLDER, locale);
++  return LANGUAGE_PLACEHOLDERS.reduce((l, p) => l.replaceAll(p, locale), link);
+ }
 diff --git a/apps/login/src/lib/oidc.ts b/apps/login/src/lib/oidc.ts
 index 76a1601..8ae99b8 100644
 --- a/apps/login/src/lib/oidc.ts

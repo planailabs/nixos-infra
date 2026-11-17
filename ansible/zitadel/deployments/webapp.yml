@@ -31,7 +31,7 @@ internal_allowed_domains: [plan.ai, webapp.agency]
 
 # AGB & Datenschutz the login makes users accept (one document may serve both;
 # privacy defaults to the tos link). Empty: left as it is in Zitadel.
-legal_tos_link: https://plan.ai/legal-de.md   # plan.ai's until webapp.agency has its own
+legal_tos_link: https://plan.ai/legal-{lang}.md   # plan.ai's until webapp.agency has its own
 legal_privacy_link: ""
 
 # LiteLLM (codex) for the chat's agents: master key from LITELLM_MASTER_KEY
