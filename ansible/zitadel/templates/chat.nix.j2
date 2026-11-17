@@ -18,6 +18,8 @@
     connector.exchange = {
       issuer = {{ state.issuer | to_json }};
       client = { method = "basic"; client_id = {{ state.agent_exchange.client_id | to_json }}; client_secret = {{ state.agent_exchange.client_secret | to_json }}; };
+      # The client's project ("{{ apps_project_name }}"); Zitadel v4 wants it in the actor token's audience.
+      client_project_id = {{ state.apps_project_id | to_json }};
       actor = {
         method = "jwt_profile";
         key = { type = "serviceaccount"; keyId = {{ state.agent_actor_key.keyId | to_json }}; key = {{ state.agent_actor_key.key | to_json }}; userId = {{ state.agent_actor_key.userId | to_json }}; };
