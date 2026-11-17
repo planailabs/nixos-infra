@@ -13,6 +13,8 @@ Datenschutzerklärung) before a sign-in completes, again whenever they change.
 - Their sha256 (of both, if they differ) is fetched at runtime and is compared
   with the user's metadata key `agb`. A user whose hash is missing or outdated
   gets `/legal`; accepting stores the current hash, as registering does.
+- One checkbox accepts both, its label links both documents ("AGB und
+  Datenschutzerklärung"); the register form uses the same one.
 - `prompt=none` answers `consent_required`. A document that can't be fetched
   doesn't block sign-in (logged); the last fetched hash is kept.
 - Env: `LEGAL_DOCUMENT_TTL_SECONDS` (300), `LEGAL_ACCEPTANCE_METADATA_KEY` (`agb`).
