@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 # id.webapp.agency, set up like id.plan.ai (logos/zitadel.nix has the why of
 # each setting). Its master key, first admin and bootstrap machine user are in
@@ -10,6 +10,8 @@ let
   port = 8095;
 in
 {
+  imports = [ ../modules/zitadel-login.nix "${inputs.self.private}/webapp-login.nix" ];
+
   services.zitadel = {
     tlsMode = "external";
     masterKeyFile = "/run/credentials/zitadel.service/masterkey";
@@ -23,6 +25,13 @@ in
       # The chat's connector exchanges a user's token for one at a project's
       # audience (RFC 8693).
       DefaultInstance.Features.TokenExchange = true;
+      # Login v2 (modules/zitadel-login.nix) and the console on the v2 user
+      # API; switched on for the live instance like logos' (logos/zitadel.nix).
+      DefaultInstance.Features.LoginV2 = {
+        Required = true;
+        BaseURI = "https://${domain}/ui/v2/login";
+      };
+      DefaultInstance.Features.ConsoleUseV2UserApi = true;
       Database.postgres = {
         Host = "/run/postgresql";
         Port = 5432;

@@ -2,8 +2,10 @@
 # the partner org with plan.ai's org login policy and its social logins, the
 # apps project with each service's sign-in client and the chat's
 # token-exchange client, the console's and Harbor's API projects, the console's
-# service user (IAM_OWNER, PAT) and the chat's impersonation actor
-# (IAM_ADMIN_IMPERSONATOR, JSON key), and the instance's impersonation switch.
+# service user (IAM_OWNER, PAT), the chat's impersonation actor
+# (IAM_ADMIN_IMPERSONATOR, JSON key), Login v2's service user (IAM_LOGIN_CLIENT,
+# PAT), the instance's impersonation switch and its features (Login v2, the
+# console on the v2 user API).
 #
 # Idempotent: everything is looked up before it is made. A client secret, PAT
 # or key can only be read when it is made, so they live in the state file,
@@ -152,6 +154,25 @@
       ansible.builtin.include_tasks: tasks/machine_user.yml
       vars:
         user: { name: chat-connector, display: "{{ agent_domain }} connector (impersonation)", role: IAM_ADMIN_IMPERSONATOR, credential: key, key: agent_actor_key }
+
+    - name: Login v2's service user (modules/zitadel-login.nix)
+      ansible.builtin.include_tasks: tasks/machine_user.yml
+      vars:
+        user: { name: login-client, display: "Login v2", role: IAM_LOGIN_CLIENT, credential: pat, key: login_client_pat }
+
+    # Sign-in through Login v2, served by the host next to Zitadel once the
+    # host has login_client_pat (secrets.yml, then deploy before this switch
+    # matters: an instance pointing at a login that isn't there can't sign in).
+    - name: Instance features
+      ansible.builtin.uri:
+        url: "{{ zitadel_url }}/v2/features/instance"
+        method: PUT
+        headers: "{{ zh }}"
+        body_format: json
+        body:
+          loginV2: { required: true, baseUri: "{{ zitadel_url }}/ui/v2/login" }
+          consoleUseV2UserApi: true
+      changed_when: false
 
     - name: Instance security policy
       ansible.builtin.uri:

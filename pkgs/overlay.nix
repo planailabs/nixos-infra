@@ -29,6 +29,13 @@ let
     '';
   };
 in {
+  # Login v2 with plan.ai's patches (pkgs/zitadel-login/README.md).
+  zitadel-login = prev.zitadel-login.overrideAttrs (old: {
+    patches = (old.patches or [ ]) ++ [
+      ./zitadel-login/0001-login-require-acceptance-of-the-terms-of-service-and.patch
+    ];
+  });
+
   sanoid = prev.sanoid.overrideAttrs(_: {
     # patches = [ ./sanoid.patch ];
     src = prev.fetchFromGitHub {

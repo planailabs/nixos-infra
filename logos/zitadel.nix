@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 with lib;
 
@@ -8,6 +8,8 @@ let
   port = 8095;
 in
 {
+  imports = [ ../modules/zitadel-login.nix "${inputs.self.private}/logos-login.nix" ];
+
   config = mkIf cfg.enable {
     services.zitadel = {
       tlsMode = "external";
@@ -75,6 +77,16 @@ in
         # trial on 2026-11-01 left nothing behind (the console's service user
         # still holds IAM_OWNER + IAM_ORG_MANAGER only).
         DefaultInstance.Features.TokenExchange = true;
+        # Sign-in through Login v2 (modules/zitadel-login.nix) and Zitadel's
+        # console on the v2 user API. Both were switched on for the live
+        # instance on 2026-11-17 (it predates them), with the instance-admin PAT:
+        #   PUT /v2/features/instance {"loginV2": {"required": true,
+        #     "baseUri": "https://id.plan.ai/ui/v2/login"}, "consoleUseV2UserApi": true}
+        DefaultInstance.Features.LoginV2 = {
+          Required = true;
+          BaseURI = "https://${domain}/ui/v2/login";
+        };
+        DefaultInstance.Features.ConsoleUseV2UserApi = true;
         Database.postgres = {
           Host = "/run/postgresql";
           Port = 5432;

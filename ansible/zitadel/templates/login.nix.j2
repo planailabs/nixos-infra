@@ -1,0 +1,8 @@
+# Rendered by ansible/zitadel/secrets.yml from {{ deployment }}-zitadel.json: edit the state or the template.
+{ ... }: {
+  # Login v2's service user (machine user login-client, IAM_LOGIN_CLIENT), for modules/zitadel-login.nix.
+  environment.etc."zitadel-login/env" = {
+    text = "ZITADEL_SERVICE_USER_TOKEN=${ {{ state.login_client_pat | to_json }} }\n";
+    mode = "0400";
+  };
+}

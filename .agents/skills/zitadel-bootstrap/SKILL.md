@@ -1,6 +1,6 @@
 ---
 name: zitadel-bootstrap
-description: Use when setting up Zitadel for a new plan.ai-style deployment (a cloud console, a chat/agent and optionally a Harbor on their own domains, like webapp.agency) or re-running it — asks for the domains, org and login names, social-login credentials and shared keys, writes ansible/zitadel/deployments/<name>.yml, runs setup.yml (Zitadel orgs, login policy, IdPs, projects, clients, service users) and secrets.yml (the rest of the secrets, private/<name>-{cloud,chat,harbor}.nix).
+description: Use when setting up Zitadel for a new plan.ai-style deployment (a cloud console, a chat/agent and optionally a Harbor on their own domains, like webapp.agency) or re-running it — asks for the domains, org and login names, social-login credentials and shared keys, writes ansible/zitadel/deployments/<name>.yml, runs setup.yml (Zitadel orgs, login policy, IdPs, projects, clients, service users) and secrets.yml (the rest of the secrets, private/<name>-{cloud,chat,login,harbor}.nix).
 version: 1.0.0
 author: plan.ai
 license: MIT
@@ -50,8 +50,9 @@ Then the secrets, as environment variables (only on the first run; the state
 remembers them):
 
 - `GITHUB_CLIENT_ID`/`_SECRET`, `GOOGLE_CLIENT_ID`/`_SECRET`: the partner org's
-  social logins. Give the user the callback to register:
-  `<zitadel_url>/ui/login/login/externalidp/callback`.
+  social logins. Give the user the callback to register: `<zitadel_url>/idps/callback`
+  (Login v2; the v1 login's was `/ui/login/login/externalidp/callback`). A GitHub
+  app takes one callback URL and allows subpaths of it, so `<zitadel_url>/` covers both.
 - `INTERNAL_GOOGLE_CLIENT_ID`/`_SECRET`: the services' own Google client;
   redirect URIs `https://<console_domain>/auth/google/callback` and
   `https://<harbor_domain>/auth/google/callback`.

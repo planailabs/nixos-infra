@@ -1,6 +1,8 @@
 # Zitadel Login v2 patches
 
-Against `zitadel/zitadel` v4.20.2 (paths from the repo root, `apps/login/…`); for
+Applied in `pkgs/overlay.nix`; run by `modules/zitadel-login.nix` on logos and
+webapp (service user `login-client`, IAM_LOGIN_CLIENT, PAT in
+`private/<host>-login.nix`). Against `zitadel/zitadel` v4.20.2 (paths from the repo root, `apps/login/…`); for
 the login package of the plan-ai nixpkgs fork's Zitadel v4.
 
 `0001-…`: users have to accept the terms of service and privacy policy (AGB &
